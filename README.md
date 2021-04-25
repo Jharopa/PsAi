@@ -1,1 +1,3 @@
 # PsAi
+
+Personal graphic renderer.
