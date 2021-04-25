@@ -3,13 +3,6 @@
 // PsAi imports
 #include "window.h"
 
-// Vulkan imports
-#include "vulkan/vulkan.h"
-
-// Standard library imports
-#include <string>
-#include <vector>
-
 namespace PsAi
 {
 	

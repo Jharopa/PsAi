@@ -24,30 +24,36 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\main.cpp">
+    <ClCompile Include="src\PsAi\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\window.cpp">
+    <ClCompile Include="src\PsAi\window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\application.cpp">
+    <ClCompile Include="src\PsAi\application.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\pipeline.cpp">
+    <ClCompile Include="src\PsAi\pipeline.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PsAi\pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\window.h">
+    <ClInclude Include="src\PsAi\window.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\application.h">
+    <ClInclude Include="src\PsAi\application.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\pipeline.h">
+    <ClInclude Include="src\PsAi\pipeline.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\device.h">
+    <ClInclude Include="src\PsAi\device.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PsAi\pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
