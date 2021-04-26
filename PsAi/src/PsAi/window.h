@@ -1,7 +1,11 @@
 #pragma once
 
+// Vulkan/GLFW imports
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
+
+// STD import
+#include <string>
 
 namespace PsAi
 {

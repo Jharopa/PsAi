@@ -1,5 +1,9 @@
 #pragma once
 
+// STD library imports
+#include <string>
+#include <vector>
+
 namespace PsAi
 {
 
