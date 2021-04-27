@@ -47,7 +47,7 @@ namespace PsAi
 			return *this;
 		}
 
-		vec2& vec2::add(float& val)
+		vec2& vec2::add(const float& val)
 		{
 			x += val;
 			y += val;
@@ -55,7 +55,7 @@ namespace PsAi
 			return *this;
 		}
 
-		vec2& vec2::sub(float& val)
+		vec2& vec2::sub(const float& val)
 		{
 			x -= val;
 			y -= val;
@@ -63,7 +63,7 @@ namespace PsAi
 			return *this;
 		}
 
-		vec2& vec2::mult(float& val)
+		vec2& vec2::mult(const float& val)
 		{
 			x *= val;
 			y *= val;
@@ -71,7 +71,7 @@ namespace PsAi
 			return *this;
 		}
 
-		vec2& vec2::div(float& val)
+		vec2& vec2::div(const float& val)
 		{
 			x /= val;
 			y /= val;

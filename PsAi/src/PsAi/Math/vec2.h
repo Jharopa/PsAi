@@ -25,10 +25,10 @@ namespace PsAi
 				vec2& div(const vec2& vec);
 
 				// Scalar arithmetic
-				vec2& add(float& val);
-				vec2& sub(float& val);
-				vec2& mult(float& val);
-				vec2& div(float& val);
+				vec2& add(const float& val);
+				vec2& sub(const float& val);
+				vec2& mult(const float& val);
+				vec2& div(const float& val);
 
 				// Special arithmetic
 				float mag() const;
