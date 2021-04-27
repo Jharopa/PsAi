@@ -1,5 +1,6 @@
 #include "vec2.h"
 
+// STD library imports
 #include <cmath>
 #include <sstream>
 
@@ -95,6 +96,7 @@ namespace PsAi
 		vec2 vec2::norm() const
 		{
 			float mag = vec2::mag();
+
 			return vec2(m_x / mag, m_y / mag);
 		}
 
@@ -107,6 +109,7 @@ namespace PsAi
 		{
 			std::stringstream str;
 			str << "vec2(" << m_x << ", " << m_y << ")";
+
 			return str.str();
 		}
 
@@ -163,6 +166,7 @@ namespace PsAi
 		std::ostream& operator<<(std::ostream& stream, const vec2& vec)
 		{
 			stream << vec.to_string();
+
 			return stream;
 		}
 

@@ -1,5 +1,6 @@
 #pragma once
 
+// STD library imports
 #include <string>
 #include <iostream>
 
@@ -38,6 +39,18 @@ namespace PsAi
 				vec3& sub(const float& scalar);
 				vec3& mult(const float& scalar);
 				vec3& div(const float& scalar);
+
+				// Special aritmetic fucntions
+				float mag() const;
+				float dist(vec3& vec) const;
+				vec3 norm() const;
+				float dot(vec3& vec) const;
+				vec3 cross(vec3& vec) const;
+
+				std::string to_string() const;
+
+				// Overloaded output stream operator
+				friend std::ostream& operator<<(std::ostream& stream, const vec3& vec);
 
 			private:
 				float m_x, m_y, m_z;
