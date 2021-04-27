@@ -56,10 +56,11 @@ namespace PsAi
 				friend vec2 operator*(vec2 l, const float& r);
 				friend vec2 operator/(vec2 l, const float& r);
 
-				// Relational overloaded operators
+				// Overloaded relational operators
 				bool operator==(const vec2& vec) const;
 				bool operator!=(const vec2& vec) const;
 				
+				// Overloaded output stream operator
 				friend std::ostream& operator<<(std::ostream& stream, const vec2& vec);
 
 			private:
