@@ -45,8 +45,11 @@ namespace PsAi
 				friend vec2 operator/(vec2 l, const vec2& r);
 
 				// Scalar operators
-
-
+				friend vec2 operator+(vec2 l, const float& r);
+				friend vec2 operator-(vec2 l, const float& r);
+				friend vec2 operator*(vec2 l, const float& r);
+				friend vec2 operator/(vec2 l, const float& r);
+				
 				friend std::ostream& operator<<(std::ostream& stream, const vec2& vec);
 		};
 

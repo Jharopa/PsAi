@@ -130,6 +130,26 @@ namespace PsAi
 			return l.div(r);
 		}
 
+		vec2 operator+(vec2 l, const float& r)
+		{
+			return l.add(r);
+		}
+
+		vec2 operator-(vec2 l, const float& r)
+		{
+			return l.sub(r);
+		}
+
+		vec2 operator*(vec2 l, const float& r)
+		{
+			return l.mult(r);
+		}
+
+		vec2 operator/(vec2 l, const float& r)
+		{
+			return l.div(r);
+		}
+
 		std::ostream& operator<<(std::ostream& stream, const vec2& vec)
 		{
 			stream << vec.to_string();
