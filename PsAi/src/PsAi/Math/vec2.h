@@ -11,12 +11,18 @@ namespace PsAi
 		class vec2
 		{
 			public:
-				float x, y;
-
 				// Constructors
 				vec2();
 				vec2(float scalar);
 				vec2(float x, float y);
+
+				// Getters
+				float get_x() const { return m_x; }
+				float get_y() const { return m_y; }
+
+				// Setters
+				void set_x(const float x) { m_x = x; }
+				void set_y(const float y) { m_y = y; }
 
 				// Vector arithmetic functions
 				vec2& add(const vec2& vec);
@@ -55,6 +61,9 @@ namespace PsAi
 				bool operator!=(const vec2& vec) const;
 				
 				friend std::ostream& operator<<(std::ostream& stream, const vec2& vec);
+
+			private:
+				float m_x, m_y;
 		};
 
 	}

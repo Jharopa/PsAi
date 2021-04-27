@@ -9,85 +9,85 @@ namespace PsAi
 	namespace Math
 	{
 	
-		vec2::vec2() : x(0.0f), y(0.0f) {}
+		vec2::vec2() : m_x(0.0f), m_y(0.0f) {}
 
-		vec2::vec2(float scalar) : x(scalar), y(scalar) {}
+		vec2::vec2(float scalar) : m_x(scalar), m_y(scalar) {}
 
-		vec2::vec2(float x, float y) : x(x), y(y) {}
+		vec2::vec2(float x, float y) : m_x(x), m_y(y) {}
 
 		vec2& vec2::add(const vec2& vec)
 		{
-			x += vec.x;
-			y += vec.y;
+			m_x += vec.get_x();
+			m_y += vec.get_y();
 
 			return *this;
 		}
 
 		vec2& vec2::sub(const vec2& vec)
 		{
-			x -= vec.x;
-			y -= vec.y;
+			m_x -= vec.get_x();
+			m_y -= vec.get_y();
 
 			return *this;
 		}
 
 		vec2& vec2::mult(const vec2& vec)
 		{
-			x *= vec.x;
-			y *= vec.y;
+			m_x *= vec.get_x();
+			m_y *= vec.get_y();
 
 			return *this;
 		}
 
 		vec2& vec2::div(const vec2& vec)
 		{
-			x /= vec.x;
-			y /= vec.y;
+			m_x /= vec.get_x();
+			m_y /= vec.get_y();
 
 			return *this;
 		}
 
 		vec2& vec2::add(const float& val)
 		{
-			x += val;
-			y += val;
+			m_x += val;
+			m_y += val;
 
 			return *this;
 		}
 
 		vec2& vec2::sub(const float& val)
 		{
-			x -= val;
-			y -= val;
+			m_x -= val;
+			m_y -= val;
 
 			return *this;
 		}
 
 		vec2& vec2::mult(const float& val)
 		{
-			x *= val;
-			y *= val;
+			m_x *= val;
+			m_y *= val;
 
 			return *this;
 		}
 
 		vec2& vec2::div(const float& val)
 		{
-			x /= val;
-			y /= val;
+			m_x /= val;
+			m_y /= val;
 
 			return *this;
 		}
 
 		float vec2::mag() const
 		{
-			return sqrt(x * x + y * y);
+			return sqrt(m_x * m_x + m_y * m_y);
 		}
 
 		float vec2::dist(vec2& v2) const
 		{
-			float a = x - v2.x;
-			float b = y - v2.y;
+			float a = m_x - v2.get_x();
+			float b = m_y - v2.get_y();
 
 			return sqrt(a * a + b * b);
 		}
@@ -95,24 +95,24 @@ namespace PsAi
 		vec2 vec2::norm() const
 		{
 			float mag = vec2::mag();
-			return vec2(x / mag, y / mag);
+			return vec2(m_x / mag, m_y / mag);
 		}
 
 		float vec2::dot(vec2& vec) const
 		{
-			return x * vec.x + y * vec.y;
+			return m_x * vec.get_x() + m_y * vec.get_y();
 		}
 
 		std::string vec2::to_string() const
 		{
 			std::stringstream str;
-			str << "vec2(" << x << ", " << y << ")";
+			str << "vec2(" << m_x << ", " << m_y << ")";
 			return str.str();
 		}
 
 		bool vec2::operator==(const vec2& vec) const
 		{
-			return x == vec.x && y == vec.y;
+			return m_x == vec.get_x() && m_y == vec.get_y();
 		}
 
 		bool vec2::operator!=(const vec2& vec) const
