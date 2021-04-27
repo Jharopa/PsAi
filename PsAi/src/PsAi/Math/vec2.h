@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <iostream>
 
 namespace PsAi  
 {
@@ -18,23 +19,35 @@ namespace PsAi
 				vec2(float x, float y);
 
 				// Vector arithmetic
-				vec2& add(vec2& v2);
-				vec2& sub(vec2& v2);
-				vec2& mult(vec2& v2);
-				vec2& div(vec2& v2);
+				vec2& add(const vec2& vec);
+				vec2& sub(const vec2& vec);
+				vec2& mult(const vec2& vec);
+				vec2& div(const vec2& vec);
 
 				// Scalar arithmetic
-				vec2 add(float& val);
-				vec2 sub(float& val);
-				vec2 mult(float& val);
-				vec2 div(float& val);
+				vec2& add(float& val);
+				vec2& sub(float& val);
+				vec2& mult(float& val);
+				vec2& div(float& val);
 
+				// Special arithmetic
 				float mag() const;
-				float dist(vec2& v2) const;
+				float dist(vec2& vec) const;
 				vec2 norm() const;
-				float dot(vec2& v2) const;
-
+				float dot(vec2& vec) const;
+				
 				std::string to_string() const;
+
+				// Vector operators
+				friend vec2 operator+(vec2 l, const vec2& r);
+				friend vec2 operator-(vec2 l, const vec2& r);
+				friend vec2 operator*(vec2 l, const vec2& r);
+				friend vec2 operator/(vec2 l, const vec2& r);
+
+				// Scalar operators
+
+
+				friend std::ostream& operator<<(std::ostream& stream, const vec2& vec);
 		};
 
 	}

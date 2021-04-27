@@ -15,39 +15,39 @@ namespace PsAi
 
 		vec2::vec2(float x, float y) : x(x), y(y) {}
 
-		vec2& vec2::add(vec2& v2)
+		vec2& vec2::add(const vec2& vec)
 		{
-			x += v2.x;
-			y += v2.y;
+			x += vec.x;
+			y += vec.y;
 
 			return *this;
 		}
 
-		vec2& vec2::sub(vec2& v2)
+		vec2& vec2::sub(const vec2& vec)
 		{
-			x -= v2.x;
-			x -= v2.y;
+			x -= vec.x;
+			y -= vec.y;
 
 			return *this;
 		}
 
-		vec2& vec2::mult(vec2& v2)
+		vec2& vec2::mult(const vec2& vec)
 		{
-			x *= v2.x;
-			x *= v2.y;
+			x *= vec.x;
+			y *= vec.y;
 
 			return *this;
 		}
 
-		vec2& vec2::div(vec2& v2)
+		vec2& vec2::div(const vec2& vec)
 		{
-			x /= v2.x;
-			x /= v2.y;
+			x /= vec.x;
+			y /= vec.y;
 
 			return *this;
 		}
 
-		vec2 vec2::add(float& val)
+		vec2& vec2::add(float& val)
 		{
 			x += val;
 			y += val;
@@ -55,7 +55,7 @@ namespace PsAi
 			return *this;
 		}
 
-		vec2 vec2::sub(float& val)
+		vec2& vec2::sub(float& val)
 		{
 			x -= val;
 			y -= val;
@@ -63,7 +63,7 @@ namespace PsAi
 			return *this;
 		}
 
-		vec2 vec2::mult(float& val)
+		vec2& vec2::mult(float& val)
 		{
 			x *= val;
 			y *= val;
@@ -71,7 +71,7 @@ namespace PsAi
 			return *this;
 		}
 
-		vec2 vec2::div(float& val)
+		vec2& vec2::div(float& val)
 		{
 			x /= val;
 			y /= val;
@@ -98,9 +98,9 @@ namespace PsAi
 			return vec2(x / mag, y / mag);
 		}
 
-		float vec2::dot(vec2& v2) const
+		float vec2::dot(vec2& vec) const
 		{
-			return x * v2.x + y * v2.y;
+			return x * vec.x + y * vec.y;
 		}
 
 		std::string vec2::to_string() const
@@ -110,6 +110,32 @@ namespace PsAi
 			return str.str();
 		}
 	
-	}
+		vec2 operator+(vec2 l, const vec2& r)
+		{
+			return l.add(r);
+		}
+
+		vec2 operator-(vec2 l, const vec2& r)
+		{
+			return l.sub(r);
+		}
+
+		vec2 operator*(vec2 l, const vec2& r)
+		{
+			return l.mult(r);
+		}
+
+		vec2 operator/(vec2 l, const vec2& r)
+		{
+			return l.div(r);
+		}
+
+		std::ostream& operator<<(std::ostream& stream, const vec2& vec)
+		{
+			stream << vec.to_string();
+			return stream;
+		}
+
+}
 
 }
