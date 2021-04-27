@@ -23,6 +23,6 @@ namespace PsAi
 			void create_graphics_pipeline(const std::string& vertPath, const std::string& fragPath);
 		};
 	
-	}
+	} // Renderer namespace
 
 } // PsAi namespace
