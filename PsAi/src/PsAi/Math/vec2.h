@@ -5,6 +5,7 @@
 
 namespace PsAi  
 {
+	
 	namespace Math
 	{
 
@@ -13,8 +14,8 @@ namespace PsAi
 			public:
 				// Constructors
 				vec2();
-				vec2(float scalar);
-				vec2(float x, float y);
+				vec2(const float scalar);
+				vec2(const float x, const float y);
 
 				// Getters
 				float get_x() const { return m_x; }

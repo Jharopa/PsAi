@@ -166,6 +166,6 @@ namespace PsAi
 			return stream;
 		}
 
-	}
+	} // Math namespace
 
-}
+} // PsAi namespace
