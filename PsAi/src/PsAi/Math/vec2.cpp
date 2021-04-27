@@ -109,6 +109,16 @@ namespace PsAi
 			str << "vec2(" << x << ", " << y << ")";
 			return str.str();
 		}
+
+		bool vec2::operator==(const vec2& vec) const
+		{
+			return x == vec.x && y == vec.y;
+		}
+
+		bool vec2::operator!=(const vec2& vec) const
+		{
+			return !(*this == vec);
+		}
 	
 		vec2 operator+(vec2 l, const vec2& r)
 		{

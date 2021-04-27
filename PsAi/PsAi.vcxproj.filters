@@ -36,7 +36,7 @@
     <ClCompile Include="src\PsAi\pipeline.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\PsAi\Math\vec2.cpp">
+    <ClCompile Include="src\PsAi\math\vec2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -53,7 +53,7 @@
     <ClInclude Include="src\PsAi\device.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\PsAi\Math\vec2.h">
+    <ClInclude Include="src\PsAi\math\vec2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
