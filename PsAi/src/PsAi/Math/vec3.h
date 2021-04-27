@@ -27,7 +27,17 @@ namespace PsAi
 				void set_y(const float y) { m_y = y; }
 				void set_z(const float z) { m_z = z; }
 
+				// Vector arithmetic functions
+				vec3& add(const vec3& vec);
+				vec3& sub(const vec3& vec);
+				vec3& mult(const vec3& vec);
+				vec3& div(const vec3& vec);
 
+				// Scalar arithmetic functions
+				vec3& add(const float& scalar);
+				vec3& sub(const float& scalar);
+				vec3& mult(const float& scalar);
+				vec3& div(const float& scalar);
 
 			private:
 				float m_x, m_y, m_z;
