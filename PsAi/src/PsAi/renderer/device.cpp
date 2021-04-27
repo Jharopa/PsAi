@@ -26,9 +26,9 @@ namespace PsAi
 			createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
 			createInfo.pApplicationInfo = &appInfo;
 
-			std::vector<const char*> extentions = getRequiredExtensions();
-			createInfo.enabledExtensionCount = static_cast<uint32_t>(extentions.size());
-			createInfo.ppEnabledExtensionNames = extentions.data();
+			std::vector<const char*> extensions = getRequiredExtensions();
+			createInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
+			createInfo.ppEnabledExtensionNames = extensions.data();
 
 			if (vkCreateInstance(&createInfo, nullptr, &m_instance) != VK_SUCCESS)
 			{
@@ -38,13 +38,13 @@ namespace PsAi
 
 		std::vector<const char*> Device::getRequiredExtensions()
 		{
-			uint32_t glfwExtentionCount = 0;
+			uint32_t glfwExtensionCount = 0;
 			const char** glfwExtensions;
-			glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtentionCount);
+			glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
 
-			std::vector<const char*> extenstions(glfwExtensions, glfwExtensions + glfwExtentionCount);
+			std::vector<const char*> extensions(glfwExtensions, glfwExtensions + glfwExtensionCount);
 
-			return extenstions;
+			return extensions;
 		}
 
 	}
