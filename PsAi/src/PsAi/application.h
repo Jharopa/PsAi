@@ -2,7 +2,7 @@
 
 // PsAi imports
 #include "window.h"
-#include "pipeline.h"
+#include "renderer/pipeline.h"
 
 namespace PsAi 
 {
@@ -20,7 +20,7 @@ namespace PsAi
 		private:
 			// Private member variables
 			Window m_window{ WIDTH, HEIGHT, "First App!" };
-			Pipeline m_pipeline{ "shaders/bytecode/simple.vert.spv", "shaders/bytecode/simple.frag.spv" };
+			Renderer::Pipeline m_pipeline{ "shaders/bytecode/simple.vert.spv", "shaders/bytecode/simple.frag.spv" };
 	};
 
 } // PsAi namespace
