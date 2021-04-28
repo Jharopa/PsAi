@@ -58,6 +58,11 @@ namespace PsAi
 
 			std::vector<const char*> extensions(glfwExtensions, glfwExtensions + glfwExtensionCount);
 
+			if (m_enableValidationLayers)
+			{
+				extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+			}
+
 			return extensions;
 		}
 
@@ -107,6 +112,20 @@ namespace PsAi
 			return true;
 		}
 
-	}
+		// Local debug callback functions
+		static VKAPI_ATTR VkBool32 VKAPI_CALL debug_callback(
+			VkDebugUtilsMessageSeverityFlagBitsEXT  messageSeverity,
+			VkDebugUtilsMessageTypeFlagsEXT messageType,
+			const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
+			void* pUserData)
+		{
+			std:: cout << "Validation layer: " << pCallbackData->pMessage << std::endl;
 
-}
+			return VK_FALSE;
+		}
+
+
+
+	} // Renderer namespace
+
+} // PsAi namespace
