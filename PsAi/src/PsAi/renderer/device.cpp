@@ -21,6 +21,11 @@ namespace PsAi
 
 		void Device::create_instance() 
 		{
+			if (m_enableValidationLayers && !check_validation_layer_support()) 
+			{
+				std::cout << "Validation layer(s) requested, but not supported!\n";
+			}
+
 			VkApplicationInfo appInfo {};
 			appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
 			appInfo.pApplicationName = "PsAi";
