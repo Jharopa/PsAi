@@ -33,13 +33,16 @@
     <ClCompile Include="src\PsAi\application.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\PsAi\pipeline.cpp">
+    <ClCompile Include="src\PsAi\renderer\pipeline.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\PsAi\math\vec2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\PsAi\math\vec3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PsAi\renderer\device.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -50,10 +53,10 @@
     <ClInclude Include="src\PsAi\application.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\PsAi\pipeline.h">
+    <ClInclude Include="src\PsAi\renderer\pipeline.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\PsAi\device.h">
+    <ClInclude Include="src\PsAi\renderer\device.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\PsAi\math\vec2.h">

@@ -14,7 +14,8 @@ namespace PsAi
 	namespace Renderer
 	{
 	
-		Pipeline::Pipeline(const std::string& vertPath, const std::string& fragPath)
+		Pipeline::Pipeline(Device& device, const std::string& vertPath, const std::string& fragPath)
+			: m_device(device)
 		{
 			create_graphics_pipeline(vertPath, fragPath);
 		}

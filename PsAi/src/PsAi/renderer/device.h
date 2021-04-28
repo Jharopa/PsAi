@@ -30,13 +30,14 @@ namespace PsAi
 
 		private:
 			// Private member variables
-			VkInstance m_instance;
+			VkInstance m_instance = VK_NULL_HANDLE;
 
 			// Private member functions
 			void create_instance();
 
 			// Helper functions
-			std::vector<const char *> getRequiredExtensions();
+			std::vector<const char *> get_required_extensions();
+			void check_available_extentions();
 		};
 
 	} // Renderer namespace

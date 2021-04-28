@@ -8,9 +8,15 @@ namespace PsAi
 
 	namespace Renderer
 	{
-		Device::Device(Window& window) {}
+		Device::Device(Window& window) 
+		{
+			create_instance();
+		}
 
-		Device::~Device() {}
+		Device::~Device() 
+		{
+			vkDestroyInstance(m_instance, nullptr);
+		}
 
 		void Device::create_instance() 
 		{
@@ -26,17 +32,19 @@ namespace PsAi
 			createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
 			createInfo.pApplicationInfo = &appInfo;
 
-			std::vector<const char*> extensions = getRequiredExtensions();
+			std::vector<const char*> extensions = get_required_extensions();
 			createInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
 			createInfo.ppEnabledExtensionNames = extensions.data();
 
 			if (vkCreateInstance(&createInfo, nullptr, &m_instance) != VK_SUCCESS)
 			{
-				std::cout << "Failed to create vulkan instance!" << std::endl;
+				std::cout << "Failed to create vulkan instance!\n";
 			}
+
+			check_available_extentions();
 		}
 
-		std::vector<const char*> Device::getRequiredExtensions()
+		std::vector<const char*> Device::get_required_extensions()
 		{
 			uint32_t glfwExtensionCount = 0;
 			const char** glfwExtensions;
@@ -45,6 +53,22 @@ namespace PsAi
 			std::vector<const char*> extensions(glfwExtensions, glfwExtensions + glfwExtensionCount);
 
 			return extensions;
+		}
+
+		void Device::check_available_extentions()
+		{
+			uint32_t extensionCount = 0;
+			vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
+
+			std::vector<VkExtensionProperties> extensions(extensionCount);
+			vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, extensions.data());
+
+			std::cout << "Available extensions:\n";
+
+			for (const auto& extension : extensions)
+			{
+				std::cout << '\t' << extension.extensionName << '\n';
+			}
 		}
 
 	}

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "device.h"
+
 // STD library imports
 #include <string>
 #include <vector>
@@ -14,9 +16,12 @@ namespace PsAi
 		{
 		public:
 			// Public member functions
-			Pipeline(const std::string& vertPath, const std::string& fragPath);
+			Pipeline(Device& device, const std::string& vertPath, const std::string& fragPath);
 
 		private:
+			// Private member variables
+			Device& m_device;
+
 			// Private member functions
 			static std::vector<char> read_binary(const std::string& filePath);
 
