@@ -21,7 +21,7 @@ namespace PsAi
 		private:
 			// Private member variables
 			Window m_window{ WIDTH, HEIGHT, "First App!" };
-			PsAi::Renderer::Device m_device{ m_window };
+			Renderer::Device m_device{ m_window };
 			Renderer::Pipeline m_pipeline{ m_device, "shaders/bytecode/simple.vert.spv", "shaders/bytecode/simple.frag.spv" };
 	};
 
