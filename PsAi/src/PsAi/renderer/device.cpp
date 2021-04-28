@@ -9,6 +9,7 @@ namespace PsAi
 
 	namespace Renderer
 	{
+
 		Device::Device(Window& window) 
 		{
 			create_instance();
@@ -48,6 +49,13 @@ namespace PsAi
 			}
 
 			check_available_extentions();
+		}
+
+		void Device::setup_debug_messenger()
+		{
+			if (!m_enableValidationLayers) return;
+
+
 		}
 
 		std::vector<const char*> Device::get_required_extensions()
@@ -112,7 +120,16 @@ namespace PsAi
 			return true;
 		}
 
-		// Local debug callback functions
+		void Device::populate_debug_messenger_create_info(VkDebugUtilsMessengerCreateInfoEXT& createInfo)
+		{
+			createInfo = {};
+			createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
+			createInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
+			createInfo.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
+			createInfo.pfnUserCallback = debug_callback;
+		}
+
+		// Local debug callback function
 		static VKAPI_ATTR VkBool32 VKAPI_CALL debug_callback(
 			VkDebugUtilsMessageSeverityFlagBitsEXT  messageSeverity,
 			VkDebugUtilsMessageTypeFlagsEXT messageType,
@@ -123,8 +140,6 @@ namespace PsAi
 
 			return VK_FALSE;
 		}
-
-
 
 	} // Renderer namespace
 

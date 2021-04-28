@@ -39,16 +39,19 @@ namespace PsAi
 		private:
 			// Private member variables
 			VkInstance m_instance = VK_NULL_HANDLE;
+			VkDebugUtilsMessengerEXT m_debugMessenger;
 
 			const std::vector<const char*> m_validationLayers = { "VK_LAYER_KHRONOS_validation" };
 
 			// Private member functions
 			void create_instance();
+			void setup_debug_messenger();
 
 			// Helper functions
 			std::vector<const char *> get_required_extensions();
 			void check_available_extentions();
 			bool check_validation_layer_support();
+			void populate_debug_messenger_create_info(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
 		};
 
 	} // Renderer namespace
