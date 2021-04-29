@@ -34,7 +34,7 @@ namespace PsAi
 		{
 			if (m_enableValidationLayers && !check_validation_layer_support()) 
 			{
-				std::cout << "Validation layer(s) requested, but not supported!\n";
+				throw std::runtime_error("Validation layer(s) requested, but not supported!\n");
 			}
 
 			VkApplicationInfo appInfo {};
@@ -68,7 +68,7 @@ namespace PsAi
 
 			if (vkCreateInstance(&createInfo, nullptr, &m_instance) != VK_SUCCESS)
 			{
-				std::cout << "Failed to create vulkan instance!\n";
+				throw std::runtime_error("Failed to create vulkan instance!");
 			}
 
 			check_available_extentions();
@@ -81,8 +81,9 @@ namespace PsAi
 			VkDebugUtilsMessengerCreateInfoEXT createInfo;
 			populate_debug_messenger_create_info(createInfo);
 
-			if (create_debug_utils_messenger_EXT(m_instance, &createInfo, nullptr, &m_debugMessenger) != VK_SUCCESS) {
-				throw std::runtime_error("failed to set up debug messenger!");
+			if (create_debug_utils_messenger_EXT(m_instance, &createInfo, nullptr, &m_debugMessenger) != VK_SUCCESS)
+			{
+				throw std::runtime_error("Failed to set up vulkan debug messenger!");
 			}
 		}
 
@@ -165,7 +166,7 @@ namespace PsAi
 			const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
 			void* pUserData)
 		{
-			std::cout << "Validation layer: " << pCallbackData->pMessage << std::endl;
+			std::cerr << "Validation layer: " << pCallbackData->pMessage << std::endl;
 
 			return VK_FALSE;
 		}

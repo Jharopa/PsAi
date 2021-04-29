@@ -26,7 +26,7 @@ namespace PsAi
 
 			if (!file.is_open())
 			{
-				std::cout << "Failed to open file!";
+				throw std::runtime_error("Failed to open file: " + filePath);
 			}
 
 			size_t fileSize = (size_t)file.tellg();
