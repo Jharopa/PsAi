@@ -167,21 +167,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\PsAi\application.cpp" />
-    <ClCompile Include="src\PsAi\main.cpp" />
-    <ClCompile Include="src\PsAi\math\vec2.cpp" />
-    <ClCompile Include="src\PsAi\math\vec3.cpp" />
-    <ClCompile Include="src\PsAi\renderer\device.cpp" />
-    <ClCompile Include="src\PsAi\renderer\pipeline.cpp" />
-    <ClCompile Include="src\PsAi\window.cpp" />
+    <ClCompile Include="src\application.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\math\vec2.cpp" />
+    <ClCompile Include="src\math\vec3.cpp" />
+    <ClCompile Include="src\renderer\device.cpp" />
+    <ClCompile Include="src\renderer\pipeline.cpp" />
+    <ClCompile Include="src\window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\PsAi\application.h" />
-    <ClInclude Include="src\PsAi\math\vec2.h" />
-    <ClInclude Include="src\PsAi\math\vec3.h" />
-    <ClInclude Include="src\PsAi\renderer\pipeline.h" />
-    <ClInclude Include="src\PsAi\renderer\device.h" />
-    <ClInclude Include="src\PsAi\window.h" />
+    <ClInclude Include="src\application.h" />
+    <ClInclude Include="src\math\vec2.h" />
+    <ClInclude Include="src\math\vec3.h" />
+    <ClInclude Include="src\renderer\pipeline.h" />
+    <ClInclude Include="src\renderer\device.h" />
+    <ClInclude Include="src\window.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\compile.bat" />
