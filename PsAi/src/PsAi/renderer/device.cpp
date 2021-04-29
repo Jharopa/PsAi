@@ -72,7 +72,7 @@ namespace PsAi
 				throw std::runtime_error("Failed to create Vulkan instance!");
 			}
 
-			check_available_extentions();
+			//check_available_extentions(); -- Info can be seen in the validation layers debug messages
 		}
 
 		void Device::setup_debug_messenger()
