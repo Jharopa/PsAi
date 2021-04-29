@@ -44,6 +44,7 @@ namespace PsAi
 			VkDebugUtilsMessengerEXT m_debugMessenger;
 			VkPhysicalDevice m_physicalDevice = VK_NULL_HANDLE;
 			VkDevice m_logicalDevice;
+			VkQueue m_graphicsQueue;
 
 			const std::vector<const char*> m_validationLayers = { "VK_LAYER_KHRONOS_validation" };
 

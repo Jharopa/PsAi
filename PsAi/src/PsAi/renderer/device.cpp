@@ -157,6 +157,8 @@ namespace PsAi
 			{
 				throw std::runtime_error("Failed to create logical device");
 			}
+
+			vkGetDeviceQueue(m_logicalDevice, indices.graphicsFamily.value(), 0, &m_graphicsQueue);
 		}
 
 		std::vector<const char*> Device::has_required_extensions()
