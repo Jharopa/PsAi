@@ -43,6 +43,7 @@ namespace PsAi
 			VkInstance m_instance = VK_NULL_HANDLE;
 			VkDebugUtilsMessengerEXT m_debugMessenger;
 			VkPhysicalDevice m_physicalDevice = VK_NULL_HANDLE;
+			VkDevice m_logicalDevice;
 
 			const std::vector<const char*> m_validationLayers = { "VK_LAYER_KHRONOS_validation" };
 
@@ -50,6 +51,7 @@ namespace PsAi
 			void create_instance();
 			void setup_debug_messenger();
 			void pick_physical_device();
+			void create_logical_device();
 
 			// Helper functions
 			std::vector<const char *> has_required_extensions();

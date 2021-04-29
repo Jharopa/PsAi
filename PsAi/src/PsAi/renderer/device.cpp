@@ -19,10 +19,13 @@ namespace PsAi
 			create_instance();
 			setup_debug_messenger();
 			pick_physical_device();
+			create_logical_device();
 		}
 
 		Device::~Device() 
 		{
+			vkDestroyDevice(m_logicalDevice, nullptr);
+
 			if (m_enableValidationLayers) 
 			{
 				destroy_debug_utils_messenger_EXT(m_instance, m_debugMessenger, nullptr);
@@ -113,6 +116,46 @@ namespace PsAi
 			if (m_physicalDevice == VK_NULL_HANDLE)
 			{
 				throw std::runtime_error("Failed to find a suitable GPU!");
+			}
+		}
+
+		void Device::create_logical_device()
+		{
+			QueueFamilyIndices indices = find_queue_families(m_physicalDevice);
+
+			VkDeviceQueueCreateInfo queueCreateInfo{};
+			queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+			queueCreateInfo.queueFamilyIndex = indices.graphicsFamily.value();
+			queueCreateInfo.queueCount = 1;
+
+			float queuePriority = 1.0f;
+			queueCreateInfo.pQueuePriorities = &queuePriority;
+
+			VkPhysicalDeviceFeatures deviceFeatures{};
+
+			VkDeviceCreateInfo createInfo{};
+			createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
+
+			createInfo.pQueueCreateInfos = &queueCreateInfo;
+			createInfo.queueCreateInfoCount = 1;
+
+			createInfo.pEnabledFeatures = &deviceFeatures;
+
+			createInfo.enabledExtensionCount = 0;
+
+			if (m_enableValidationLayers)
+			{
+				createInfo.enabledLayerCount = static_cast<uint32_t>(m_validationLayers.size());
+				createInfo.ppEnabledLayerNames = m_validationLayers.data();
+			}
+			else
+			{
+				createInfo.enabledLayerCount = 0;
+			}
+
+			if (vkCreateDevice(m_physicalDevice, &createInfo, nullptr, &m_logicalDevice) != VK_SUCCESS)
+			{
+				throw std::runtime_error("Failed to create logical device");
 			}
 		}
 
