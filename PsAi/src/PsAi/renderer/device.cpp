@@ -9,14 +9,24 @@ namespace PsAi
 
 	namespace Renderer
 	{
+		// Local debug callback function declarations
+		static VKAPI_ATTR VkBool32 VKAPI_CALL debug_callback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData);
+		VkResult create_debug_utils_messenger_EXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger);
+		void destroy_debug_utils_messenger_EXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator);
 
 		Device::Device(Window& window) 
 		{
 			create_instance();
+			setup_debug_messenger();
 		}
 
 		Device::~Device() 
 		{
+			if (m_enableValidationLayers) 
+			{
+				destroy_debug_utils_messenger_EXT(m_instance, m_debugMessenger, nullptr);
+			}
+
 			vkDestroyInstance(m_instance, nullptr);
 		}
 
@@ -39,9 +49,22 @@ namespace PsAi
 			createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
 			createInfo.pApplicationInfo = &appInfo;
 
-			std::vector<const char*> extensions = get_required_extensions();
+			std::vector<const char*> extensions = has_required_extensions();
 			createInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
 			createInfo.ppEnabledExtensionNames = extensions.data();
+
+			VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo;
+			if (m_enableValidationLayers) {
+				createInfo.enabledLayerCount = static_cast<uint32_t>(m_validationLayers.size());
+				createInfo.ppEnabledLayerNames = m_validationLayers.data();
+
+				populate_debug_messenger_create_info(debugCreateInfo);
+				createInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT*)&debugCreateInfo;
+			}
+			else {
+				createInfo.enabledLayerCount = 0;
+				createInfo.pNext = nullptr;
+			}
 
 			if (vkCreateInstance(&createInfo, nullptr, &m_instance) != VK_SUCCESS)
 			{
@@ -55,10 +78,15 @@ namespace PsAi
 		{
 			if (!m_enableValidationLayers) return;
 
+			VkDebugUtilsMessengerCreateInfoEXT createInfo;
+			populate_debug_messenger_create_info(createInfo);
 
+			if (create_debug_utils_messenger_EXT(m_instance, &createInfo, nullptr, &m_debugMessenger) != VK_SUCCESS) {
+				throw std::runtime_error("failed to set up debug messenger!");
+			}
 		}
 
-		std::vector<const char*> Device::get_required_extensions()
+		std::vector<const char*> Device::has_required_extensions()
 		{
 			uint32_t glfwExtensionCount = 0;
 			const char** glfwExtensions;
@@ -127,18 +155,51 @@ namespace PsAi
 			createInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
 			createInfo.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
 			createInfo.pfnUserCallback = debug_callback;
+			createInfo.pUserData = nullptr; // Optional
 		}
 
-		// Local debug callback function
+		// Local debug callback function implementations
 		static VKAPI_ATTR VkBool32 VKAPI_CALL debug_callback(
-			VkDebugUtilsMessageSeverityFlagBitsEXT  messageSeverity,
+			VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
 			VkDebugUtilsMessageTypeFlagsEXT messageType,
 			const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
 			void* pUserData)
 		{
-			std:: cout << "Validation layer: " << pCallbackData->pMessage << std::endl;
+			std::cout << "Validation layer: " << pCallbackData->pMessage << std::endl;
 
 			return VK_FALSE;
+		}
+
+		VkResult create_debug_utils_messenger_EXT(
+			VkInstance instance, 
+			const VkDebugUtilsMessengerCreateInfoEXT* 
+			pCreateInfo, const VkAllocationCallbacks* 
+			pAllocator, VkDebugUtilsMessengerEXT* 
+			pDebugMessenger) 
+		{
+			auto func = (PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT");
+
+			if (func != nullptr)
+			{
+				return func(instance, pCreateInfo, pAllocator, pDebugMessenger);
+			}
+			else
+			{
+				return VK_ERROR_EXTENSION_NOT_PRESENT;
+			}
+		}
+
+		void destroy_debug_utils_messenger_EXT(
+			VkInstance instance,
+			VkDebugUtilsMessengerEXT debugMessenger, 
+			const VkAllocationCallbacks* pAllocator) 
+		{
+			auto func = (PFN_vkDestroyDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance, "vkDestroyDebugUtilsMessengerEXT");
+
+			if (func != nullptr)
+			{
+				func(instance, debugMessenger, pAllocator);
+			}
 		}
 
 	} // Renderer namespace

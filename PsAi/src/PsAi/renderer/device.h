@@ -48,7 +48,7 @@ namespace PsAi
 			void setup_debug_messenger();
 
 			// Helper functions
-			std::vector<const char *> get_required_extensions();
+			std::vector<const char *> has_required_extensions();
 			void check_available_extentions();
 			bool check_validation_layer_support();
 			void populate_debug_messenger_create_info(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
