@@ -1,9 +1,5 @@
 #include "device.h"
 
-// STD library imports
-#include <iostream>
-#include <cstring>
-
 namespace PsAi
 {
 
@@ -24,7 +20,7 @@ namespace PsAi
 			create_logical_device();
 		}
 
-		Device::~Device() 
+		Device::~Device()
 		{
 			vkDestroyDevice(m_logicalDevice, nullptr);
 
@@ -61,6 +57,7 @@ namespace PsAi
 			createInfo.ppEnabledExtensionNames = extensions.data();
 
 			VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo;
+
 			if (m_enableValidationLayers) {
 				createInfo.enabledLayerCount = static_cast<uint32_t>(m_validationLayers.size());
 				createInfo.ppEnabledLayerNames = m_validationLayers.data();
@@ -128,21 +125,27 @@ namespace PsAi
 		{
 			QueueFamilyIndices indices = find_queue_families(m_physicalDevice);
 
-			VkDeviceQueueCreateInfo queueCreateInfo{};
-			queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
-			queueCreateInfo.queueFamilyIndex = indices.graphicsFamily.value();
-			queueCreateInfo.queueCount = 1;
-
+			std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
+			std::set<uint32_t> uniqueQueueFamilies = { indices.graphicsFamily.value(), indices.presentFamily.value() };
 			float queuePriority = 1.0f;
-			queueCreateInfo.pQueuePriorities = &queuePriority;
+
+			for (uint32_t queueFamily : uniqueQueueFamilies)
+			{
+				VkDeviceQueueCreateInfo queueCreateInfo{};
+				queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+				queueCreateInfo.queueFamilyIndex = queueFamily;
+				queueCreateInfo.queueCount = 1;
+				queueCreateInfo.pQueuePriorities = &queuePriority;
+				queueCreateInfos.push_back(queueCreateInfo);
+			}
 
 			VkPhysicalDeviceFeatures deviceFeatures{};
 
 			VkDeviceCreateInfo createInfo{};
 			createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
 
-			createInfo.pQueueCreateInfos = &queueCreateInfo;
-			createInfo.queueCreateInfoCount = 1;
+			createInfo.queueCreateInfoCount = static_cast<uint32_t>(queueCreateInfos.size());
+			createInfo.pQueueCreateInfos = queueCreateInfos.data();
 
 			createInfo.pEnabledFeatures = &deviceFeatures;
 
@@ -164,6 +167,7 @@ namespace PsAi
 			}
 
 			vkGetDeviceQueue(m_logicalDevice, indices.graphicsFamily.value(), 0, &m_graphicsQueue);
+			vkGetDeviceQueue(m_logicalDevice, indices.presentFamily.value(), 0, &m_presentQueue);
 		}
 
 		std::vector<const char*> Device::get_required_extensions()

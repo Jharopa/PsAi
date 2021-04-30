@@ -6,6 +6,9 @@
 // STD library imports
 #include <vector>
 #include <optional>
+#include <iostream>
+#include <cstring>
+#include <set>
 
 // Vulkan imports
 #include "vulkan/vulkan.h"
@@ -45,6 +48,7 @@ namespace PsAi
 			VkPhysicalDevice m_physicalDevice = VK_NULL_HANDLE;
 			VkDevice m_logicalDevice;
 			VkQueue m_graphicsQueue;
+			VkQueue m_presentQueue;
 			Window& m_window;
 			VkSurfaceKHR m_surface;
 
@@ -73,6 +77,5 @@ namespace PsAi
 		};
 
 	} // Renderer namespace
-	
 	
 } // PsAi namespace
