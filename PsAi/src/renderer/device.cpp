@@ -149,7 +149,8 @@ namespace PsAi
 
 			createInfo.pEnabledFeatures = &deviceFeatures;
 
-			createInfo.enabledExtensionCount = 0;
+			createInfo.enabledExtensionCount = static_cast<uint32_t>(m_deviceExtensions.size());
+			createInfo.ppEnabledExtensionNames = m_deviceExtensions.data();
 
 			if (m_enableValidationLayers)
 			{
@@ -251,10 +252,13 @@ namespace PsAi
 
 			QueueFamilyIndices indices = find_queue_families(device);
 
+			bool extensionsSupported = check_device_extension_support(device);
+
 			return	deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU 
 					&& deviceFeatures.geometryShader
 					&& indices.graphicsFamily.has_value()
-					&& indices.presentFamily.has_value();
+					&& indices.presentFamily.has_value()
+					&& extensionsSupported;
 		}
 
 		QueueFamilyIndices Device::find_queue_families(VkPhysicalDevice device)
@@ -288,6 +292,24 @@ namespace PsAi
 			}
 
 			return indices;
+		}
+
+		bool Device::check_device_extension_support(VkPhysicalDevice device)
+		{
+			uint32_t extensionCount;
+			vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, nullptr);
+
+			std::vector<VkExtensionProperties> availableExtensions(extensionCount);
+			vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, availableExtensions.data());
+
+			std::set<std::string> requiredExtensions(m_deviceExtensions.begin(), m_deviceExtensions.end());
+
+			for (const auto& extension : availableExtensions)
+			{
+				requiredExtensions.erase(extension.extensionName);
+			}
+
+			return requiredExtensions.empty();
 		}
 
 		// Local debug callback function implementations

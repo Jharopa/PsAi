@@ -53,6 +53,7 @@ namespace PsAi
 			VkSurfaceKHR m_surface;
 
 			const std::vector<const char*> m_validationLayers = { "VK_LAYER_KHRONOS_validation" };
+			const std::vector<const char*> m_deviceExtensions = { VK_KHR_SWAPCHAIN_EXTENSION_NAME };
 
 			// Private member functions
 			void create_instance();
@@ -68,6 +69,7 @@ namespace PsAi
 			void populate_debug_messenger_create_info(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
 			bool is_physical_device_suitable(VkPhysicalDevice device);
 			QueueFamilyIndices find_queue_families(VkPhysicalDevice device);
+			bool check_device_extension_support(VkPhysicalDevice device);
 		};
 
 		struct QueueFamilyIndices
