@@ -3,9 +3,11 @@
 // Vulkan/GLFW imports
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
+#include "vulkan/vulkan.h"
 
 // STD import
 #include <string>
+#include <stdexcept>
 
 namespace PsAi
 {
@@ -22,6 +24,7 @@ namespace PsAi
 
 			// Public member functions
 			bool should_close() { return glfwWindowShouldClose(m_window); }
+			void create_window_surface(VkInstance instance, VkSurfaceKHR* surface);
 
 		private:
 			// Private member variables

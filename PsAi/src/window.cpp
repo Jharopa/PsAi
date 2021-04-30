@@ -15,6 +15,14 @@ namespace PsAi
 		glfwTerminate();
 	}
 
+	void Window::create_window_surface(VkInstance instance, VkSurfaceKHR* surface)
+	{
+		if (glfwCreateWindowSurface(instance, m_window, nullptr, surface) != VK_SUCCESS)
+		{
+			throw std::runtime_error("Failed to create Vulkan window surface");
+		}
+	}
+
 	void Window::init_window()
 	{
 		glfwInit();

@@ -45,17 +45,20 @@ namespace PsAi
 			VkPhysicalDevice m_physicalDevice = VK_NULL_HANDLE;
 			VkDevice m_logicalDevice;
 			VkQueue m_graphicsQueue;
+			Window& m_window;
+			VkSurfaceKHR m_surface;
 
 			const std::vector<const char*> m_validationLayers = { "VK_LAYER_KHRONOS_validation" };
 
 			// Private member functions
 			void create_instance();
 			void setup_debug_messenger();
+			void create_surface();
 			void pick_physical_device();
 			void create_logical_device();
 
 			// Helper functions
-			std::vector<const char *> has_required_extensions();
+			std::vector<const char *> get_required_extensions();
 			void check_available_extentions();
 			bool check_validation_layer_support();
 			void populate_debug_messenger_create_info(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
@@ -66,6 +69,7 @@ namespace PsAi
 		struct QueueFamilyIndices
 		{
 			std::optional<uint32_t> graphicsFamily;
+			std::optional<uint32_t> presentFamily;
 		};
 
 	} // Renderer namespace

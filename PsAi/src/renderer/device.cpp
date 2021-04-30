@@ -15,9 +15,11 @@ namespace PsAi
 		void destroy_debug_utils_messenger_EXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator);
 
 		Device::Device(Window& window) 
+			: m_window(window)
 		{
 			create_instance();
 			setup_debug_messenger();
+			create_surface();
 			pick_physical_device();
 			create_logical_device();
 		}
@@ -31,6 +33,7 @@ namespace PsAi
 				destroy_debug_utils_messenger_EXT(m_instance, m_debugMessenger, nullptr);
 			}
 
+			vkDestroySurfaceKHR(m_instance, m_surface, nullptr);
 			vkDestroyInstance(m_instance, nullptr);
 		}
 
@@ -53,7 +56,7 @@ namespace PsAi
 			createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
 			createInfo.pApplicationInfo = &appInfo;
 
-			std::vector<const char*> extensions = has_required_extensions();
+			std::vector<const char*> extensions = get_required_extensions();
 			createInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
 			createInfo.ppEnabledExtensionNames = extensions.data();
 
@@ -90,6 +93,8 @@ namespace PsAi
 				throw std::runtime_error("Failed to set up Vulkan debug messenger!");
 			}
 		}
+
+		void Device::create_surface() { m_window.create_window_surface(m_instance, &m_surface); }
 
 		void Device::pick_physical_device()
 		{
@@ -161,7 +166,7 @@ namespace PsAi
 			vkGetDeviceQueue(m_logicalDevice, indices.graphicsFamily.value(), 0, &m_graphicsQueue);
 		}
 
-		std::vector<const char*> Device::has_required_extensions()
+		std::vector<const char*> Device::get_required_extensions()
 		{
 			uint32_t glfwExtensionCount = 0;
 			const char** glfwExtensions;
@@ -244,7 +249,8 @@ namespace PsAi
 
 			return	deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU 
 					&& deviceFeatures.geometryShader
-					&& indices.graphicsFamily.has_value();
+					&& indices.graphicsFamily.has_value()
+					&& indices.presentFamily.has_value();
 		}
 
 		QueueFamilyIndices Device::find_queue_families(VkPhysicalDevice device)
@@ -264,6 +270,14 @@ namespace PsAi
 				if (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT)
 				{
 					indices.graphicsFamily = i;
+				}
+
+				VkBool32 presentSupport = false;
+				vkGetPhysicalDeviceSurfaceSupportKHR(device, i, m_surface, &presentSupport);
+
+				if (presentSupport)
+				{
+					indices.presentFamily = i;
 				}
 
 				i++;
