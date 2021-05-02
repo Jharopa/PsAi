@@ -32,7 +32,7 @@ namespace PsAi
 			
 			// Public member functions
 			// Constructors
-			Device(Window& window, VkInstance& instance);
+			Device(Window& window);
 			~Device();
 
 			// Non-copyable and non-movable

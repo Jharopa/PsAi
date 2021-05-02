@@ -1,12 +1,15 @@
 // PsAi imports
 #include "application.h"
-
-#include "math/vec3.h"
+#include "Log.h"
 
 #include <iostream>
 
 int main()
 {
+	PsAi::Log::init();
+
+	PSAI_LOG_DEBUG("Test");
+
 	PsAi::Application app{};
 
 	try

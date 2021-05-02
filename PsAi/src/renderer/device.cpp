@@ -10,8 +10,8 @@ namespace PsAi
 		VkResult create_debug_utils_messenger_EXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger);
 		void destroy_debug_utils_messenger_EXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator);
 
-		Device::Device(Window& window, VkInstance& instance)
-			: m_window(window), m_instance(instance)
+		Device::Device(Window& window)
+			: m_window(window)
 		{
 			create_instance();
 			setup_debug_messenger();
