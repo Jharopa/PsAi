@@ -1,4 +1,4 @@
-#include "Log.h"
+#include "log.h"
 
 // Based on code found here: https://github.com/TheCherno/Hazel/blob/master/Hazel/src/Hazel/Core/Log.cpp
 

@@ -1,4 +1,3 @@
-// PsAi imports
 #include "application.h"
 
 namespace PsAi

@@ -1,4 +1,3 @@
-// PsAi imports
 #include "window.h"
 
 namespace PsAi

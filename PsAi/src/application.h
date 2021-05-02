@@ -1,6 +1,6 @@
 #pragma once
 
-// PsAi imports
+// PsAi includes
 #include "window.h"
 #include "renderer/pipeline.h"
 #include "renderer/device.h"

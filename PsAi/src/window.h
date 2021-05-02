@@ -1,11 +1,11 @@
 #pragma once
 
-// Vulkan/GLFW imports
+// Vulkan/GLFW includes
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
 #include "vulkan/vulkan.h"
 
-// STD import
+// STD includes
 #include <string>
 #include <stdexcept>
 

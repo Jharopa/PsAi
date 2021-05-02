@@ -48,7 +48,7 @@
     <ClCompile Include="src\renderer\instance.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Log.cpp">
+    <ClCompile Include="src\log.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -74,7 +74,7 @@
     <ClInclude Include="src\renderer\instance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Log.h">
+    <ClInclude Include="src\log.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

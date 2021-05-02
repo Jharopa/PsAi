@@ -22,4 +22,5 @@ namespace PsAi
 
 } // PsAi namespace
 
+// Logger macros
 #define PSAI_LOG_DEBUG(...) ::PsAi::Log::GetLogger()->debug(__VA_ARGS__)

@@ -1,16 +1,16 @@
 #pragma once
 
-// PsAi imports
+// PsAi includes
 #include "../window.h"
 
-// STD library imports
+// STD library includes
 #include <vector>
 #include <optional>
 #include <iostream>
 #include <cstring>
 #include <set>
 
-// Vulkan imports
+// Vulkan includes
 #include "vulkan/vulkan.h"
 
 namespace PsAi

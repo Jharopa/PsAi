@@ -1,15 +1,13 @@
-// PsAi imports
+// PsAi includes
 #include "application.h"
-#include "Log.h"
+#include "log.h"
 
+// STD library includes
 #include <iostream>
 
 int main()
 {
 	PsAi::Log::init();
-
-	PSAI_LOG_DEBUG("Test");
-
 	PsAi::Application app{};
 
 	try
