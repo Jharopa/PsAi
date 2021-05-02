@@ -32,14 +32,15 @@ namespace PsAi
 			
 			// Public member functions
 			// Constructors
-			Device(Window& window);
+			Device(Window& window, VkInstance& instance);
 			~Device();
 
-			// Singleton
-			void operator=(Device &) = delete;
-			Device(Device &) = delete;
-			void operator=(Device &&) = delete;
-			Device(Device &&) = delete;
+			// Non-copyable and non-movable
+			Device(const Device &) = delete;
+			Device(Device&&) = delete;
+			Device& operator=(const Device&) = delete;
+			Device& operator=(Device &&) = delete;
+			
 
 		private:
 			// Private member variables
