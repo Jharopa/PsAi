@@ -1,0 +1,3 @@
+[submodule "PsAi/third_party/spdlog"]
+	path = PsAi/third_party/spdlog
+	url = https://github.com/gabime/spdlog.git
