@@ -174,8 +174,7 @@ namespace PsAi
 		std::vector<const char*> Device::get_required_extensions()
 		{
 			uint32_t glfwExtensionCount = 0;
-			const char** glfwExtensions;
-			glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
+			const char** glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
 
 			std::vector<const char*> extensions(glfwExtensions, glfwExtensions + glfwExtensionCount);
 

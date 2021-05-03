@@ -1,7 +1,10 @@
 #pragma once
 
 // PsAi includes
-#include "../window.h"
+#include "window.h"
+
+// Vulkan includes
+#include "vulkan/vulkan.h"
 
 // STD library includes
 #include <vector>
@@ -9,9 +12,6 @@
 #include <iostream>
 #include <cstring>
 #include <set>
-
-// Vulkan includes
-#include "vulkan/vulkan.h"
 
 namespace PsAi
 {

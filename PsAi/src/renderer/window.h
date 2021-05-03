@@ -1,9 +1,8 @@
 #pragma once
 
 // Vulkan/GLFW includes
-#define GLFW_INCLUDE_VULKAN
+#include <vulkan/vulkan.h>
 #include <GLFW/glfw3.h>
-#include "vulkan/vulkan.h"
 
 // STD includes
 #include <string>
@@ -11,9 +10,11 @@
 
 namespace PsAi
 {
-
-	class Window
+	namespace Renderer
 	{
+		
+		class Window
+		{
 		public:
 			// Public member variables
 			Window(int w, int h, std::string name);
@@ -36,6 +37,8 @@ namespace PsAi
 
 			// Private member functions
 			void init_window();
-	};
+		};
 
+	} // PsAi namespace
+	
 } // PsAi namespace

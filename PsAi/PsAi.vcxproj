@@ -100,7 +100,7 @@
     <ClCompile Include="src\renderer\device.cpp" />
     <ClCompile Include="src\renderer\instance.cpp" />
     <ClCompile Include="src\renderer\pipeline.cpp" />
-    <ClCompile Include="src\window.cpp" />
+    <ClCompile Include="src\renderer\window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\application.h" />
@@ -110,7 +110,7 @@
     <ClInclude Include="src\renderer\instance.h" />
     <ClInclude Include="src\renderer\pipeline.h" />
     <ClInclude Include="src\renderer\device.h" />
-    <ClInclude Include="src\window.h" />
+    <ClInclude Include="src\renderer\window.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\compile.bat" />

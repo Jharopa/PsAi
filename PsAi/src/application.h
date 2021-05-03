@@ -1,7 +1,8 @@
 #pragma once
 
 // PsAi includes
-#include "window.h"
+#include "renderer/window.h"
+#include "renderer/instance.h"
 #include "renderer/pipeline.h"
 #include "renderer/device.h"
 
@@ -20,7 +21,8 @@ namespace PsAi
 
 		private:
 			// Private member variables
-			Window m_window{ WIDTH, HEIGHT, "First App!" };
+			Renderer::Window m_window{ WIDTH, HEIGHT, "First App!" };
+			Renderer::Instance m_instance{ "PsAi", VK_MAKE_VERSION(0, 0, 1), "No Engine", VK_MAKE_VERSION(0, 0, 1), VK_API_VERSION_1_2 };
 			Renderer::Device m_device{ m_window };
 			Renderer::Pipeline m_pipeline{ m_device, "shaders/bytecode/simple.vert.spv", "shaders/bytecode/simple.frag.spv" };
 	};
