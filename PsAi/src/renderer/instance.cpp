@@ -71,6 +71,11 @@ namespace PsAi
 			PSAI_LOG_DEBUG("Vulkan instance successfully created");
 		}
 
+		Instance::~Instance()
+		{
+			vkDestroyInstance(m_instance, nullptr);
+		}
+
 	} // Renderer namespace
 
 } // PsAi namespace

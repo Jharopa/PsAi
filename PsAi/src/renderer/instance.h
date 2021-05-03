@@ -23,6 +23,7 @@ namespace PsAi
 		{
 			public:
 				Instance(const char* applicationName, const uint32_t applicationVersion, const char* engineName, const uint32_t engineVersion, const uint32_t vkAPIVersion);
+				~Instance();
 
 				// Non-copyable and non-movable
 				Instance(const Instance&) = delete;
