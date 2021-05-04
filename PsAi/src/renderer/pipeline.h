@@ -9,28 +9,23 @@
 #include <fstream>
 #include <iostream>
 
-namespace PsAi
+namespace PsAi::Renderer
 {
 	
-	namespace Renderer
+	class Pipeline
 	{
-	
-		class Pipeline
-		{
-		public:
-			// Public member functions
-			Pipeline(Device& device, const std::string& vertPath, const std::string& fragPath);
+	public:
+		// Public member functions
+		Pipeline(Device& device, const std::string& vertPath, const std::string& fragPath);
 
-		private:
-			// Private member variables
-			Device& m_device;
+	private:
+		// Private member variables
+		Device& m_device;
 
-			// Private member functions
-			static std::vector<char> read_binary(const std::string& filePath);
+		// Private member functions
+		static std::vector<char> read_binary(const std::string& filePath);
 
-			void create_graphics_pipeline(const std::string& vertPath, const std::string& fragPath);
-		};
-	
-	} // Renderer namespace
+		void create_graphics_pipeline(const std::string& vertPath, const std::string& fragPath);
+	};
 
-} // PsAi namespace
+} // PsAi::Renderer namespace

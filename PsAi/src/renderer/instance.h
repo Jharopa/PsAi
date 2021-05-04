@@ -15,38 +15,33 @@
 #include <iostream>
 #include <typeinfo>
 
-namespace PsAi
+namespace PsAi::Renderer
 {
-
-	namespace Renderer
-	{
 		
-		class Instance
-		{
-			public:
-				Instance(const char* applicationName, const uint32_t applicationVersion, const char* engineName, const uint32_t engineVersion, const uint32_t vkAPIVersion, std::vector<std::string> extensionsList, bool validationEnabled);
-				~Instance();
+	class Instance
+	{
+		public:
+			Instance(const char* applicationName, const uint32_t applicationVersion, const char* engineName, const uint32_t engineVersion, const uint32_t vkAPIVersion, std::vector<std::string> extensionsList, bool validationEnabled);
+			~Instance();
 
-				// Non-copyable and non-movable
-				Instance(const Instance&) = delete;
-				Instance(Instance&&) = delete;
-				Instance& operator=(const Instance&) = delete;
-				Instance& operator=(Instance&&) = delete;
+			// Non-copyable and non-movable
+			Instance(const Instance&) = delete;
+			Instance(Instance&&) = delete;
+			Instance& operator=(const Instance&) = delete;
+			Instance& operator=(Instance&&) = delete;
 
-				VkInstance get_instance() const { return m_instance; }
+			VkInstance get_instance() const { return m_instance; }
 
-			private:
-				VkInstance m_instance = VK_NULL_HANDLE;
-				VkDebugUtilsMessengerEXT m_debugMessenger = VK_NULL_HANDLE;
-				bool m_validationEnabled;
+		private:
+			VkInstance m_instance = VK_NULL_HANDLE;
+			VkDebugUtilsMessengerEXT m_debugMessenger = VK_NULL_HANDLE;
+			bool m_validationEnabled;
 
-				bool is_extension_supported(std::string extensionName);
-				bool is_layer_supported(std::string layerName);
+			bool is_extension_supported(std::string extensionName);
+			bool is_layer_supported(std::string layerName);
 				
-				void setup_debug_messenger();
-				void populate_debug_messenger_create_info(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
-		};
+			void setup_debug_messenger();
+			void populate_debug_messenger_create_info(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
+	};
 
-	} // Renderer namespace
-
-} // PsAi namespace
+} // PsAi::Renderer namespace

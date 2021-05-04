@@ -1,39 +1,34 @@
 #include "window.h"
 
-namespace PsAi
+namespace PsAi::Renderer
 {
-	
-	namespace Renderer
+
+	Window::Window(int w, int h, std::string name) : m_width(w), m_height(h), m_windowName(name)
 	{
+		init_window();
+	}
 
-		Window::Window(int w, int h, std::string name) : m_width(w), m_height(h), m_windowName(name)
+	Window::~Window()
+	{
+		glfwDestroyWindow(m_window);
+		glfwTerminate();
+	}
+
+	void Window::create_window_surface(VkInstance instance, VkSurfaceKHR* surface)
+	{
+		if (glfwCreateWindowSurface(instance, m_window, nullptr, surface) != VK_SUCCESS)
 		{
-			init_window();
+			throw std::runtime_error("Failed to create Vulkan window surface");
 		}
+	}
 
-		Window::~Window()
-		{
-			glfwDestroyWindow(m_window);
-			glfwTerminate();
-		}
+	void Window::init_window()
+	{
+		glfwInit();
+		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+		glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
-		void Window::create_window_surface(VkInstance instance, VkSurfaceKHR* surface)
-		{
-			if (glfwCreateWindowSurface(instance, m_window, nullptr, surface) != VK_SUCCESS)
-			{
-				throw std::runtime_error("Failed to create Vulkan window surface");
-			}
-		}
+		m_window = glfwCreateWindow(m_width, m_height, m_windowName.c_str(), nullptr, nullptr);
+	}
 
-		void Window::init_window()
-		{
-			glfwInit();
-			glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-			glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-
-			m_window = glfwCreateWindow(m_width, m_height, m_windowName.c_str(), nullptr, nullptr);
-		}
-
-	} // Renderer namespace
-
-} // PsAi namespace
+} // PsAi::Renderer namespace

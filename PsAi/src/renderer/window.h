@@ -8,37 +8,32 @@
 #include <string>
 #include <stdexcept>
 
-namespace PsAi
+namespace PsAi::Renderer
 {
-	namespace Renderer
+	class Window
 	{
-		
-		class Window
-		{
-		public:
-			// Public member variables
-			Window(int w, int h, std::string name);
-			~Window();
+	public:
+		// Public member variables
+		Window(int w, int h, std::string name);
+		~Window();
 
-			Window(const Window&) = delete;
-			Window& operator=(const Window&) = delete;
+		Window(const Window&) = delete;
+		Window& operator=(const Window&) = delete;
 
-			// Public member functions
-			bool should_close() { return glfwWindowShouldClose(m_window); }
-			void create_window_surface(VkInstance instance, VkSurfaceKHR* surface);
+		// Public member functions
+		bool should_close() { return glfwWindowShouldClose(m_window); }
+		void create_window_surface(VkInstance instance, VkSurfaceKHR* surface);
 
-		private:
-			// Private member variables
-			const int m_width;
-			const int m_height;
+	private:
+		// Private member variables
+		const int m_width;
+		const int m_height;
 
-			GLFWwindow* m_window;
-			std::string m_windowName;
+		GLFWwindow* m_window;
+		std::string m_windowName;
 
-			// Private member functions
-			void init_window();
-		};
-
-	} // PsAi namespace
+		// Private member functions
+		void init_window();
+	};
 	
-} // PsAi namespace
+} // PsAi::Renderer namespace
