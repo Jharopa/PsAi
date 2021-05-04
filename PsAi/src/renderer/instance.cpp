@@ -6,7 +6,12 @@ namespace PsAi
 	namespace Renderer
 	{
 		
-		Instance::Instance(const char* applicationName, const uint32_t applicationVersion, const char* engineName, const uint32_t engineVersion, const uint32_t vkAPIVersion, std::vector<std::string> extensionsList, bool validationLayersEnabled)
+		static VKAPI_ATTR VkBool32 VKAPI_CALL debug_callback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData);
+		VkResult create_debug_utils_messenger(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger);
+		void destroy_debug_utils_messenger(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator);
+
+		Instance::Instance(const char* applicationName, const uint32_t applicationVersion, const char* engineName, const uint32_t engineVersion, const uint32_t vkAPIVersion, std::vector<std::string> extensionsList, bool validationEnabled)
+			: m_validationEnabled(validationEnabled)
 		{
 			PSAI_LOG_DEBUG("Creating Vulkan instance");
 
@@ -39,6 +44,11 @@ namespace PsAi
 			instanceCreateInfo.pApplicationInfo = &appInfo;
 
 			std::vector<const char*> enabledExtensions = {};
+
+			#ifndef NDEBUG
+				extensionsList.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+			#endif
+
 
 			// Get GLFW extensions and extension count
 			uint32_t glfwExtensionCount = 0;
@@ -81,37 +91,39 @@ namespace PsAi
 			
 			instanceCreateInfo.enabledExtensionCount = static_cast<uint32_t>(enabledExtensions.size());
 			instanceCreateInfo.ppEnabledExtensionNames = enabledExtensions.data();
-
-			std::vector<std::string> validationLayersList = {};
+			
 			std::vector<const char*> enabledValidationLayers = {};
+			std::string VK_LAYER_KHRONOS_validation = "VK_LAYER_KHRONOS_validation";
 
 			#ifndef NDEBUG
 				
-				if(validationLayersEnabled)
+				if(m_validationEnabled)
 				{
 					PSAI_LOG_DEBUG("Vulkan validation layers enabled");
-					PSAI_LOG_DEBUG("Adding 'VK_LAYER_KHRONOS_validation' to validation layers list");
-					validationLayersList.push_back("VK_LAYER_KHRONOS_validation");
 
-					for (const auto& requestedLayer : validationLayersList)
+					if (is_layer_supported(VK_LAYER_KHRONOS_validation.c_str()))
 					{
-						if (is_layer_supported(requestedLayer.c_str()))
-						{
-							PSAI_LOG_DEBUG("Instance validation layer '{}' is available on this system, adding to enabled validation layers list", requestedLayer);
-							enabledValidationLayers.push_back(requestedLayer.c_str());
-						}
-						else
-						{
-							PSAI_LOG_DEBUG("Instance validation layer '{}' is not available on this system", requestedLayer);
-						}
+						PSAI_LOG_DEBUG("Instance validation layer '{}' is available on this system, adding to enabled validation layers list", VK_LAYER_KHRONOS_validation);
+						enabledValidationLayers.push_back(VK_LAYER_KHRONOS_validation.c_str());
+					}
+					else
+					{
+						PSAI_LOG_DEBUG("Instance validation layer '{}' is not available on this system", VK_LAYER_KHRONOS_validation);
 					}
 
 					instanceCreateInfo.enabledLayerCount = static_cast<uint32_t>(enabledValidationLayers.size());
 					instanceCreateInfo.ppEnabledLayerNames = enabledValidationLayers.data();
+
+					VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo;
+
+					populate_debug_messenger_create_info(debugCreateInfo);
+					instanceCreateInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT*)&debugCreateInfo;
 				}
 				else
 				{
 					PSAI_LOG_WARN("Vulkan validation layers disabled while in debug configuration!");
+					instanceCreateInfo.enabledLayerCount = 0;
+					instanceCreateInfo.pNext = nullptr;
 				}
 
 			#else
@@ -120,8 +132,6 @@ namespace PsAi
 
 			#endif
 
-			
-
 			// Create Vulkan instance or throw runtime error.
 			if (vkCreateInstance(&instanceCreateInfo, nullptr, &m_instance) != VK_SUCCESS)
 			{
@@ -129,10 +139,29 @@ namespace PsAi
 			}
 
 			PSAI_LOG_DEBUG("Vulkan instance successfully created");
+
+			#ifndef NDEBUG
+
+				if (m_validationEnabled)
+				{
+					setup_debug_messenger();
+				}
+
+			#endif
 		}
 
 		Instance::~Instance()
 		{
+			#ifndef NDEBUG
+
+				if(m_validationEnabled)
+				{
+					destroy_debug_utils_messenger(m_instance, m_debugMessenger, nullptr);
+				}
+
+			#endif
+
+
 			vkDestroyInstance(m_instance, nullptr);
 		}
 
@@ -194,6 +223,69 @@ namespace PsAi
 
 			// If none of the layer.layerName matches the provided layerName return false
 			return false;
+		}
+
+		void Instance::setup_debug_messenger()
+		{
+			VkDebugUtilsMessengerCreateInfoEXT createInfo;
+			populate_debug_messenger_create_info(createInfo);
+
+			if (create_debug_utils_messenger(m_instance, &createInfo, nullptr, &m_debugMessenger) != VK_SUCCESS)
+			{
+				throw std::runtime_error("Faile to set up Vulkan debug messenger!");
+			}
+		}
+
+		void Instance::populate_debug_messenger_create_info(VkDebugUtilsMessengerCreateInfoEXT& createInfo)
+		{
+			createInfo = {};
+			createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
+			createInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
+			createInfo.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
+			createInfo.pfnUserCallback = debug_callback;
+			createInfo.pUserData = nullptr; // Optional
+		}
+
+		static VKAPI_ATTR VkBool32 VKAPI_CALL debug_callback(
+			VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
+			VkDebugUtilsMessageTypeFlagsEXT messageType,
+			const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
+			void* pUserData)
+		{
+			PSAI_LOG_DEBUG("Validation layer: {}", pCallbackData->pMessage);
+
+			return VK_FALSE;
+		}
+
+		VkResult create_debug_utils_messenger(
+			VkInstance instance,
+			const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo,
+			const VkAllocationCallbacks* pAllocator,
+			VkDebugUtilsMessengerEXT* pDebugMessenger)
+		{
+			auto func = (PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT");
+
+			if (func != nullptr)
+			{
+				return func(instance, pCreateInfo, pAllocator, pDebugMessenger);
+			}
+			else
+			{
+				return VK_ERROR_EXTENSION_NOT_PRESENT;
+			}
+		}
+
+		void destroy_debug_utils_messenger(
+			VkInstance instance, 
+			VkDebugUtilsMessengerEXT debugMessenger, 
+			const VkAllocationCallbacks* pAllocator)
+		{
+			auto func = (PFN_vkDestroyDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance, "vkDestroyDebugUtilsMessengerEXT");
+
+			if (func != nullptr)
+			{
+				return func(instance, debugMessenger, pAllocator);
+			}
 		}
 
 	} // Renderer namespace

@@ -65,7 +65,8 @@ namespace PsAi
 				populate_debug_messenger_create_info(debugCreateInfo);
 				createInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT*)&debugCreateInfo;
 			}
-			else {
+			else
+			{
 				createInfo.enabledLayerCount = 0;
 				createInfo.pNext = nullptr;
 			}
@@ -325,10 +326,9 @@ namespace PsAi
 
 		VkResult create_debug_utils_messenger_EXT(
 			VkInstance instance, 
-			const VkDebugUtilsMessengerCreateInfoEXT* 
-			pCreateInfo, const VkAllocationCallbacks* 
-			pAllocator, VkDebugUtilsMessengerEXT* 
-			pDebugMessenger) 
+			const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, 
+			const VkAllocationCallbacks* pAllocator, 
+			VkDebugUtilsMessengerEXT* pDebugMessenger) 
 		{
 			auto func = (PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT");
 
