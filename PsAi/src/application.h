@@ -6,6 +6,8 @@
 #include "renderer/pipeline.h"
 #include "renderer/device.h"
 
+#include <vulkan/vulkan.h>
+
 namespace PsAi 
 {
 
@@ -22,7 +24,8 @@ namespace PsAi
 		private:
 			// Private member variables
 			Renderer::Window m_window{ WIDTH, HEIGHT, "First App!" };
-			Renderer::Instance m_instance{ "PsAi", VK_MAKE_VERSION(0, 0, 1), "No Engine", VK_MAKE_VERSION(0, 0, 1), VK_API_VERSION_1_2 };
+			const std::vector<std::string> extensions = {  };
+			Renderer::Instance m_instance{ "PsAi", VK_MAKE_VERSION(0, 0, 1), "No Engine", VK_MAKE_VERSION(0, 0, 1), VK_API_VERSION_1_2, extensions };
 			Renderer::Device m_device{ m_window };
 			Renderer::Pipeline m_pipeline{ m_device, "shaders/bytecode/simple.vert.spv", "shaders/bytecode/simple.frag.spv" };
 	};

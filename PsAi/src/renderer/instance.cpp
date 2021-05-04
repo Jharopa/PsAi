@@ -6,7 +6,7 @@ namespace PsAi
 	namespace Renderer
 	{
 		
-		Instance::Instance(const char* applicationName, const uint32_t applicationVersion, const char* engineName, const uint32_t engineVersion, const uint32_t vkAPIVersion)
+		Instance::Instance(const char* applicationName, const uint32_t applicationVersion, const char* engineName, const uint32_t engineVersion, const uint32_t vkAPIVersion, std::vector<std::string> extensionsList)
 		{
 			PSAI_LOG_DEBUG("Creating Vulkan instance");
 
@@ -34,35 +34,58 @@ namespace PsAi
 			appInfo.engineVersion = engineVersion;
 			appInfo.apiVersion = vkAPIVersion;
 
-			VkInstanceCreateInfo instanceCreateInfo{};
-			instanceCreateInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
-			instanceCreateInfo.pApplicationInfo = &appInfo;
+			std::vector<const char*> enabledExtensions = {};
 
+			// Get GLFW extensions and extension count
 			uint32_t glfwExtensionCount = 0;
 			const char** glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
 
+			// If no required GLFW instance extensions throw runtime error
 			if(glfwExtensionCount == 0)
 			{
-				throw std::runtime_error("glfwGetRequiredInstanceExtensions found 0 required instance extensions!");
+				throw std::runtime_error("glfwGetRequiredInstanceExtensions found 0 required GLFW instance extensions!");
 			}
 
 			PSAI_LOG_DEBUG("Number of required GLFW instance extensions: {}", glfwExtensionCount);
 
-			std::vector<const char*> extensions(glfwExtensions, glfwExtensions + glfwExtensionCount);
+			// Move required GLFW instance extensions from const char** to vector<const char*>
+			std::vector<const char*> glfwExtensionsList(glfwExtensions, glfwExtensions + glfwExtensionCount);
 
 			PSAI_LOG_DEBUG("Required GLFW instance extensions:");
 
-			for (const auto& extension : extensions)
+			// Iterate over glfwExensionList and add to extensionList
+			for (const auto& glfwExtension : glfwExtensionsList)
 			{
-				PSAI_LOG_DEBUG("'{}'", extension);
+				PSAI_LOG_DEBUG("'{}', adding to extension list", glfwExtension);
+				extensionsList.push_back(glfwExtension);
 			}
 
-			instanceCreateInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
-			instanceCreateInfo.ppEnabledExtensionNames = extensions.data();
+			// Iterate over extensionList vector
+			for (const auto& requestedExtension : extensionsList)
+			{
+				// If requested extension is supported added to enabledExtensions vector, else don't add to enabledExtensions vector
+				if (is_extension_supported(requestedExtension.c_str()))
+				{
+					PSAI_LOG_DEBUG("Instance extension '{}' is available on this system, adding to enabled extensions list", requestedExtension);
+					enabledExtensions.push_back(requestedExtension.c_str());
+				}
+				else
+				{
+					PSAI_LOG_DEBUG("Instance extension '{}' is not available on this system", requestedExtension);
+				}
+			}
+			
+			VkInstanceCreateInfo instanceCreateInfo{};
+			instanceCreateInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+			instanceCreateInfo.pApplicationInfo = &appInfo;
+
+			instanceCreateInfo.enabledExtensionCount = static_cast<uint32_t>(enabledExtensions.size());
+			instanceCreateInfo.ppEnabledExtensionNames = enabledExtensions.data();
 
 			instanceCreateInfo.enabledLayerCount = 0;
 			instanceCreateInfo.pNext = nullptr;
 
+			// Create Vulkan instance or throw runtime error.
 			if (vkCreateInstance(&instanceCreateInfo, nullptr, &m_instance) != VK_SUCCESS)
 			{
 				throw std::runtime_error("Failed to create Vulkan instance!");
@@ -74,6 +97,36 @@ namespace PsAi
 		Instance::~Instance()
 		{
 			vkDestroyInstance(m_instance, nullptr);
+		}
+
+		bool Instance::is_extension_supported(std::string extensionName)
+		{
+			// Get count of instance extensions available on this system
+			uint32_t extensionCount = 0;
+			vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
+
+			// If extensionCount is 0 throw runtime error 
+			if(extensionCount == 0)
+			{
+				throw std::runtime_error("No Vulkan extensions availible!");
+			}
+
+			// Get a vector of instance extensions available on this system
+			std::vector<VkExtensionProperties> extensions(extensionCount);
+			vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, extensions.data());
+			
+			// Iterate over instance extensions in extensions vector
+			for (const auto& extension : extensions)
+			{
+				// Return true if current extension.extensionName is the same as extensionName provided to the function
+				if(extension.extensionName == extensionName)
+				{
+					return true;
+				}
+			}
+
+			// If none of the extension.extensionName matches provided extensionName return false
+			return false;
 		}
 
 	} // Renderer namespace

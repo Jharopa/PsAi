@@ -10,8 +10,10 @@
 // STD library includes
 #include <string>
 #include <vector>
+#include <algorithm>
 #include <fstream>
 #include <iostream>
+#include <typeinfo>
 
 namespace PsAi
 {
@@ -22,7 +24,7 @@ namespace PsAi
 		class Instance
 		{
 			public:
-				Instance(const char* applicationName, const uint32_t applicationVersion, const char* engineName, const uint32_t engineVersion, const uint32_t vkAPIVersion);
+				Instance(const char* applicationName, const uint32_t applicationVersion, const char* engineName, const uint32_t engineVersion, const uint32_t vkAPIVersion, std::vector<std::string> extensionsList);
 				~Instance();
 
 				// Non-copyable and non-movable
@@ -33,6 +35,7 @@ namespace PsAi
 
 			private:
 				VkInstance m_instance = VK_NULL_HANDLE;
+				bool is_extension_supported(std::string extensionName);
 		};
 
 	} // Renderer namespace
