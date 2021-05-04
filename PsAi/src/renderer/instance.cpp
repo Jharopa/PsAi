@@ -6,7 +6,7 @@ namespace PsAi
 	namespace Renderer
 	{
 		
-		Instance::Instance(const char* applicationName, const uint32_t applicationVersion, const char* engineName, const uint32_t engineVersion, const uint32_t vkAPIVersion, std::vector<std::string> extensionsList)
+		Instance::Instance(const char* applicationName, const uint32_t applicationVersion, const char* engineName, const uint32_t engineVersion, const uint32_t vkAPIVersion, std::vector<std::string> extensionsList, bool validationLayersEnabled)
 		{
 			PSAI_LOG_DEBUG("Creating Vulkan instance");
 
@@ -33,6 +33,10 @@ namespace PsAi
 			appInfo.pEngineName = engineName;
 			appInfo.engineVersion = engineVersion;
 			appInfo.apiVersion = vkAPIVersion;
+
+			VkInstanceCreateInfo instanceCreateInfo{};
+			instanceCreateInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+			instanceCreateInfo.pApplicationInfo = &appInfo;
 
 			std::vector<const char*> enabledExtensions = {};
 
@@ -63,7 +67,7 @@ namespace PsAi
 			// Iterate over extensionList vector
 			for (const auto& requestedExtension : extensionsList)
 			{
-				// If requested extension is supported added to enabledExtensions vector, else don't add to enabledExtensions vector
+				// If current requested extension is supported added to enabledExtensions vector, else don't add to enabledExtensions vector
 				if (is_extension_supported(requestedExtension.c_str()))
 				{
 					PSAI_LOG_DEBUG("Instance extension '{}' is available on this system, adding to enabled extensions list", requestedExtension);
@@ -75,15 +79,48 @@ namespace PsAi
 				}
 			}
 			
-			VkInstanceCreateInfo instanceCreateInfo{};
-			instanceCreateInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
-			instanceCreateInfo.pApplicationInfo = &appInfo;
-
 			instanceCreateInfo.enabledExtensionCount = static_cast<uint32_t>(enabledExtensions.size());
 			instanceCreateInfo.ppEnabledExtensionNames = enabledExtensions.data();
 
-			instanceCreateInfo.enabledLayerCount = 0;
-			instanceCreateInfo.pNext = nullptr;
+			std::vector<std::string> validationLayersList = {};
+			std::vector<const char*> enabledValidationLayers = {};
+
+			#ifndef NDEBUG
+				
+				if(validationLayersEnabled)
+				{
+					PSAI_LOG_DEBUG("Vulkan validation layers enabled");
+					PSAI_LOG_DEBUG("Adding 'VK_LAYER_KHRONOS_validation' to validation layers list");
+					validationLayersList.push_back("VK_LAYER_KHRONOS_validation");
+
+					for (const auto& requestedLayer : validationLayersList)
+					{
+						if (is_layer_supported(requestedLayer.c_str()))
+						{
+							PSAI_LOG_DEBUG("Instance validation layer '{}' is available on this system, adding to enabled validation layers list", requestedLayer);
+							enabledValidationLayers.push_back(requestedLayer.c_str());
+						}
+						else
+						{
+							PSAI_LOG_DEBUG("Instance validation layer '{}' is not available on this system", requestedLayer);
+						}
+					}
+
+					instanceCreateInfo.enabledLayerCount = static_cast<uint32_t>(enabledValidationLayers.size());
+					instanceCreateInfo.ppEnabledLayerNames = enabledValidationLayers.data();
+				}
+				else
+				{
+					PSAI_LOG_WARN("Vulkan validation layers disabled while in debug configuration!");
+				}
+
+			#else
+				
+				instanceCreateInfo.enabledLayerCount = 0;
+
+			#endif
+
+			
 
 			// Create Vulkan instance or throw runtime error.
 			if (vkCreateInstance(&instanceCreateInfo, nullptr, &m_instance) != VK_SUCCESS)
@@ -102,7 +139,7 @@ namespace PsAi
 		bool Instance::is_extension_supported(std::string extensionName)
 		{
 			// Get count of instance extensions available on this system
-			uint32_t extensionCount = 0;
+			uint32_t extensionCount;
 			vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
 
 			// If extensionCount is 0 throw runtime error 
@@ -119,13 +156,43 @@ namespace PsAi
 			for (const auto& extension : extensions)
 			{
 				// Return true if current extension.extensionName is the same as extensionName provided to the function
-				if(extension.extensionName == extensionName)
+				if (extension.extensionName == extensionName)
 				{
 					return true;
 				}
 			}
 
 			// If none of the extension.extensionName matches provided extensionName return false
+			return false;
+		}
+
+		bool Instance::is_layer_supported(std::string layerName)
+		{
+			// Get count of instance layers available on this system
+			uint32_t layerCount;
+			vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
+
+			// If layerCount is 0 throw runtime error
+			if(layerCount == 0)
+			{
+				throw std::runtime_error("No Vulkan validation layers available!");
+			}
+
+			// Get a vector of instance layers available on this system
+			std::vector<VkLayerProperties> layers(layerCount);
+			vkEnumerateInstanceLayerProperties(&layerCount, layers.data());
+
+			// Iterate over instance layers in layers vector
+			for (const auto& layer : layers)
+			{
+				// Return true if current layer.layername is the same as layerName provided to the function
+				if (layer.layerName == layerName)
+				{
+					return true;
+				}
+			}
+
+			// If none of the layer.layerName matches the provided layerName return false
 			return false;
 		}
 
