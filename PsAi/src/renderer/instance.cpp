@@ -8,8 +8,9 @@ namespace PsAi::Renderer
 	void destroy_debug_utils_messenger(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator);
 
 	Instance::Instance(const char* applicationName, const uint32_t applicationVersion, const char* engineName, const uint32_t engineVersion, const uint32_t vkAPIVersion, std::vector<std::string> extensionsList, bool validationEnabled)
-		: m_validationEnabled(validationEnabled)
 	{
+		m_validationEnabled = validationEnabled;
+
 		PSAI_LOG_DEBUG("Creating Vulkan instance");
 
 		// Application info debug

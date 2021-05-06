@@ -24,7 +24,7 @@ namespace PsAi::Renderer
 			{
 				PSAI_LOG_DEBUG("Physical deivce found");
 				m_physicalDevice = device;
-				populate_attributes();
+				get_physical_device_attributes();
 				break;
 			}
 		}
@@ -74,10 +74,24 @@ namespace PsAi::Renderer
 		return requiredExtensions.empty();
 	}
 
-	void PhysicalDevice::populate_attributes()
+	void PhysicalDevice::get_physical_device_attributes()
 	{
 		vkGetPhysicalDeviceProperties(m_physicalDevice, &m_physicalDeviceProperties);
 		vkGetPhysicalDeviceFeatures(m_physicalDevice, &m_physicalDeviceFeatures);
+	}
+
+	void PhysicalDevice::get_queue_family_properties()
+	{
+		uint32_t queueFamilyCount;
+		vkGetPhysicalDeviceQueueFamilyProperties(m_physicalDevice, &queueFamilyCount, nullptr);
+
+		if (queueFamilyCount == 0)
+		{
+			throw std::runtime_error("Physical device doesn't support any Vulkan Queues");
+		}
+
+		m_queueFamilyProperties.resize(queueFamilyCount);
+		vkGetPhysicalDeviceQueueFamilyProperties(m_physicalDevice, &queueFamilyCount, m_queueFamilyProperties.data());
 	}
 
 } // PsAi::Renderer namespace

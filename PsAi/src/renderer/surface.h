@@ -26,6 +26,8 @@ namespace PsAi::Renderer
 			Surface& operator=(const Surface&) = delete;
 			Surface& operator=(Surface&&) = delete;
 
+			const VkSurfaceKHR& get_surface() const { return m_surface; }
+
 		private:
 			const Instance* m_instance = nullptr;
 			GLFWwindow* m_window = nullptr;

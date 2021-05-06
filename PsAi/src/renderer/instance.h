@@ -31,6 +31,7 @@ namespace PsAi::Renderer
 			Instance& operator=(Instance&&) = delete;
 
 			const VkInstance& get_instance() const { return m_instance; }
+			bool is_validation_enabled() const { return m_validationEnabled == true; }
 
 		private:
 			VkInstance m_instance = VK_NULL_HANDLE;
