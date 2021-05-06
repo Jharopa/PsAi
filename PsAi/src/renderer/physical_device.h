@@ -27,10 +27,10 @@ namespace PsAi::Renderer
 			PhysicalDevice& operator=(const PhysicalDevice&) = delete;
 			PhysicalDevice& operator=(PhysicalDevice&&) = delete;
 
-			VkPhysicalDevice get_physical_device() { return m_physicalDevice; }
+			const VkPhysicalDevice& get_physical_device() const { return m_physicalDevice; }
 
-			VkPhysicalDeviceProperties get_physical_device_properties() { return m_physicalDeviceProperties; }
-			VkPhysicalDeviceFeatures get_physical_device_features() { return m_physicalDeviceFeatures; }
+			const VkPhysicalDeviceProperties& get_physical_device_properties() const { return m_physicalDeviceProperties; }
+			const VkPhysicalDeviceFeatures& get_physical_device_features() const { return m_physicalDeviceFeatures; }
 
 		private:
 			VkPhysicalDevice m_physicalDevice = VK_NULL_HANDLE;

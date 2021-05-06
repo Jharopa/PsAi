@@ -30,7 +30,7 @@ namespace PsAi::Renderer
 			Instance& operator=(const Instance&) = delete;
 			Instance& operator=(Instance&&) = delete;
 
-			VkInstance get_instance() const { return m_instance; }
+			const VkInstance& get_instance() const { return m_instance; }
 
 		private:
 			VkInstance m_instance = VK_NULL_HANDLE;
