@@ -126,6 +126,7 @@ namespace PsAi::Renderer
 		#else
 				
 			instanceCreateInfo.enabledLayerCount = 0;
+			instanceCreateInfo.pNext = nullptr;
 
 		#endif
 
@@ -188,7 +189,7 @@ namespace PsAi::Renderer
 			}
 		}
 
-		// If none of the extension.extensionName matches provided extensionName return false
+		// If none of the extension.extensionNames matches provided extensionName return false
 		return false;
 	}
 
@@ -218,7 +219,7 @@ namespace PsAi::Renderer
 			}
 		}
 
-		// If none of the layer.layerName matches the provided layerName return false
+		// If none of the layer.layerNames matches the provided layerName return false
 		return false;
 	}
 

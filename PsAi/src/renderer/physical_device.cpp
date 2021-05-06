@@ -21,6 +21,7 @@ namespace PsAi::Renderer
 			if (is_physical_device_suitable(device))
 			{
 				m_physicalDevice = device;
+				populate_attributes();
 				break;
 			}
 		}
@@ -31,9 +32,7 @@ namespace PsAi::Renderer
 		}
 	}
 
-	PhysicalDevice::~PhysicalDevice()
-	{
-	}
+	PhysicalDevice::~PhysicalDevice() {}
 
 	bool PhysicalDevice::is_physical_device_suitable(VkPhysicalDevice physicalDevice)
 	{
@@ -70,6 +69,12 @@ namespace PsAi::Renderer
 		}
 
 		return requiredExtensions.empty();
+	}
+
+	void PhysicalDevice::populate_attributes()
+	{
+		vkGetPhysicalDeviceProperties(m_physicalDevice, &m_physicalDeviceProperties);
+		vkGetPhysicalDeviceFeatures(m_physicalDevice, &m_physicalDeviceFeatures);
 	}
 
 } // PsAi::Renderer namespace
