@@ -21,6 +21,8 @@ namespace PsAi::Renderer
 		Window& operator=(const Window&) = delete;
 
 		// Public member functions
+		GLFWwindow* get_window() { return m_window; }
+
 		bool should_close() { return glfwWindowShouldClose(m_window); }
 		void create_window_surface(VkInstance instance, VkSurfaceKHR* surface);
 

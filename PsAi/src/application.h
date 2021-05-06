@@ -4,6 +4,7 @@
 #include "renderer/window.h"
 #include "renderer/instance.h"
 #include "renderer/physical_device.h"
+#include "renderer/surface.h"
 
 #include <vulkan/vulkan.h>
 
@@ -26,6 +27,7 @@ namespace PsAi
 			const std::vector<std::string> m_instanceExtensions = {};
 			Renderer::Instance m_instance{ "PsAi", VK_MAKE_VERSION(0, 0, 1), "No Engine", VK_MAKE_VERSION(0, 0, 1), VK_API_VERSION_1_2, m_instanceExtensions , true };
 			Renderer::PhysicalDevice m_physicalDevice{ m_instance.get_instance() };
+			Renderer::Surface m_surface{ &m_instance, m_window.get_window() };
 	};
 
 } // PsAi namespace

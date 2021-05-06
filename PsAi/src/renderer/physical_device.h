@@ -1,5 +1,8 @@
 #pragma once
 
+// PsAi includes
+#include "../log.h"
+
 // Vulkan includes
 #include <vulkan/vulkan.h>
 
