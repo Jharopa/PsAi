@@ -8,8 +8,8 @@ namespace PsAi::Renderer
 	void destroy_debug_utils_messenger(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator);
 
 	Instance::Instance(const char* applicationName, const uint32_t applicationVersion, const char* engineName, const uint32_t engineVersion, const uint32_t vkAPIVersion, std::vector<std::string> extensionsList, bool validationEnabled)
+		: m_validationEnabled(validationEnabled)
 	{
-		m_validationEnabled = validationEnabled;
 
 		PSAI_LOG_DEBUG("Creating Vulkan instance");
 
@@ -28,7 +28,8 @@ namespace PsAi::Renderer
 			VK_VERSION_MAJOR(vkAPIVersion),
 			VK_VERSION_MINOR(vkAPIVersion),
 			VK_VERSION_PATCH(vkAPIVersion));
-
+		
+		// Creating VKInstance's application info
 		VkApplicationInfo appInfo{};
 		appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
 		appInfo.pApplicationName = applicationName;
@@ -37,16 +38,18 @@ namespace PsAi::Renderer
 		appInfo.engineVersion = engineVersion;
 		appInfo.apiVersion = vkAPIVersion;
 
+		// Creating VKInstance's create info
 		VkInstanceCreateInfo instanceCreateInfo{};
 		instanceCreateInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
 		instanceCreateInfo.pApplicationInfo = &appInfo;
+
+		// Setting up VKInstance's extensions
 
 		std::vector<const char*> enabledExtensions = {};
 
 		#ifndef NDEBUG
 			extensionsList.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
 		#endif
-
 
 		// Get GLFW extensions and extension count
 		uint32_t glfwExtensionCount = 0;
@@ -93,6 +96,7 @@ namespace PsAi::Renderer
 		std::vector<const char*> enabledValidationLayers = {};
 		std::string VK_LAYER_KHRONOS_validation = "VK_LAYER_KHRONOS_validation";
 
+		// Setting up VKInstance's validation layers
 		#ifndef NDEBUG
 				
 			if(m_validationEnabled)
@@ -131,7 +135,7 @@ namespace PsAi::Renderer
 
 		#endif
 
-		// Create Vulkan instance or throw runtime error.
+		// Create Vulkan instance using instanceCreateInfo, if unsuccessful throw a runtime error.
 		if (vkCreateInstance(&instanceCreateInfo, nullptr, &m_instance) != VK_SUCCESS)
 		{
 			throw std::runtime_error("Failed to create Vulkan instance!");
@@ -140,10 +144,14 @@ namespace PsAi::Renderer
 		PSAI_LOG_DEBUG("Vulkan instance successfully created");
 
 		#ifndef NDEBUG
-
+			
 			if (m_validationEnabled)
 			{
+				PSAI_LOG_DEBUG("Creating Vulkan debug messenger");
+
 				setup_debug_messenger();
+
+				PSAI_LOG_DEBUG("Vulkan debug messenger successfully Created");
 			}
 
 		#endif

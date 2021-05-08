@@ -34,7 +34,6 @@ namespace PsAi::Renderer
 			VkSurfaceKHR m_surface = VK_NULL_HANDLE;
 
 			void create_surface();
-			void destroy_surface();
 	};
 
 } // PsAi::Renderer namespace

@@ -6,7 +6,7 @@ namespace PsAi::Renderer
 	PhysicalDevice::PhysicalDevice(const Instance& instance)
 		: m_instance(instance)
 	{
-		PSAI_LOG_DEBUG("Finding sutiable physical device");
+		PSAI_LOG_DEBUG("Selecting sutiable physical device");
 
 		uint32_t deviceCount;
 		vkEnumeratePhysicalDevices(m_instance.get_instance(), &deviceCount, nullptr);
@@ -23,7 +23,7 @@ namespace PsAi::Renderer
 		{
 			if (is_physical_device_suitable(device))
 			{
-				PSAI_LOG_DEBUG("Physical deivce found");
+				PSAI_LOG_DEBUG("Physical deivce selected");
 				m_physicalDevice = device;
 				get_physical_device_attributes();
 				break;

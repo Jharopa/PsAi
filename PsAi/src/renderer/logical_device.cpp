@@ -5,6 +5,8 @@ namespace PsAi::Renderer
 	LogicalDevice::LogicalDevice(const Instance& instance, const PhysicalDevice& physicalDevice, const Surface& surface)
 		: m_instance(instance), m_physicalDevice(physicalDevice), m_surface(surface)
 	{
+		PSAI_LOG_DEBUG("Creating logical device");
+
 		QueueFamilyIndices indices = find_queue_families();
 
 		std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
@@ -52,6 +54,8 @@ namespace PsAi::Renderer
 		{
 			throw std::runtime_error("Failed to create logical device");
 		}
+
+		PSAI_LOG_DEBUG("Logical deivce successfully created");
 
 		vkGetDeviceQueue(m_logicalDevice, indices.graphicsFamily.value(), 0, &m_graphicsQueue);
 		vkGetDeviceQueue(m_logicalDevice, indices.presentFamily.value(), 0, &m_presentationQueue);
