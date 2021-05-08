@@ -2,9 +2,10 @@
 
 namespace PsAi::Renderer
 {
-	LogicalDevice::LogicalDevice(const Instance* instance, const PhysicalDevice* physicalDevice, const Surface* surface)
+	LogicalDevice::LogicalDevice(const Instance& instance, const PhysicalDevice& physicalDevice, const Surface& surface)
+		: m_instance(instance), m_physicalDevice(physicalDevice), m_surface(surface)
 	{
-		QueueFamilyIndices indices = find_queue_families(physicalDevice, surface);
+		QueueFamilyIndices indices = find_queue_families();
 
 		std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
 		std::set<uint32_t> uniqueQueueFamilies = { indices.graphicsFamily.value(), indices.presentFamily.value() };
@@ -37,10 +38,17 @@ namespace PsAi::Renderer
 
 		const std::vector<const char*> enabledValidationLayers = { "VK_LAYER_KHRONOS_validation" };
 
-		createInfo.enabledLayerCount = static_cast<uint32_t>(enabledValidationLayers.size());
-		createInfo.ppEnabledLayerNames = enabledValidationLayers.data();
+		if(m_instance.is_validation_enabled() == true)
+		{
+			createInfo.enabledLayerCount = static_cast<uint32_t>(enabledValidationLayers.size());
+			createInfo.ppEnabledLayerNames = enabledValidationLayers.data();
+		}
+		else
+		{
+			createInfo.enabledLayerCount = 0;
+		}
 
-		if (vkCreateDevice(physicalDevice->get_physical_device(), &createInfo, nullptr, &m_logicalDevice) != VK_SUCCESS)
+		if (vkCreateDevice(m_physicalDevice.get_physical_device(), &createInfo, nullptr, &m_logicalDevice) != VK_SUCCESS)
 		{
 			throw std::runtime_error("Failed to create logical device");
 		}
@@ -53,15 +61,15 @@ namespace PsAi::Renderer
 	{
 	}
 
-	QueueFamilyIndices LogicalDevice::find_queue_families(const PhysicalDevice* physicalDevice, const Surface* surface)
+	QueueFamilyIndices LogicalDevice::find_queue_families()
 	{
 		QueueFamilyIndices indices;
 
 		uint32_t queueFamilyCount = 0;
-		vkGetPhysicalDeviceQueueFamilyProperties(physicalDevice->get_physical_device(), &queueFamilyCount, nullptr);
+		vkGetPhysicalDeviceQueueFamilyProperties(m_physicalDevice.get_physical_device(), &queueFamilyCount, nullptr);
 
 		std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
-		vkGetPhysicalDeviceQueueFamilyProperties(physicalDevice->get_physical_device(), &queueFamilyCount, queueFamilies.data());
+		vkGetPhysicalDeviceQueueFamilyProperties(m_physicalDevice.get_physical_device(), &queueFamilyCount, queueFamilies.data());
 
 		int i = 0;
 
@@ -73,7 +81,7 @@ namespace PsAi::Renderer
 			}
 
 			VkBool32 presentSupport = false;
-			vkGetPhysicalDeviceSurfaceSupportKHR(physicalDevice->get_physical_device(), i, surface->get_surface(), &presentSupport);
+			vkGetPhysicalDeviceSurfaceSupportKHR(m_physicalDevice.get_physical_device(), i, m_surface.get_surface(), &presentSupport);
 
 			if (presentSupport)
 			{

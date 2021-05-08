@@ -1,6 +1,7 @@
 #pragma once
 
 // PsAi includes
+#include "instance.h"
 #include "../log.h"
 
 // Vulkan includes
@@ -21,7 +22,7 @@ namespace PsAi::Renderer
 	class PhysicalDevice
 	{
 		public:
-			PhysicalDevice(const VkInstance& instance);
+			PhysicalDevice(const Instance& instance);
 			~PhysicalDevice();
 
 			// Non-copyable and Non-movable
@@ -40,8 +41,10 @@ namespace PsAi::Renderer
 
 		private:
 			VkPhysicalDevice m_physicalDevice = VK_NULL_HANDLE;
-			const std::vector<const char*> m_deviceExtensions = { VK_KHR_SWAPCHAIN_EXTENSION_NAME };
+			const Instance& m_instance;
 
+			const std::vector<const char*> m_deviceExtensions = { VK_KHR_SWAPCHAIN_EXTENSION_NAME };
+			
 			VkPhysicalDeviceProperties m_physicalDeviceProperties;
 			VkPhysicalDeviceFeatures m_physicalDeviceFeatures;
 

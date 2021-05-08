@@ -17,7 +17,7 @@ namespace PsAi::Renderer
 	class Surface
 	{
 		public:
-			Surface(const Instance* instance, GLFWwindow* window);
+			Surface(const Instance& instance, GLFWwindow* window);
 			~Surface();
 
 			// Non-copyable and non-movable
@@ -29,7 +29,7 @@ namespace PsAi::Renderer
 			const VkSurfaceKHR& get_surface() const { return m_surface; }
 
 		private:
-			const Instance* m_instance = nullptr;
+			const Instance& m_instance;
 			GLFWwindow* m_window = nullptr;
 			VkSurfaceKHR m_surface = VK_NULL_HANDLE;
 

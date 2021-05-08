@@ -17,7 +17,7 @@ namespace PsAi::Renderer
 	class LogicalDevice
 	{
 		public:
-			LogicalDevice(const Instance* instance, const PhysicalDevice* physicalDevice, const Surface* surface);
+			LogicalDevice(const Instance& instance, const PhysicalDevice& physicalDevice, const Surface& surface);
 			~LogicalDevice();
 
 			// Non-copyable and non-movable
@@ -32,7 +32,11 @@ namespace PsAi::Renderer
 			VkQueue m_graphicsQueue;
 			VkQueue m_presentationQueue;
 
-			QueueFamilyIndices find_queue_families(const PhysicalDevice* physicalDevice, const Surface* surface);
+			const Instance& m_instance;
+			const PhysicalDevice& m_physicalDevice;
+			const Surface& m_surface;
+
+			QueueFamilyIndices find_queue_families();
 	};
 
 	struct QueueFamilyIndices

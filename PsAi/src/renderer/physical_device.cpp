@@ -3,12 +3,13 @@
 namespace PsAi::Renderer
 {
 	
-	PhysicalDevice::PhysicalDevice(const VkInstance& instance)
+	PhysicalDevice::PhysicalDevice(const Instance& instance)
+		: m_instance(instance)
 	{
 		PSAI_LOG_DEBUG("Finding sutiable physical device");
 
 		uint32_t deviceCount;
-		vkEnumeratePhysicalDevices(instance, &deviceCount, nullptr);
+		vkEnumeratePhysicalDevices(m_instance.get_instance(), &deviceCount, nullptr);
 
 		if (deviceCount == 0)
 		{
@@ -16,7 +17,7 @@ namespace PsAi::Renderer
 		}
 
 		std::vector<VkPhysicalDevice> devices(deviceCount);
-		vkEnumeratePhysicalDevices(instance, &deviceCount, devices.data());
+		vkEnumeratePhysicalDevices(m_instance.get_instance(), &deviceCount, devices.data());
 
 		for (const auto& device : devices)
 		{
