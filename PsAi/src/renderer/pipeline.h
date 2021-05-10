@@ -1,6 +1,7 @@
 #pragma once
 
 // PsAi includes
+#include "logical_device.h"
 #include "shader.h"
 
 // STD library includes
@@ -14,18 +15,15 @@ namespace PsAi::Renderer
 	
 	class Pipeline
 	{
-	public:
-		// Public member functions
-		Pipeline(Device& device, const std::string& vertPath, const std::string& fragPath);
+		public:
+			// Public member functions
+			Pipeline(const LogicalDevice& logicalDevice, const Shader& vertShader, const Shader& fragShader);
 
-	private:
-		// Private member variables
-		Device& m_device;
-
-		// Private member functions
-		static std::vector<char> read_binary(const std::string& filePath);
-
-		void create_graphics_pipeline(const std::string& vertPath, const std::string& fragPath);
+		private:
+			// Private member variables
+			const LogicalDevice& m_logicalDevice;
+			const Shader& m_vertShader;
+			const Shader& m_fragShader;
 	};
 
 } // PsAi::Renderer namespace

@@ -3,39 +3,22 @@
 namespace PsAi::Renderer
 {
 	
-	Pipeline::Pipeline(Device& device, const std::string& vertPath, const std::string& fragPath)
-		: m_device(device)
+	Pipeline::Pipeline(const LogicalDevice& logicalDevice, const Shader& vertShader, const Shader& fragShader)
+		: m_logicalDevice(logicalDevice), m_vertShader(vertShader), m_fragShader(fragShader)
 	{
-		create_graphics_pipeline(vertPath, fragPath);
-	}
+		VkPipelineShaderStageCreateInfo vertShaderStageCreateInfo{};
+		vertShaderStageCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+		vertShaderStageCreateInfo.stage = VK_SHADER_STAGE_VERTEX_BIT;
+		vertShaderStageCreateInfo.module = m_vertShader.get_shader_module();
+		vertShaderStageCreateInfo.pName = "main";
 
-	std::vector<char> Pipeline::read_binary(const std::string& filePath)
-	{
-		std::ifstream file(filePath, std::ios::ate | std::ios::binary);
+		VkPipelineShaderStageCreateInfo fragShaderStageCreateInfo{};
+		vertShaderStageCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+		vertShaderStageCreateInfo.stage = VK_SHADER_STAGE_FRAGMENT_BIT;
+		vertShaderStageCreateInfo.module = m_fragShader.get_shader_module();
+		vertShaderStageCreateInfo.pName = "main";
 
-		if (!file.is_open())
-		{
-			throw std::runtime_error("Failed to open file: " + filePath);
-		}
-
-		size_t fileSize = (size_t)file.tellg();
-		std::vector<char> buffer(fileSize);
-
-		file.seekg(0);
-		file.read(buffer.data(), fileSize);
-
-		file.close();
-
-		return buffer;
-	}
-
-	void Pipeline::create_graphics_pipeline(const std::string& vertPath, const std::string& fragPath)
-	{
-		auto vertCode = read_binary(vertPath);
-		auto fragCode = read_binary(fragPath);
-
-		std::cout << "Vertex shader code size: " << vertCode.size() << std::endl;
-		std::cout << "Fragment shader code size: " << fragCode.size() << std::endl;
+		VkPipelineShaderStageCreateInfo shaderStages[] = { vertShaderStageCreateInfo, fragShaderStageCreateInfo };
 	}
 
 } // PsAi::Renderer namespace
