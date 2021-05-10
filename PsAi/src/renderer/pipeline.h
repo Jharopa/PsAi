@@ -1,7 +1,7 @@
 #pragma once
 
 // PsAi includes
-#include "device.h"
+#include "shader.h"
 
 // STD library includes
 #include <string>
