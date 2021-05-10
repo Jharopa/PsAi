@@ -26,10 +26,13 @@ namespace PsAi::Renderer
 		bool should_close() { return glfwWindowShouldClose(m_window); }
 		void create_window_surface(VkInstance instance, VkSurfaceKHR* surface);
 
+		const uint32_t get_width() const { return m_width; }
+		const uint32_t get_height() const { return m_height; }
+
 	private:
 		// Private member variables
-		const int m_width;
-		const int m_height;
+		uint32_t m_width;
+		uint32_t m_height;
 
 		GLFWwindow* m_window;
 		std::string m_windowName;

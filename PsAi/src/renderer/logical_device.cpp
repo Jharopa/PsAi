@@ -7,7 +7,7 @@ namespace PsAi::Renderer
 	{
 		PSAI_LOG_DEBUG("Creating logical device");
 
-		QueueFamilyIndices indices = find_queue_families();
+		QueueFamilyIndices indices = HelperFunctions::find_queue_families(m_physicalDevice.get_physical_device(), m_surface.get_surface());
 
 		std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
 		std::set<uint32_t> uniqueQueueFamilies = { indices.graphicsFamily.value(), indices.presentFamily.value() };
@@ -40,7 +40,7 @@ namespace PsAi::Renderer
 
 		const std::vector<const char*> enabledValidationLayers = { "VK_LAYER_KHRONOS_validation" };
 
-		if(m_instance.is_validation_enabled() == true)
+		if (m_instance.is_validation_enabled() == true)
 		{
 			createInfo.enabledLayerCount = static_cast<uint32_t>(enabledValidationLayers.size());
 			createInfo.ppEnabledLayerNames = enabledValidationLayers.data();
@@ -64,37 +64,5 @@ namespace PsAi::Renderer
 	LogicalDevice::~LogicalDevice()
 	{
 	}
-
-	QueueFamilyIndices LogicalDevice::find_queue_families()
-	{
-		QueueFamilyIndices indices;
-
-		uint32_t queueFamilyCount = 0;
-		vkGetPhysicalDeviceQueueFamilyProperties(m_physicalDevice.get_physical_device(), &queueFamilyCount, nullptr);
-
-		std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
-		vkGetPhysicalDeviceQueueFamilyProperties(m_physicalDevice.get_physical_device(), &queueFamilyCount, queueFamilies.data());
-
-		int i = 0;
-
-		for (const auto& queueFamily : queueFamilies)
-		{
-			if (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT)
-			{
-				indices.graphicsFamily = i;
-			}
-
-			VkBool32 presentSupport = false;
-			vkGetPhysicalDeviceSurfaceSupportKHR(m_physicalDevice.get_physical_device(), i, m_surface.get_surface(), &presentSupport);
-
-			if (presentSupport)
-			{
-				indices.presentFamily = i;
-			}
-
-			i++;
-		}
-
-		return indices;
-	}
+	
 } // PsAi::Renderer namespace

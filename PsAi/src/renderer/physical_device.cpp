@@ -25,7 +25,7 @@ namespace PsAi::Renderer
 			{
 				PSAI_LOG_DEBUG("Physical deivce selected");
 				m_physicalDevice = device;
-				get_physical_device_attributes();
+				set_physical_device_attributes();
 				break;
 			}
 		}
@@ -75,13 +75,13 @@ namespace PsAi::Renderer
 		return requiredExtensions.empty();
 	}
 
-	void PhysicalDevice::get_physical_device_attributes()
+	void PhysicalDevice::set_physical_device_attributes()
 	{
 		vkGetPhysicalDeviceProperties(m_physicalDevice, &m_physicalDeviceProperties);
 		vkGetPhysicalDeviceFeatures(m_physicalDevice, &m_physicalDeviceFeatures);
 	}
 
-	void PhysicalDevice::get_queue_family_properties()
+	void PhysicalDevice::set_queue_family_properties()
 	{
 		uint32_t queueFamilyCount;
 		vkGetPhysicalDeviceQueueFamilyProperties(m_physicalDevice, &queueFamilyCount, nullptr);

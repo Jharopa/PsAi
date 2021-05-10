@@ -3,6 +3,7 @@
 #include "instance.h"
 #include "physical_device.h"
 #include "surface.h"
+#include "helper_functions.h"
 
 // Vulkan includes
 #include <vulkan/vulkan.h>
@@ -12,7 +13,6 @@
 
 namespace PsAi::Renderer
 {
-	struct QueueFamilyIndices;
 
 	class LogicalDevice
 	{
@@ -26,6 +26,8 @@ namespace PsAi::Renderer
 			LogicalDevice& operator=(const LogicalDevice&) = delete;
 			LogicalDevice& operator=(LogicalDevice&&) = delete;
 
+			const VkDevice& get_logical_device() const { return m_logicalDevice; }
+
 		private:
 			VkDevice m_logicalDevice = VK_NULL_HANDLE;
 
@@ -35,14 +37,6 @@ namespace PsAi::Renderer
 			const Instance& m_instance;
 			const PhysicalDevice& m_physicalDevice;
 			const Surface& m_surface;
-
-			QueueFamilyIndices find_queue_families();
-	};
-
-	struct QueueFamilyIndices
-	{
-		std::optional<uint32_t> graphicsFamily;
-		std::optional<uint32_t> presentFamily;
 	};
 
 } // PsAi::Renderer namespace

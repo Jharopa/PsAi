@@ -16,8 +16,6 @@
 
 namespace PsAi::Renderer
 {
-	
-	struct QueueFamilyIndices;
 
 	class PhysicalDevice
 	{
@@ -25,7 +23,7 @@ namespace PsAi::Renderer
 			PhysicalDevice(const Instance& instance);
 			~PhysicalDevice();
 
-			// Non-copyable and Non-movable
+			// Non-copyable and non-movable
 			PhysicalDevice(const PhysicalDevice&) = delete;
 			PhysicalDevice(PhysicalDevice&&) = delete;
 			PhysicalDevice& operator=(const PhysicalDevice&) = delete;
@@ -53,8 +51,8 @@ namespace PsAi::Renderer
 			bool is_physical_device_suitable(VkPhysicalDevice physicalDevice);
 			bool has_requested_extension_support(VkPhysicalDevice physicalDevice);
 
-			void get_physical_device_attributes();
-			void get_queue_family_properties();
+			void set_physical_device_attributes();
+			void set_queue_family_properties();
 	};
 
 } // PsAi::Renderer namespace

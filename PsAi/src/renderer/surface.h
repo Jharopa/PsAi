@@ -29,9 +29,9 @@ namespace PsAi::Renderer
 			const VkSurfaceKHR& get_surface() const { return m_surface; }
 
 		private:
+			VkSurfaceKHR m_surface = VK_NULL_HANDLE;
 			const Instance& m_instance;
 			GLFWwindow* m_window = nullptr;
-			VkSurfaceKHR m_surface = VK_NULL_HANDLE;
 
 			void create_surface();
 	};

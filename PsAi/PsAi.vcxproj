@@ -98,11 +98,13 @@
     <ClCompile Include="src\math\vec2.cpp" />
     <ClCompile Include="src\math\vec3.cpp" />
     <ClCompile Include="src\renderer\device.cpp" />
+    <ClCompile Include="src\renderer\helper_functions.cpp" />
     <ClCompile Include="src\renderer\instance.cpp" />
     <ClCompile Include="src\renderer\logical_device.cpp" />
     <ClCompile Include="src\renderer\physical_device.cpp" />
     <ClCompile Include="src\renderer\pipeline.cpp" />
     <ClCompile Include="src\renderer\surface.cpp" />
+    <ClCompile Include="src\renderer\swapchain.cpp" />
     <ClCompile Include="src\renderer\window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -110,12 +112,14 @@
     <ClInclude Include="src\log.h" />
     <ClInclude Include="src\math\vec2.h" />
     <ClInclude Include="src\math\vec3.h" />
+    <ClInclude Include="src\renderer\helper_functions.h" />
     <ClInclude Include="src\renderer\instance.h" />
     <ClInclude Include="src\renderer\logical_device.h" />
     <ClInclude Include="src\renderer\physical_device.h" />
     <ClInclude Include="src\renderer\pipeline.h" />
     <ClInclude Include="src\renderer\device.h" />
     <ClInclude Include="src\renderer\surface.h" />
+    <ClInclude Include="src\renderer\swapchain.h" />
     <ClInclude Include="src\renderer\window.h" />
   </ItemGroup>
   <ItemGroup>
