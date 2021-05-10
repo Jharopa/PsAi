@@ -42,9 +42,6 @@
     <ClCompile Include="src\math\vec3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\renderer\device.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\renderer\instance.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -75,9 +72,6 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="src\renderer\pipeline.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\renderer\device.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\math\vec2.h">

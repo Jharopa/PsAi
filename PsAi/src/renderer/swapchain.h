@@ -31,8 +31,16 @@ namespace PsAi::Renderer
 			Swapchain& operator=(const Swapchain&) = delete;
 			Swapchain& operator=(Swapchain&&) = delete;
 
+			const VkSwapchainKHR& get_swapchain() const { return m_swapchain; }
+			const VkFormat& get_image_format() const { return m_swapchainImageFormat; }
+			const VkExtent2D& get_extent() const { return m_swapchainExtent; }
+
 		private:
-			VkSwapchainKHR m_swapchain;
+			VkSwapchainKHR m_swapchain = VK_NULL_HANDLE;
+			std::vector<VkImage> m_swapchainImages;
+			std::vector<VkImageView> m_swapchainImageViews;
+			VkFormat m_swapchainImageFormat;
+			VkExtent2D m_swapchainExtent;
 
 			PhysicalDevice& m_physicalDevice;
 			LogicalDevice& m_logicalDevice;
