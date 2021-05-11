@@ -37,7 +37,7 @@ namespace PsAi
 			Renderer::Swapchain m_swapchain{ m_physicalDevice, m_logicalDevice, m_surface, m_window.get_window() };
 			Renderer::Shader m_vertShader{ m_logicalDevice, "shaders/bytecode/simple.vert.spv" };
 			Renderer::Shader m_fragShader{ m_logicalDevice, "shaders/bytecode/simple.frag.spv" };
-			Renderer::Pipeline m_pipeline{ m_logicalDevice, m_vertShader, m_fragShader };
+			Renderer::Pipeline m_pipeline{ m_logicalDevice, m_vertShader, m_fragShader, WIDTH, HEIGHT };
 	};
 
 } // PsAi namespace
