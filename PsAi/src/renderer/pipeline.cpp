@@ -3,8 +3,8 @@
 namespace PsAi::Renderer
 {
 	
-	Pipeline::Pipeline(const LogicalDevice& logicalDevice, const Shader& vertShader, const Shader& fragShader, int window_width, int window_height)
-		: m_logicalDevice(logicalDevice), m_vertShader(vertShader), m_fragShader(fragShader)
+	Pipeline::Pipeline(const LogicalDevice& logicalDevice, const RenderPass& renderPass, const Shader& vertShader, const Shader& fragShader, int window_width, int window_height)
+		: m_logicalDevice(logicalDevice), m_renderPass(renderPass), m_vertShader(vertShader), m_fragShader(fragShader)
 	{
 		PSAI_LOG_DEBUG("Creating Vulkan pipline layout");
 
@@ -98,7 +98,7 @@ namespace PsAi::Renderer
 		// Color blend state create info
 		VkPipelineColorBlendStateCreateInfo colorBlending{};
 		colorBlending.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
-		colorBlending.logicOpEnable = VK_TRUE;
+		colorBlending.logicOpEnable = VK_FALSE; // TODO: Look deeper into how this works and how to set it up properly, set false for the time being.
 		colorBlending.logicOp = VK_LOGIC_OP_COPY;
 		colorBlending.attachmentCount = 1;
 		colorBlending.pAttachments = &colorBlendAttachment;
@@ -107,6 +107,7 @@ namespace PsAi::Renderer
 		colorBlending.blendConstants[2] = 0.0f;
 		colorBlending.blendConstants[3] = 0.0f;
 
+		// Pipeline layout create info
 		VkPipelineLayoutCreateInfo pipelineLayoutCreateInfo{};
 		pipelineLayoutCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
 		pipelineLayoutCreateInfo.setLayoutCount = 0;
@@ -120,10 +121,36 @@ namespace PsAi::Renderer
 		}
 
 		PSAI_LOG_DEBUG("Vulkan pipline layout successfuly created");
+
+		PSAI_LOG_DEBUG("Creating Vulkan graphics pipeline");
+
+		// Graphics pipeline create info
+		VkGraphicsPipelineCreateInfo pipelineCreateInfo{};
+		pipelineCreateInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
+		pipelineCreateInfo.stageCount = 2;
+		pipelineCreateInfo.pStages = shaderStages;
+		pipelineCreateInfo.pVertexInputState = &vertexInputCreateInfo;
+		pipelineCreateInfo.pInputAssemblyState = &inputAssemblyCreateInfo;
+		pipelineCreateInfo.pViewportState = &viewportStateCreateInfo;
+		pipelineCreateInfo.pRasterizationState = &rasterizer;
+		pipelineCreateInfo.pMultisampleState = &multisampling;
+		pipelineCreateInfo.pDepthStencilState = nullptr;
+		pipelineCreateInfo.pColorBlendState = &colorBlending;
+		pipelineCreateInfo.pDynamicState = nullptr;
+		pipelineCreateInfo.layout = m_pipelineLayout;
+		pipelineCreateInfo.renderPass = m_renderPass.get_render_pass();
+		pipelineCreateInfo.basePipelineHandle = VK_NULL_HANDLE;
+		pipelineCreateInfo.basePipelineIndex = -1;
+
+		if (vkCreateGraphicsPipelines(m_logicalDevice.get_logical_device(), VK_NULL_HANDLE, 1, &pipelineCreateInfo, nullptr, &m_graphicsPipeline) != VK_SUCCESS)
+		{
+			throw std::runtime_error("Failed to create Vulkan graphics pipeline");
+		}
 	}
 
 	Pipeline::~Pipeline()
 	{
+		vkDestroyPipeline(m_logicalDevice.get_logical_device(), m_graphicsPipeline, nullptr);
 		vkDestroyPipelineLayout(m_logicalDevice.get_logical_device(), m_pipelineLayout, nullptr);
 	}
 

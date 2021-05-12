@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
@@ -102,6 +102,7 @@
     <ClCompile Include="src\renderer\logical_device.cpp" />
     <ClCompile Include="src\renderer\physical_device.cpp" />
     <ClCompile Include="src\renderer\pipeline.cpp" />
+    <ClCompile Include="src\renderer\render_pass.cpp" />
     <ClCompile Include="src\renderer\shader.cpp" />
     <ClCompile Include="src\renderer\surface.cpp" />
     <ClCompile Include="src\renderer\swapchain.cpp" />
@@ -117,6 +118,7 @@
     <ClInclude Include="src\renderer\logical_device.h" />
     <ClInclude Include="src\renderer\physical_device.h" />
     <ClInclude Include="src\renderer\pipeline.h" />
+    <ClInclude Include="src\renderer\render_pass.h" />
     <ClInclude Include="src\renderer\shader.h" />
     <ClInclude Include="src\renderer\surface.h" />
     <ClInclude Include="src\renderer\swapchain.h" />

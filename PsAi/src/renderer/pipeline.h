@@ -2,6 +2,7 @@
 
 // PsAi includes
 #include "logical_device.h"
+#include "render_pass.h"
 #include "shader.h"
 #include "../log.h"
 
@@ -18,14 +19,23 @@ namespace PsAi::Renderer
 	{
 		public:
 			// Public member functions
-			Pipeline(const LogicalDevice& logicalDevice, const Shader& vertShader, const Shader& fragShader, int window_width, int window_height);
+			Pipeline(const LogicalDevice& logicalDevice, const RenderPass& renderPass, const Shader& vertShader, const Shader& fragShader, int window_width, int window_height);
 			~Pipeline();
+
+			Pipeline(const Pipeline&) = delete;
+			Pipeline(Pipeline&&) = delete;
+			Pipeline& operator=(const Pipeline&) = delete;
+			Pipeline& operator=(Pipeline&&) = delete;
+
+
 
 		private:
 			// Private member variables
+			VkPipeline m_graphicsPipeline;
 			VkPipelineLayout m_pipelineLayout;
 
 			const LogicalDevice& m_logicalDevice;
+			const RenderPass& m_renderPass;
 			const Shader& m_vertShader;
 			const Shader& m_fragShader;
 	};

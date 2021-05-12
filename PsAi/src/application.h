@@ -7,6 +7,7 @@
 #include "renderer/surface.h"
 #include "renderer/logical_device.h"
 #include "renderer/swapchain.h"
+#include "renderer/render_pass.h"
 #include "renderer/shader.h"
 #include "renderer/pipeline.h"
 
@@ -35,9 +36,10 @@ namespace PsAi
 			Renderer::PhysicalDevice m_physicalDevice{ m_instance };
 			Renderer::LogicalDevice m_logicalDevice{ m_instance, m_physicalDevice, m_surface };
 			Renderer::Swapchain m_swapchain{ m_physicalDevice, m_logicalDevice, m_surface, m_window.get_window() };
+			Renderer::RenderPass m_renderPass{ m_logicalDevice, m_swapchain };
 			Renderer::Shader m_vertShader{ m_logicalDevice, "shaders/bytecode/simple.vert.spv" };
 			Renderer::Shader m_fragShader{ m_logicalDevice, "shaders/bytecode/simple.frag.spv" };
-			Renderer::Pipeline m_pipeline{ m_logicalDevice, m_vertShader, m_fragShader, WIDTH, HEIGHT };
+			Renderer::Pipeline m_pipeline{ m_logicalDevice, m_renderPass, m_vertShader, m_fragShader, WIDTH, HEIGHT };
 	};
 
 } // PsAi namespace
