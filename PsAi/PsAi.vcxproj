@@ -106,6 +106,7 @@
     <ClCompile Include="src\renderer\physical_device.cpp" />
     <ClCompile Include="src\renderer\pipeline.cpp" />
     <ClCompile Include="src\renderer\render_pass.cpp" />
+    <ClCompile Include="src\renderer\semaphore.cpp" />
     <ClCompile Include="src\renderer\shader.cpp" />
     <ClCompile Include="src\renderer\surface.cpp" />
     <ClCompile Include="src\renderer\swapchain.cpp" />
@@ -125,6 +126,7 @@
     <ClInclude Include="src\renderer\physical_device.h" />
     <ClInclude Include="src\renderer\pipeline.h" />
     <ClInclude Include="src\renderer\render_pass.h" />
+    <ClInclude Include="src\renderer\semaphore.h" />
     <ClInclude Include="src\renderer\shader.h" />
     <ClInclude Include="src\renderer\surface.h" />
     <ClInclude Include="src\renderer\swapchain.h" />

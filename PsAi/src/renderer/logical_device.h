@@ -27,6 +27,8 @@ namespace PsAi::Renderer
 			LogicalDevice& operator=(LogicalDevice&&) = delete;
 
 			const VkDevice& get_logical_device() const { return m_logicalDevice; }
+			const VkQueue get_graphics_queue() const { return m_graphicsQueue; }
+			const VkQueue get_present_queue() const { return m_presentationQueue; }
 
 		private:
 			VkDevice m_logicalDevice = VK_NULL_HANDLE;

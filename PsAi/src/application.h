@@ -13,6 +13,7 @@
 #include "renderer/framebuffer.h"
 #include "renderer/command_pool.h"
 #include "renderer/command_buffer.h"
+#include "renderer/semaphore.h"
 
 // Vulkan includes
 #include <vulkan/vulkan.h>
@@ -29,7 +30,7 @@ namespace PsAi
 
 			// Public member functions
 			void run();
-			void drawFrame();
+			void draw_frame();
 
 		private:
 			// Private member variables
@@ -47,6 +48,8 @@ namespace PsAi
 			Renderer::Framebuffer m_framebuffers{ m_logicalDevice, m_swapchain, m_renderPass };
 			Renderer::CommandPool m_commandPool{ m_logicalDevice, m_physicalDevice, m_surface };
 			Renderer::CommandBuffer m_commandBuffer{ m_logicalDevice, m_swapchain, m_framebuffers, m_commandPool, m_renderPass, m_pipeline };
+			Renderer::Semaphore m_imageAvailableSemaphore{ m_logicalDevice };
+			Renderer::Semaphore m_renderFinishedSemaphore{ m_logicalDevice };
 	};
 
 } // PsAi namespace

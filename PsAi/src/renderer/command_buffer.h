@@ -28,6 +28,8 @@ namespace PsAi::Renderer
 			CommandBuffer& operator=(const CommandBuffer&) = delete;
 			CommandBuffer& operator=(CommandBuffer&&) = delete;
 
+			const std::vector<VkCommandBuffer>& get_command_buffer() const { return m_commandBuffers; }
+
 		private:
 			std::vector<VkCommandBuffer> m_commandBuffers;
 

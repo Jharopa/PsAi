@@ -9,9 +9,9 @@ namespace PsAi::Renderer
 
 		VkCommandBufferAllocateInfo allocateInfo{};
 		allocateInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
+		allocateInfo.commandBufferCount = (uint32_t)m_commandBuffers.size();
 		allocateInfo.commandPool = commandPool.get_command_pool();
 		allocateInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
-		allocateInfo.commandBufferCount = (uint32_t)m_commandBuffers.size();
 
 		if (vkAllocateCommandBuffers(m_logicalDevice.get_logical_device(), &allocateInfo, m_commandBuffers.data()) != VK_SUCCESS)
 		{
