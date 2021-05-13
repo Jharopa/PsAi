@@ -10,6 +10,8 @@
 #include "renderer/render_pass.h"
 #include "renderer/shader.h"
 #include "renderer/pipeline.h"
+#include "renderer/framebuffer.h"
+#include "renderer/command_pool.h"
 
 // Vulkan includes
 #include <vulkan/vulkan.h>
@@ -40,6 +42,8 @@ namespace PsAi
 			Renderer::Shader m_vertShader{ m_logicalDevice, "shaders/bytecode/simple.vert.spv" };
 			Renderer::Shader m_fragShader{ m_logicalDevice, "shaders/bytecode/simple.frag.spv" };
 			Renderer::Pipeline m_pipeline{ m_logicalDevice, m_renderPass, m_vertShader, m_fragShader, WIDTH, HEIGHT };
+			Renderer::Framebuffer m_framebuffers{ m_logicalDevice, m_swapchain, m_renderPass };
+			Renderer::CommandPool m_commandPool{ m_logicalDevice, m_physicalDevice, m_surface };
 	};
 
 } // PsAi namespace

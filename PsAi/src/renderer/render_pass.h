@@ -21,7 +21,7 @@ namespace PsAi::Renderer
 			RenderPass& operator=(const RenderPass&) = delete;
 			RenderPass& operator=(RenderPass&&) = delete;
 
-			const VkRenderPass get_render_pass() const { return m_renderPass; }
+			const VkRenderPass& get_render_pass() const { return m_renderPass; }
 
 		private:
 			VkRenderPass m_renderPass;

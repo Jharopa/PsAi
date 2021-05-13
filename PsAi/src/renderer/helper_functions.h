@@ -9,7 +9,7 @@
 
 namespace PsAi::Renderer
 {
-
+	
 	struct QueueFamilyIndices;
 
 	struct HelperFunctions

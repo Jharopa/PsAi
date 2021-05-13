@@ -4,7 +4,7 @@ namespace PsAi::Renderer
 {
 	QueueFamilyIndices HelperFunctions::find_queue_families(VkPhysicalDevice physical_device, VkSurfaceKHR surface)
 	{
-		QueueFamilyIndices indices;
+		QueueFamilyIndices indices{};
 
 		uint32_t queueFamilyCount = 0;
 		vkGetPhysicalDeviceQueueFamilyProperties(physical_device, &queueFamilyCount, nullptr);
@@ -34,4 +34,5 @@ namespace PsAi::Renderer
 
 		return indices;
 	}
+
 } // PsAi::Renderer namespace

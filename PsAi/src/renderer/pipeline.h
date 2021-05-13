@@ -19,7 +19,7 @@ namespace PsAi::Renderer
 	{
 		public:
 			// Public member functions
-			Pipeline(const LogicalDevice& logicalDevice, const RenderPass& renderPass, const Shader& vertShader, const Shader& fragShader, int window_width, int window_height);
+			Pipeline(const LogicalDevice& logicalDevice, const RenderPass& renderPass, const Shader& vertShader, const Shader& fragShader, int width, int height);
 			~Pipeline();
 
 			Pipeline(const Pipeline&) = delete;

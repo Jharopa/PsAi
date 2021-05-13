@@ -3,7 +3,7 @@
 namespace PsAi::Renderer
 {
 	
-	Pipeline::Pipeline(const LogicalDevice& logicalDevice, const RenderPass& renderPass, const Shader& vertShader, const Shader& fragShader, int window_width, int window_height)
+	Pipeline::Pipeline(const LogicalDevice& logicalDevice, const RenderPass& renderPass, const Shader& vertShader, const Shader& fragShader, int width, int height)
 		: m_logicalDevice(logicalDevice), m_renderPass(renderPass), m_vertShader(vertShader), m_fragShader(fragShader)
 	{
 		PSAI_LOG_DEBUG("Creating Vulkan pipline layout");
@@ -42,15 +42,15 @@ namespace PsAi::Renderer
 		VkViewport viewport{};
 		viewport.x = 0.0f;
 		viewport.y = 0.0f;
-		viewport.width = (float)window_width;
-		viewport.height = (float)window_height;
+		viewport.width = (float)width;
+		viewport.height = (float)height;
 		viewport.minDepth = 0.0f;
 		viewport.maxDepth = 1.0f;
 
 		// Pipeline scissor
 		VkRect2D scissor{};
 		scissor.offset = { 0, 0 };
-		scissor.extent = { static_cast<uint32_t>(window_width) , static_cast<uint32_t>(window_height) };
+		scissor.extent = { static_cast<uint32_t>(width) , static_cast<uint32_t>(height) };
 
 		// Viewport state create info
 		VkPipelineViewportStateCreateInfo viewportStateCreateInfo{};
@@ -146,6 +146,8 @@ namespace PsAi::Renderer
 		{
 			throw std::runtime_error("Failed to create Vulkan graphics pipeline");
 		}
+
+		PSAI_LOG_DEBUG("Vulkan graphics pipeline successfuly created");
 	}
 
 	Pipeline::~Pipeline()
