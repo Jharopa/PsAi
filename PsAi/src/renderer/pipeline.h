@@ -27,7 +27,7 @@ namespace PsAi::Renderer
 			Pipeline& operator=(const Pipeline&) = delete;
 			Pipeline& operator=(Pipeline&&) = delete;
 
-
+			const VkPipeline& get_graphics_pipeline() const { return m_graphicsPipeline; }
 
 		private:
 			// Private member variables

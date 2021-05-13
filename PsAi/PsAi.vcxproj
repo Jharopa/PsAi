@@ -97,6 +97,7 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\math\vec2.cpp" />
     <ClCompile Include="src\math\vec3.cpp" />
+    <ClCompile Include="src\renderer\command_buffer.cpp" />
     <ClCompile Include="src\renderer\command_pool.cpp" />
     <ClCompile Include="src\renderer\framebuffer.cpp" />
     <ClCompile Include="src\renderer\helper_functions.cpp" />
@@ -115,6 +116,7 @@
     <ClInclude Include="src\log.h" />
     <ClInclude Include="src\math\vec2.h" />
     <ClInclude Include="src\math\vec3.h" />
+    <ClInclude Include="src\renderer\command_buffer.h" />
     <ClInclude Include="src\renderer\command_pool.h" />
     <ClInclude Include="src\renderer\framebuffer.h" />
     <ClInclude Include="src\renderer\helper_functions.h" />

@@ -8,7 +8,12 @@ namespace PsAi
 		while (!m_window.should_close())
 		{
 			glfwPollEvents();
+			drawFrame();
 		}
+	}
+
+	void Application::drawFrame()
+	{
 	}
 
 } // PsAi namespace
