@@ -33,8 +33,7 @@ namespace PsAi::Renderer
 		dependency.dstStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
 		dependency.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
 
-		VkRenderPassCreateInfo renderPassCreateInfo{};
-		renderPassCreateInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
+		VkRenderPassCreateInfo renderPassCreateInfo = render_pass_create_info();
 		renderPassCreateInfo.attachmentCount = 1;
 		renderPassCreateInfo.pAttachments = &colorAttachment;
 		renderPassCreateInfo.subpassCount = 1;

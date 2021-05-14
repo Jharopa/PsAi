@@ -9,27 +9,25 @@ namespace PsAi::Renderer
 
 		QueueFamilyIndices indices = HelperFunctions::find_queue_families(m_physicalDevice.get_physical_device(), m_surface.get_surface());
 
-		std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
+		std::vector<VkDeviceQueueCreateInfo> deviceQueueCreateInfos;
 		std::set<uint32_t> uniqueQueueFamilies = { indices.graphicsFamily.value(), indices.presentFamily.value() };
 		float queuePriority = 1.0f;
 
 		for (uint32_t queueFamily : uniqueQueueFamilies)
 		{
-			VkDeviceQueueCreateInfo queueCreateInfo{};
-			queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
-			queueCreateInfo.queueFamilyIndex = queueFamily;
-			queueCreateInfo.queueCount = 1;
-			queueCreateInfo.pQueuePriorities = &queuePriority;
-			queueCreateInfos.push_back(queueCreateInfo);
+			VkDeviceQueueCreateInfo deviceQueueCreateInfo{};
+			deviceQueueCreateInfo.queueFamilyIndex = queueFamily;
+			deviceQueueCreateInfo.queueCount = 1;
+			deviceQueueCreateInfo.pQueuePriorities = &queuePriority;
+			deviceQueueCreateInfos.push_back(deviceQueueCreateInfo);
 		}
 
 		VkPhysicalDeviceFeatures deviceFeatures{};
 
-		VkDeviceCreateInfo createInfo{};
-		createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
+		VkDeviceCreateInfo createInfo = device_create_info();
 
-		createInfo.queueCreateInfoCount = static_cast<uint32_t>(queueCreateInfos.size());
-		createInfo.pQueueCreateInfos = queueCreateInfos.data();
+		createInfo.queueCreateInfoCount = static_cast<uint32_t>(deviceQueueCreateInfos.size());
+		createInfo.pQueueCreateInfos = deviceQueueCreateInfos.data();
 
 		createInfo.pEnabledFeatures = &deviceFeatures;
 
@@ -63,6 +61,7 @@ namespace PsAi::Renderer
 
 	LogicalDevice::~LogicalDevice()
 	{
+		vkDestroyDevice(m_logicalDevice, nullptr);
 	}
 	
 } // PsAi::Renderer namespace

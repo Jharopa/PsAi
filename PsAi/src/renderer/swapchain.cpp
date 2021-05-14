@@ -18,8 +18,7 @@ namespace PsAi::Renderer
 			imageCount = swapchainSupport.capabilites.maxImageCount;
 		}
 
-		VkSwapchainCreateInfoKHR swapchainCreateInfo{};
-		swapchainCreateInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
+		VkSwapchainCreateInfoKHR swapchainCreateInfo = swapchain_create_info();
 		swapchainCreateInfo.surface = m_surface.get_surface();
 
 		swapchainCreateInfo.minImageCount = imageCount;
@@ -68,8 +67,7 @@ namespace PsAi::Renderer
 
 		for (size_t i = 0; i < m_swapchainImages.size(); i++)
 		{
-			VkImageViewCreateInfo imageViewCreateInfo{};
-			imageViewCreateInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+			VkImageViewCreateInfo imageViewCreateInfo = image_view_create_info();
 			imageViewCreateInfo.image = m_swapchainImages[i];
 			imageViewCreateInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
 			imageViewCreateInfo.format = m_swapchainImageFormat;

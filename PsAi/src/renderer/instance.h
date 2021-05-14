@@ -3,6 +3,7 @@
 // PsAi includes
 #include "../log.h"
 #include "window.h"
+#include "vulkan_structures.h"
 
 // Vulkan includes
 #include <vulkan/vulkan.h>
@@ -31,7 +32,7 @@ namespace PsAi::Renderer
 			Instance& operator=(Instance&&) = delete;
 
 			const VkInstance& get_instance() const { return m_instance; }
-			bool is_validation_enabled() const { return m_validationEnabled == true; }
+			bool is_validation_enabled() const { return m_validationEnabled; }
 
 		private:
 			VkInstance m_instance = VK_NULL_HANDLE;

@@ -30,21 +30,12 @@ namespace PsAi::Renderer
 			VK_VERSION_PATCH(vkAPIVersion));
 		
 		// Creating VKInstance's application info
-		VkApplicationInfo appInfo{};
-		appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
-		appInfo.pApplicationName = applicationName;
-		appInfo.applicationVersion = applicationVersion;
-		appInfo.pEngineName = engineName;
-		appInfo.engineVersion = engineVersion;
-		appInfo.apiVersion = vkAPIVersion;
+		VkApplicationInfo appInfo = application_info(applicationName, applicationVersion, engineName, engineVersion, vkAPIVersion);
 
 		// Creating VKInstance's create info
-		VkInstanceCreateInfo instanceCreateInfo{};
-		instanceCreateInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
-		instanceCreateInfo.pApplicationInfo = &appInfo;
+		VkInstanceCreateInfo instanceCreateInfo = instance_create_info(appInfo);
 
 		// Setting up VKInstance's extensions
-
 		std::vector<const char*> enabledExtensions = {};
 
 		#ifndef NDEBUG

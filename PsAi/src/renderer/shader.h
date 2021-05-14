@@ -12,7 +12,7 @@
 
 namespace PsAi::Renderer
 {
-	
+
 	class Shader
 	{
 		public:
@@ -29,9 +29,9 @@ namespace PsAi::Renderer
 
 		private:
 			VkShaderModule m_shaderModule = VK_NULL_HANDLE;
-			std::vector<char> read_binary(const std::string& filePath);
-
 			const LogicalDevice& m_logicalDevice;
+
+			std::vector<char> read_binary(const std::string& filePath);
 	};
 
 }

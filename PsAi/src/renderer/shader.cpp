@@ -7,8 +7,7 @@ namespace PsAi::Renderer
 	{
 		std::vector<char> code = read_binary(filePath);
 
-		VkShaderModuleCreateInfo shaderModuleCreateInfo{};
-		shaderModuleCreateInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
+		VkShaderModuleCreateInfo shaderModuleCreateInfo = shader_module_create_info();
 		shaderModuleCreateInfo.codeSize = code.size();
 		shaderModuleCreateInfo.pCode = reinterpret_cast<const uint32_t*>(code.data());
 

@@ -5,6 +5,7 @@
 #include "logical_device.h"
 #include "surface.h"
 #include "helper_functions.h"
+#include "vulkan_structures.h"
 
 // Vulkan includes
 #include <vulkan/vulkan.h>

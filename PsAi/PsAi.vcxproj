@@ -130,6 +130,7 @@
     <ClInclude Include="src\renderer\shader.h" />
     <ClInclude Include="src\renderer\surface.h" />
     <ClInclude Include="src\renderer\swapchain.h" />
+    <ClInclude Include="src\renderer\vulkan_structures.h" />
     <ClInclude Include="src\renderer\window.h" />
   </ItemGroup>
   <ItemGroup>

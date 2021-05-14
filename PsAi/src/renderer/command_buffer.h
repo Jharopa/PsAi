@@ -19,7 +19,7 @@ namespace PsAi::Renderer
 	class CommandBuffer
 	{
 		public:
-			CommandBuffer(const LogicalDevice& logicalDevice, const Swapchain& swapchain, const const Framebuffer& framebuffers, const CommandPool& commandPool, const RenderPass& renderPass, const Pipeline& graphicsPipeline);
+			CommandBuffer(const LogicalDevice& logicalDevice, const Swapchain& swapchain, const Framebuffer& framebuffers, const CommandPool& commandPool, const RenderPass& renderPass, const Pipeline& graphicsPipeline);
 			~CommandBuffer();
 
 			// Non-copyable and non-movable

@@ -10,6 +10,8 @@ namespace PsAi
 			glfwPollEvents();
 			draw_frame();
 		}
+
+		vkDeviceWaitIdle(m_logicalDevice.get_logical_device());
 	}
 
 	void Application::draw_frame()
@@ -52,6 +54,8 @@ namespace PsAi
 		presentInfo.pResults = nullptr;
 
 		vkQueuePresentKHR(m_logicalDevice.get_present_queue(), &presentInfo);
+
+		vkQueueWaitIdle(m_logicalDevice.get_present_queue());
 	}
 
 } // PsAi namespace
