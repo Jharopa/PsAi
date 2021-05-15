@@ -18,11 +18,11 @@
 
 namespace PsAi::Renderer
 {
-		
+
 	class Instance
 	{
 		public:
-			Instance(const char* applicationName, const uint32_t applicationVersion, const char* engineName, const uint32_t engineVersion, const uint32_t vkAPIVersion, std::vector<std::string> extensionsList, bool validationEnabled);
+			Instance(VkApplicationInfo applicationInfo, std::vector<std::string> extensionsList, bool validationEnabled);
 			~Instance();
 
 			// Non-copyable and non-movable

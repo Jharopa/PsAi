@@ -7,33 +7,30 @@ namespace PsAi::Renderer
 	VkResult create_debug_utils_messenger(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger);
 	void destroy_debug_utils_messenger(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator);
 
-	Instance::Instance(const char* applicationName, const uint32_t applicationVersion, const char* engineName, const uint32_t engineVersion, const uint32_t vkAPIVersion, std::vector<std::string> extensionsList, bool validationEnabled)
+	Instance::Instance(VkApplicationInfo applicationInfo, std::vector<std::string> extensionsList, bool validationEnabled)
 		: m_validationEnabled(validationEnabled)
 	{
 
 		PSAI_LOG_DEBUG("Creating Vulkan instance");
 
 		// Application info debug
-		PSAI_LOG_DEBUG("Application name: '{}'", applicationName);
+		PSAI_LOG_DEBUG("Application name: '{}'", applicationInfo.pApplicationName);
 		PSAI_LOG_DEBUG("Application version: {}.{}.{}", 
-			VK_VERSION_MAJOR(applicationVersion), 
-			VK_VERSION_MINOR(applicationVersion), 
-			VK_VERSION_PATCH(applicationVersion));
-		PSAI_LOG_DEBUG("Engine name: '{}'", engineName);
+			VK_VERSION_MAJOR(applicationInfo.applicationVersion),
+			VK_VERSION_MINOR(applicationInfo.applicationVersion),
+			VK_VERSION_PATCH(applicationInfo.applicationVersion));
+		PSAI_LOG_DEBUG("Engine name: '{}'", applicationInfo.pEngineName);
 		PSAI_LOG_DEBUG("Engine version: {}.{}.{}",
-			VK_VERSION_MAJOR(engineVersion),
-			VK_VERSION_MINOR(engineVersion),
-			VK_VERSION_PATCH(engineVersion));
+			VK_VERSION_MAJOR(applicationInfo.engineVersion),
+			VK_VERSION_MINOR(applicationInfo.engineVersion),
+			VK_VERSION_PATCH(applicationInfo.engineVersion));
 		PSAI_LOG_DEBUG("Vulkan API version: {}.{}.{}", 
-			VK_VERSION_MAJOR(vkAPIVersion),
-			VK_VERSION_MINOR(vkAPIVersion),
-			VK_VERSION_PATCH(vkAPIVersion));
-		
-		// Creating VKInstance's application info
-		VkApplicationInfo appInfo = application_info(applicationName, applicationVersion, engineName, engineVersion, vkAPIVersion);
+			VK_VERSION_MAJOR(applicationInfo.apiVersion),
+			VK_VERSION_MINOR(applicationInfo.apiVersion),
+			VK_VERSION_PATCH(applicationInfo.apiVersion));
 
 		// Creating VKInstance's create info
-		VkInstanceCreateInfo instanceCreateInfo = instance_create_info(appInfo);
+		VkInstanceCreateInfo instanceCreateInfo = instance_create_info(applicationInfo);
 
 		// Setting up VKInstance's extensions
 		std::vector<const char*> enabledExtensions = {};

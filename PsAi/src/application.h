@@ -1,6 +1,7 @@
 #pragma once
 
 // PsAi includes
+#include "renderer/vulkan_structures.h"
 #include "renderer/window.h"
 #include "renderer/instance.h"
 #include "renderer/physical_device.h"
@@ -14,6 +15,7 @@
 #include "renderer/command_pool.h"
 #include "renderer/command_buffer.h"
 #include "renderer/semaphore.h"
+#include "renderer/vulkan_structures.h"
 
 // Vulkan includes
 #include <vulkan/vulkan.h>
@@ -36,7 +38,8 @@ namespace PsAi
 			// Private member variables
 			Renderer::Window m_window{ WIDTH, HEIGHT, "First App!" };
 			const std::vector<std::string> m_instanceExtensions = {};
-			Renderer::Instance m_instance{ "PsAi", VK_MAKE_VERSION(0, 0, 1), "No Engine", VK_MAKE_VERSION(0, 0, 1), VK_API_VERSION_1_2, m_instanceExtensions , 1 };
+			VkApplicationInfo applicationInfo = Renderer::application_info("PsAi", VK_MAKE_VERSION(0, 0, 1), "No Engine", VK_MAKE_VERSION(0, 0, 1), VK_API_VERSION_1_2);
+			Renderer::Instance m_instance{ applicationInfo, m_instanceExtensions , 1 };
 			Renderer::Surface m_surface{ m_instance, m_window.get_window() };
 			Renderer::PhysicalDevice m_physicalDevice{ m_instance };
 			Renderer::LogicalDevice m_logicalDevice{ m_instance, m_physicalDevice, m_surface };
