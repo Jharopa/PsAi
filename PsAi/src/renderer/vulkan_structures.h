@@ -32,6 +32,16 @@ namespace PsAi::Renderer
 		return instanceCreateInfo;
 	}
 
+	inline VkDebugUtilsMessengerCreateInfoEXT debug_utils_messenger_create_info()
+	{
+		VkDebugUtilsMessengerCreateInfoEXT debugUtilsMessengerCreateInfo {};
+		debugUtilsMessengerCreateInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
+		debugUtilsMessengerCreateInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
+		debugUtilsMessengerCreateInfo.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
+	
+		return debugUtilsMessengerCreateInfo;
+	}
+
 	inline VkSwapchainCreateInfoKHR swapchain_create_info()
 	{
 		VkSwapchainCreateInfoKHR swapchainCreateInfo {};
@@ -162,6 +172,54 @@ namespace PsAi::Renderer
 		graphicsPipelineCreateInfo.basePipelineIndex = -1;
 
 		return graphicsPipelineCreateInfo;
+	}
+
+	inline VkFramebufferCreateInfo frame_buffer_create_info()
+	{
+		VkFramebufferCreateInfo frameBufferCreateInfo {};
+		frameBufferCreateInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
+
+		return frameBufferCreateInfo;
+	}
+
+	inline VkCommandPoolCreateInfo command_pool_create_info()
+	{
+		VkCommandPoolCreateInfo commandBufferCreateInfo {};
+		commandBufferCreateInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
+
+		return commandBufferCreateInfo;
+	}
+
+	inline VkCommandBufferAllocateInfo command_buffer_allocate_info()
+	{
+		VkCommandBufferAllocateInfo commandBufferAllocateInfo {};
+		commandBufferAllocateInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
+
+		return commandBufferAllocateInfo;
+	}
+
+	inline VkCommandBufferBeginInfo command_buffer_begin_info()
+	{
+		VkCommandBufferBeginInfo commandBufferBeginInfo {};
+		commandBufferBeginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+
+		return commandBufferBeginInfo;
+	}
+
+	inline VkRenderPassBeginInfo render_pass_begin_info()
+	{
+		VkRenderPassBeginInfo renderPassBeginInfo {};
+		renderPassBeginInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+
+		return renderPassBeginInfo;
+	}
+
+	inline VkSemaphoreCreateInfo semaphore_create_info()
+	{
+		VkSemaphoreCreateInfo semephoreCreateInfo {};
+		semephoreCreateInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
+
+		return semephoreCreateInfo;
 	}
 
 } // PsAi::Renderer namespace

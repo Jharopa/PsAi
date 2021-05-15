@@ -8,8 +8,7 @@ namespace PsAi::Renderer
 	{
 		QueueFamilyIndices queueFamilyIndices = HelperFunctions::find_queue_families(physicalDevice.get_physical_device(), surface.get_surface());
 
-		VkCommandPoolCreateInfo commandPoolCreateInfo{};
-		commandPoolCreateInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
+		VkCommandPoolCreateInfo commandPoolCreateInfo = command_pool_create_info();
 		commandPoolCreateInfo.queueFamilyIndex = queueFamilyIndices.graphicsFamily.value();
 		commandPoolCreateInfo.flags = 0;
 

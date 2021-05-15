@@ -1,6 +1,7 @@
 #pragma once
 
 // PsAi includes
+#include "vulkan_structures.h"
 #include "logical_device.h"
 #include "framebuffer.h"
 #include "command_pool.h"

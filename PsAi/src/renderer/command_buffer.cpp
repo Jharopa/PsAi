@@ -7,8 +7,7 @@ namespace PsAi::Renderer
 	{
 		m_commandBuffers.resize(framebuffers.get_swapchain_framebuffers().size());
 
-		VkCommandBufferAllocateInfo allocateInfo{};
-		allocateInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
+		VkCommandBufferAllocateInfo allocateInfo = command_buffer_allocate_info();
 		allocateInfo.commandBufferCount = (uint32_t)m_commandBuffers.size();
 		allocateInfo.commandPool = commandPool.get_command_pool();
 		allocateInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
@@ -20,16 +19,14 @@ namespace PsAi::Renderer
 
 		for (size_t i = 0; i < m_commandBuffers.size(); i++)
 		{
-			VkCommandBufferBeginInfo beginInfo{};
-			beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+			VkCommandBufferBeginInfo beginInfo = command_buffer_begin_info();
 
 			if (vkBeginCommandBuffer(m_commandBuffers[i], &beginInfo) != VK_SUCCESS)
 			{
 				throw std::runtime_error("Failed to begin recording Vulkan command buffer!");
 			}
 
-			VkRenderPassBeginInfo renderPassInfo{};
-			renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+			VkRenderPassBeginInfo renderPassInfo = render_pass_begin_info();
 			renderPassInfo.renderPass = renderPass.get_render_pass();
 			renderPassInfo.framebuffer = framebuffers.get_swapchain_framebuffers()[i];
 			renderPassInfo.renderArea.offset = { 0, 0 };

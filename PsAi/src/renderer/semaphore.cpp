@@ -6,8 +6,7 @@ namespace PsAi::Renderer
 	Semaphore::Semaphore(const LogicalDevice& logicalDevice)
 		: m_logicalDevice(logicalDevice)
 	{
-		VkSemaphoreCreateInfo semephoreCreateInfo{};
-		semephoreCreateInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
+		VkSemaphoreCreateInfo semephoreCreateInfo = semaphore_create_info();
 
 		if (vkCreateSemaphore(m_logicalDevice.get_logical_device(), &semephoreCreateInfo, nullptr, &m_semaphore) != VK_SUCCESS)
 		{

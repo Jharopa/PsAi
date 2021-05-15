@@ -12,8 +12,7 @@ namespace PsAi::Renderer
 		{
 			VkImageView attachments[] = { swapchain.get_swapchain_image_views()[i] };
 
-			VkFramebufferCreateInfo framebufferCreateInfo{};
-			framebufferCreateInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
+			VkFramebufferCreateInfo framebufferCreateInfo = frame_buffer_create_info();
 			framebufferCreateInfo.renderPass = renderPass.get_render_pass();
 			framebufferCreateInfo.attachmentCount = 1;
 			framebufferCreateInfo.pAttachments = attachments;
