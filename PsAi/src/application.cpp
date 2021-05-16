@@ -19,8 +19,7 @@ namespace PsAi
 		uint32_t imageIndex;
 		vkAcquireNextImageKHR(m_logicalDevice.get_logical_device(), m_swapchain.get_swapchain(), UINT64_MAX, m_imageAvailableSemaphore.get_semaphore(), VK_NULL_HANDLE, &imageIndex);
 	
-		VkSubmitInfo submitInfo{};
-		submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+		VkSubmitInfo submitInfo = Renderer::submit_info();
 
 		VkSemaphore waitSemaphores[] = { m_imageAvailableSemaphore.get_semaphore() };
 		VkPipelineStageFlags waitStages[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
@@ -40,8 +39,7 @@ namespace PsAi
 			throw std::runtime_error("Failed to submit Vulkan draw command buffer");
 		}
 
-		VkPresentInfoKHR presentInfo{};
-		presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
+		VkPresentInfoKHR presentInfo = Renderer::present_info_ext();
 		
 		presentInfo.waitSemaphoreCount = 1;
 		presentInfo.pWaitSemaphores = signalSemaphores;

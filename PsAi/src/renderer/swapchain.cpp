@@ -18,7 +18,7 @@ namespace PsAi::Renderer
 			imageCount = swapchainSupport.capabilites.maxImageCount;
 		}
 
-		VkSwapchainCreateInfoKHR swapchainCreateInfo = swapchain_create_info();
+		VkSwapchainCreateInfoKHR swapchainCreateInfo = swapchain_create_info_ext();
 		swapchainCreateInfo.surface = m_surface.get_surface();
 
 		swapchainCreateInfo.minImageCount = imageCount;

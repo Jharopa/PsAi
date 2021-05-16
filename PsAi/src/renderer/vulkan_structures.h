@@ -12,214 +12,230 @@ namespace PsAi::Renderer
 		uint32_t engineVersion,
 		uint32_t vkAPIVersion)
 	{
-		VkApplicationInfo applicationInfo {};
-		applicationInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
-		applicationInfo.pApplicationName = applicationName;
-		applicationInfo.applicationVersion = applicationVersion;
-		applicationInfo.pEngineName = engineName;
-		applicationInfo.engineVersion = engineVersion;
-		applicationInfo.apiVersion = vkAPIVersion;
+		VkApplicationInfo ret {};
+		ret.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
+		ret.pApplicationName = applicationName;
+		ret.applicationVersion = applicationVersion;
+		ret.pEngineName = engineName;
+		ret.engineVersion = engineVersion;
+		ret.apiVersion = vkAPIVersion;
 
-		return applicationInfo;
+		return ret;
 	}
 
 	inline VkInstanceCreateInfo instance_create_info(VkApplicationInfo& applicationInfo)
 	{
-		VkInstanceCreateInfo instanceCreateInfo {};
-		instanceCreateInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
-		instanceCreateInfo.pApplicationInfo = &applicationInfo;
+		VkInstanceCreateInfo ret {};
+		ret.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+		ret.pApplicationInfo = &applicationInfo;
 
-		return instanceCreateInfo;
+		return ret;
 	}
 
 	inline VkDebugUtilsMessengerCreateInfoEXT debug_utils_messenger_create_info()
 	{
-		VkDebugUtilsMessengerCreateInfoEXT debugUtilsMessengerCreateInfo {};
-		debugUtilsMessengerCreateInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
-		debugUtilsMessengerCreateInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
-		debugUtilsMessengerCreateInfo.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
+		VkDebugUtilsMessengerCreateInfoEXT ret {};
+		ret.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
+		ret.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
+		ret.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
 	
-		return debugUtilsMessengerCreateInfo;
+		return ret;
 	}
 
-	inline VkSwapchainCreateInfoKHR swapchain_create_info()
+	inline VkSwapchainCreateInfoKHR swapchain_create_info_ext()
 	{
-		VkSwapchainCreateInfoKHR swapchainCreateInfo {};
-		swapchainCreateInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
+		VkSwapchainCreateInfoKHR ret {};
+		ret.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
 
-		return swapchainCreateInfo;
+		return ret;
 	}
 
 	inline VkImageViewCreateInfo image_view_create_info()
 	{
-		VkImageViewCreateInfo imageViewCreateInfo {};
-		imageViewCreateInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+		VkImageViewCreateInfo ret {};
+		ret.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
 
-		return imageViewCreateInfo;
+		return ret;
 	}
 
 	inline VkDeviceCreateInfo device_create_info()
 	{
-		VkDeviceCreateInfo deviceCreateInfo {};
-		deviceCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
+		VkDeviceCreateInfo ret {};
+		ret.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
 
-		return deviceCreateInfo;
+		return ret;
 	}
 
 	inline VkDeviceQueueCreateInfo device_queue_create_info()
 	{
-		VkDeviceQueueCreateInfo deviceQueueCreateInfo {};
-		deviceQueueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+		VkDeviceQueueCreateInfo ret {};
+		ret.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
 
-		return deviceQueueCreateInfo;
+		return ret;
 	}
 
 	inline VkRenderPassCreateInfo render_pass_create_info()
 	{
-		VkRenderPassCreateInfo renderPassCreateInfo {};
-		renderPassCreateInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
+		VkRenderPassCreateInfo ret {};
+		ret.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
 
-		return renderPassCreateInfo;
+		return ret;
 	}
 
 	inline VkShaderModuleCreateInfo shader_module_create_info()
 	{
-		VkShaderModuleCreateInfo shaderModuleCreateInfo {};
-		shaderModuleCreateInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
+		VkShaderModuleCreateInfo ret {};
+		ret.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
 
-		return shaderModuleCreateInfo;
+		return ret;
 	}
 
 	inline VkPipelineShaderStageCreateInfo pipeline_vertex_shader_stage_create_info()
 	{
-		VkPipelineShaderStageCreateInfo vertexShaderStageCreateInfo {};
-		vertexShaderStageCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
-		vertexShaderStageCreateInfo.stage = VK_SHADER_STAGE_VERTEX_BIT;
+		VkPipelineShaderStageCreateInfo ret {};
+		ret.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+		ret.stage = VK_SHADER_STAGE_VERTEX_BIT;
 
-		return vertexShaderStageCreateInfo;
+		return ret;
 	}
 
 	inline VkPipelineShaderStageCreateInfo pipeline_fragment_shader_stage_create_info()
 	{
-		VkPipelineShaderStageCreateInfo fragmentShaderStageCreateInfo {};
-		fragmentShaderStageCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
-		fragmentShaderStageCreateInfo.stage = VK_SHADER_STAGE_FRAGMENT_BIT;
+		VkPipelineShaderStageCreateInfo ret {};
+		ret.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+		ret.stage = VK_SHADER_STAGE_FRAGMENT_BIT;
 
-		return fragmentShaderStageCreateInfo;
+		return ret;
 	}
 
 	inline VkPipelineVertexInputStateCreateInfo pipeline_vertex_input_stage_create_info()
 	{
-		VkPipelineVertexInputStateCreateInfo vertexInputStageCreateInfo {};
-		vertexInputStageCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
+		VkPipelineVertexInputStateCreateInfo ret {};
+		ret.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
 
-		return vertexInputStageCreateInfo;
+		return ret;
 	}
 
 	inline VkPipelineInputAssemblyStateCreateInfo pipeline_input_assembly_state_create_info()
 	{
-		VkPipelineInputAssemblyStateCreateInfo inputAssemblyStateCreateInfo {};
-		inputAssemblyStateCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
+		VkPipelineInputAssemblyStateCreateInfo ret {};
+		ret.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
 
-		return inputAssemblyStateCreateInfo;
+		return ret;
 	}
 
 	inline VkPipelineViewportStateCreateInfo pipeline_viewport_state_create_info()
 	{
-		VkPipelineViewportStateCreateInfo viewportStateCreateInfo {};
-		viewportStateCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
+		VkPipelineViewportStateCreateInfo ret {};
+		ret.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
 
-		return viewportStateCreateInfo;
+		return ret;
 	}
 
 	inline VkPipelineRasterizationStateCreateInfo pipeline_rasterization_create_info()
 	{
-		VkPipelineRasterizationStateCreateInfo rasterizationStateCreateInfo {};
-		rasterizationStateCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
+		VkPipelineRasterizationStateCreateInfo ret {};
+		ret.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
 
-		return rasterizationStateCreateInfo;
+		return ret;
 	}
 
 	inline VkPipelineMultisampleStateCreateInfo pipeline_multisample_state_create_info()
 	{
-		VkPipelineMultisampleStateCreateInfo multisampleStateCreateInfo {};
-		multisampleStateCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
+		VkPipelineMultisampleStateCreateInfo ret {};
+		ret.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
 
-		return multisampleStateCreateInfo;
+		return ret;
 	}
 
 	inline VkPipelineColorBlendStateCreateInfo pipeline_color_blend_state_create_info()
 	{
-		VkPipelineColorBlendStateCreateInfo colorBlendStateCreateInfo {};
-		colorBlendStateCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
+		VkPipelineColorBlendStateCreateInfo ret {};
+		ret.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
 
-		return colorBlendStateCreateInfo;
+		return ret;
 	}
 
 	inline VkPipelineLayoutCreateInfo pipeline_layout_create_info()
 	{
-		VkPipelineLayoutCreateInfo pipelineLayoutCreateInfo {};
-		pipelineLayoutCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
+		VkPipelineLayoutCreateInfo ret {};
+		ret.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
 
-		return pipelineLayoutCreateInfo;
+		return ret;
 	}
 
 	inline VkGraphicsPipelineCreateInfo graphics_pipeline_create_info()
 	{
-		VkGraphicsPipelineCreateInfo graphicsPipelineCreateInfo {};
-		graphicsPipelineCreateInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
-		graphicsPipelineCreateInfo.basePipelineHandle = VK_NULL_HANDLE;
-		graphicsPipelineCreateInfo.basePipelineIndex = -1;
+		VkGraphicsPipelineCreateInfo ret {};
+		ret.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
+		ret.basePipelineHandle = VK_NULL_HANDLE;
+		ret.basePipelineIndex = -1;
 
-		return graphicsPipelineCreateInfo;
+		return ret;
 	}
 
 	inline VkFramebufferCreateInfo frame_buffer_create_info()
 	{
-		VkFramebufferCreateInfo frameBufferCreateInfo {};
-		frameBufferCreateInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
+		VkFramebufferCreateInfo ret {};
+		ret.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
 
-		return frameBufferCreateInfo;
+		return ret;
 	}
 
 	inline VkCommandPoolCreateInfo command_pool_create_info()
 	{
-		VkCommandPoolCreateInfo commandBufferCreateInfo {};
-		commandBufferCreateInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
+		VkCommandPoolCreateInfo ret {};
+		ret.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
 
-		return commandBufferCreateInfo;
+		return ret;
 	}
 
 	inline VkCommandBufferAllocateInfo command_buffer_allocate_info()
 	{
-		VkCommandBufferAllocateInfo commandBufferAllocateInfo {};
-		commandBufferAllocateInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
+		VkCommandBufferAllocateInfo ret {};
+		ret.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
 
-		return commandBufferAllocateInfo;
+		return ret;
 	}
 
 	inline VkCommandBufferBeginInfo command_buffer_begin_info()
 	{
-		VkCommandBufferBeginInfo commandBufferBeginInfo {};
-		commandBufferBeginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+		VkCommandBufferBeginInfo ret {};
+		ret.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
 
-		return commandBufferBeginInfo;
+		return ret;
 	}
 
 	inline VkRenderPassBeginInfo render_pass_begin_info()
 	{
-		VkRenderPassBeginInfo renderPassBeginInfo {};
-		renderPassBeginInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+		VkRenderPassBeginInfo ret {};
+		ret.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
 
-		return renderPassBeginInfo;
+		return ret;
 	}
 
 	inline VkSemaphoreCreateInfo semaphore_create_info()
 	{
-		VkSemaphoreCreateInfo semephoreCreateInfo {};
-		semephoreCreateInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
+		VkSemaphoreCreateInfo ret {};
+		ret.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
 
-		return semephoreCreateInfo;
+		return ret;
+	}
+
+	inline VkSubmitInfo submit_info()
+	{
+		VkSubmitInfo ret {};
+		ret.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+
+		return ret;
+	}
+
+	inline VkPresentInfoKHR present_info_ext()
+	{
+		VkPresentInfoKHR ret {};
+		ret.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
+
+		return ret;
 	}
 
 } // PsAi::Renderer namespace
