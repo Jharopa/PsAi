@@ -7,7 +7,7 @@ namespace PsAi::Renderer
 	VkResult create_debug_utils_messenger(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger);
 	void destroy_debug_utils_messenger(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator);
 
-	Instance::Instance(VkApplicationInfo applicationInfo, std::vector<std::string> extensionsList, bool validationEnabled)
+	Instance::Instance(VkApplicationInfo applicationInfo, std::vector<std::string> requestedExtensions, bool validationEnabled)
 		: m_validationEnabled(validationEnabled)
 	{
 
@@ -33,10 +33,8 @@ namespace PsAi::Renderer
 		VkInstanceCreateInfo instanceCreateInfo = instance_create_info(applicationInfo);
 
 		// Setting up VKInstance's extensions
-		std::vector<const char*> enabledExtensions = {};
-
 		#ifndef NDEBUG
-			extensionsList.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+			requestedExtensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
 		#endif
 
 		// Get GLFW extensions and extension count
@@ -60,17 +58,17 @@ namespace PsAi::Renderer
 		for (const auto& glfwExtension : glfwExtensionsList)
 		{
 			PSAI_LOG_DEBUG("'{}', adding to extension list", glfwExtension);
-			extensionsList.push_back(glfwExtension);
+			requestedExtensions.push_back(glfwExtension);
 		}
 
 		// Iterate over extensionList vector
-		for (const auto& requestedExtension : extensionsList)
+		for (const auto& requestedExtension : requestedExtensions)
 		{
 			// If current requested extension is supported added to enabledExtensions vector, else don't add to enabledExtensions vector
 			if (is_extension_supported(requestedExtension.c_str()))
 			{
 				PSAI_LOG_DEBUG("Instance extension '{}' is available on this system, adding to enabled extensions list", requestedExtension);
-				enabledExtensions.push_back(requestedExtension.c_str());
+				m_enabledExtensions.push_back(requestedExtension.c_str());
 			}
 			else
 			{
@@ -78,14 +76,14 @@ namespace PsAi::Renderer
 			}
 		}
 			
-		instanceCreateInfo.enabledExtensionCount = static_cast<uint32_t>(enabledExtensions.size());
-		instanceCreateInfo.ppEnabledExtensionNames = enabledExtensions.data();
-			
-		std::vector<const char*> enabledValidationLayers = {};
-		std::string VK_LAYER_KHRONOS_validation = "VK_LAYER_KHRONOS_validation";
+		instanceCreateInfo.enabledExtensionCount = static_cast<uint32_t>(m_enabledExtensions.size());
+		instanceCreateInfo.ppEnabledExtensionNames = m_enabledExtensions.data();
 
 		// Setting up VKInstance's validation layers
 		#ifndef NDEBUG
+
+			std::vector<const char*> m_enabledLayers = {};
+			std::string VK_LAYER_KHRONOS_validation = "VK_LAYER_KHRONOS_validation";
 				
 			if(m_validationEnabled)
 			{
@@ -94,15 +92,15 @@ namespace PsAi::Renderer
 				if (is_layer_supported(VK_LAYER_KHRONOS_validation.c_str()))
 				{
 					PSAI_LOG_DEBUG("Instance validation layer '{}' is available on this system, adding to enabled validation layers list", VK_LAYER_KHRONOS_validation);
-					enabledValidationLayers.push_back(VK_LAYER_KHRONOS_validation.c_str());
+					m_enabledLayers.push_back(VK_LAYER_KHRONOS_validation.c_str());
 				}
 				else
 				{
 					PSAI_LOG_DEBUG("Instance validation layer '{}' is not available on this system", VK_LAYER_KHRONOS_validation);
 				}
 
-				instanceCreateInfo.enabledLayerCount = static_cast<uint32_t>(enabledValidationLayers.size());
-				instanceCreateInfo.ppEnabledLayerNames = enabledValidationLayers.data();
+				instanceCreateInfo.enabledLayerCount = static_cast<uint32_t>(m_enabledLayers.size());
+				instanceCreateInfo.ppEnabledLayerNames = m_enabledLayers.data();
 
 				VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo;
 
@@ -215,7 +213,7 @@ namespace PsAi::Renderer
 			}
 		}
 
-		// If none of the layer.layerNames matches the provided layerName return false
+		// If none of the layer layerNames matches the provided layerName return false
 		return false;
 	}
 

@@ -140,6 +140,9 @@
     <ClInclude Include="src\renderer\vulkan_structures.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\util\non_copy_non_move.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\compile.bat">

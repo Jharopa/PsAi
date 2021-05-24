@@ -1,6 +1,7 @@
 #pragma once
 
 // PsAi includes
+#include "../util/non_copy_non_move.h"
 #include "../log.h"
 #include "window.h"
 #include "vulkan_structures.h"
@@ -19,25 +20,24 @@
 namespace PsAi::Renderer
 {
 
-	class Instance
+	class Instance : public Util::NonCopyableNonMoveable
 	{
 		public:
-			Instance(VkApplicationInfo applicationInfo, std::vector<std::string> extensionsList, bool validationEnabled);
+			// Ctor + dtor
+			Instance(VkApplicationInfo applicationInfo, std::vector<std::string> requestedExtensions, bool validationEnabled);
 			~Instance();
-
-			// Non-copyable and non-movable
-			Instance(const Instance&) = delete;
-			Instance(Instance&&) = delete;
-			Instance& operator=(const Instance&) = delete;
-			Instance& operator=(Instance&&) = delete;
 
 			const VkInstance& get_instance() const { return m_instance; }
 			bool is_validation_enabled() const { return m_validationEnabled; }
+			const std::vector<const char*> get_enabled_extensions() const { return m_enabledExtensions; }
+			const std::vector<const char*> get_enabled_layers() const { return m_enabledLayers; }
 
 		private:
 			VkInstance m_instance = VK_NULL_HANDLE;
 			VkDebugUtilsMessengerEXT m_debugMessenger = VK_NULL_HANDLE;
 			bool m_validationEnabled;
+			std::vector<const char*> m_enabledExtensions = {};
+			std::vector<const char*> m_enabledLayers = {};
 
 			bool is_extension_supported(std::string extensionName);
 			bool is_layer_supported(std::string layerName);

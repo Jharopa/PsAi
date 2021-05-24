@@ -132,6 +132,7 @@
     <ClInclude Include="src\renderer\swapchain.h" />
     <ClInclude Include="src\renderer\vulkan_structures.h" />
     <ClInclude Include="src\renderer\window.h" />
+    <ClInclude Include="src\util\non_copy_non_move.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\compile.bat" />
