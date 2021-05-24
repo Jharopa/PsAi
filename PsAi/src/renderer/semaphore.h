@@ -1,6 +1,7 @@
 #pragma once
 
 // PsAi includes
+#include "../util/non_copy_non_move.h"
 #include "logical_device.h"
 
 // Vulkan includes
@@ -9,23 +10,18 @@
 namespace PsAi::Renderer
 {
 
-	class Semaphore
+	class Semaphore : public Util::NonCopyableNonMoveable
 	{
-	public:
-		// Public member functions
-		Semaphore(const LogicalDevice& logicalDevice);
-		~Semaphore();
+		public:
+			// Public member functions
+			Semaphore(const LogicalDevice& logicalDevice);
+			~Semaphore();
 
-		Semaphore(const Semaphore&) = delete;
-		Semaphore(Semaphore&&) = delete;
-		Semaphore& operator=(const Semaphore&) = delete;
-		Semaphore& operator=(Semaphore&&) = delete;
+			const VkSemaphore& get_semaphore() const { return m_semaphore; }
 
-		const VkSemaphore& get_semaphore() const { return m_semaphore; }
-
-	private:
-		VkSemaphore m_semaphore = VK_NULL_HANDLE;
-		const LogicalDevice& m_logicalDevice;
+		private:
+			VkSemaphore m_semaphore = VK_NULL_HANDLE;
+			const LogicalDevice& m_logicalDevice;
 	};
 
 } // PsAi::Renderer namespace

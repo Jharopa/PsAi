@@ -1,6 +1,7 @@
 #pragma once
 
 // PsAi includes
+#include "../util/non_copy_non_move.h"
 #include "logical_device.h"
 #include "swapchain.h"
 #include "render_pass.h"
@@ -19,17 +20,11 @@
 namespace PsAi::Renderer
 {
 
-	class Framebuffer
+	class Framebuffer : public Util::NonCopyableNonMoveable
 	{
 		public:
 			Framebuffer(const LogicalDevice& logicalDevice, const Swapchain& swapchain, const RenderPass& renderPass);
 			~Framebuffer();
-
-			// Non-copyable and non-movable
-			Framebuffer(const Framebuffer&) = delete;
-			Framebuffer(Framebuffer&&) = delete;
-			Framebuffer& operator=(const Framebuffer&) = delete;
-			Framebuffer& operator=(Framebuffer&&) = delete;
 
 			std::vector<VkFramebuffer> get_swapchain_framebuffers() const { return m_swapchaninFramebuffers; }
 

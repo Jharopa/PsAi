@@ -1,6 +1,7 @@
 #pragma once
 
 // PsAi includes
+#include "../util/non_copy_non_move.h"
 #include "logical_device.h"
 #include "swapchain.h"
 
@@ -10,16 +11,11 @@
 namespace PsAi::Renderer
 {
 
-	class RenderPass
+	class RenderPass : public Util::NonCopyableNonMoveable
 	{
 		public:
 			RenderPass(const LogicalDevice& logicalDevice, const Swapchain& swapchain);
 			~RenderPass();
-
-			RenderPass(const RenderPass&) = delete;
-			RenderPass(RenderPass&&) = delete;
-			RenderPass& operator=(const RenderPass&) = delete;
-			RenderPass& operator=(RenderPass&&) = delete;
 
 			const VkRenderPass& get_render_pass() const { return m_renderPass; }
 

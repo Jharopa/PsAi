@@ -1,5 +1,7 @@
 #pragma once
 
+// PsAi includes
+#include "../util/non_copy_non_move.h"
 #include "instance.h"
 #include "physical_device.h"
 #include "surface.h"
@@ -14,17 +16,11 @@
 namespace PsAi::Renderer
 {
 
-	class LogicalDevice
+	class LogicalDevice : public Util::NonCopyableNonMoveable
 	{
 		public:
 			LogicalDevice(const Instance& instance, const PhysicalDevice& physicalDevice, const Surface& surface);
 			~LogicalDevice();
-
-			// Non-copyable and non-movable
-			LogicalDevice(const LogicalDevice&) = delete;
-			LogicalDevice(LogicalDevice&&) = delete;
-			LogicalDevice& operator=(const LogicalDevice&) = delete;
-			LogicalDevice& operator=(LogicalDevice&&) = delete;
 
 			const VkDevice& get_logical_device() const { return m_logicalDevice; }
 			const VkQueue get_graphics_queue() const { return m_graphicsQueue; }

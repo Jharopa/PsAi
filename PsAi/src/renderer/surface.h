@@ -1,6 +1,7 @@
 #pragma once
 
 // PsAi includes
+#include "../util/non_copy_non_move.h"
 #include "instance.h"
 #include "../log.h"
 
@@ -14,17 +15,11 @@
 namespace PsAi::Renderer
 {
 	
-	class Surface
+	class Surface : public Util::NonCopyableNonMoveable
 	{
 		public:
 			Surface(const Instance& instance, GLFWwindow* window);
 			~Surface();
-
-			// Non-copyable and non-movable
-			Surface(const Surface&) = delete;
-			Surface(Surface&&) = delete;
-			Surface& operator=(const Surface&) = delete;
-			Surface& operator=(Surface&&) = delete;
 
 			const VkSurfaceKHR& get_surface() const { return m_surface; }
 

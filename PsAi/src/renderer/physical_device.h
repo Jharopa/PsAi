@@ -1,8 +1,9 @@
 #pragma once
 
 // PsAi includes
-#include "instance.h"
+#include "../util/non_copy_non_move.h"
 #include "../log.h"
+#include "instance.h"
 
 // Vulkan includes
 #include <vulkan/vulkan.h>
@@ -17,17 +18,11 @@
 namespace PsAi::Renderer
 {
 
-	class PhysicalDevice
+	class PhysicalDevice : public Util::NonCopyableNonMoveable
 	{
 		public:
 			PhysicalDevice(const Instance& instance);
 			~PhysicalDevice();
-
-			// Non-copyable and non-movable
-			PhysicalDevice(const PhysicalDevice&) = delete;
-			PhysicalDevice(PhysicalDevice&&) = delete;
-			PhysicalDevice& operator=(const PhysicalDevice&) = delete;
-			PhysicalDevice& operator=(PhysicalDevice&&) = delete;
 
 			const VkPhysicalDevice& get_physical_device() const { return m_physicalDevice; }
 

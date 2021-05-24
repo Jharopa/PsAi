@@ -1,6 +1,7 @@
 #pragma once
 
 // PsAi includes
+#include "../util/non_copy_non_move.h"
 #include "physical_device.h"
 #include "surface.h"
 #include "logical_device.h"
@@ -12,17 +13,11 @@
 namespace PsAi::Renderer
 {
 
-	class CommandPool
+	class CommandPool : public Util::NonCopyableNonMoveable
 	{
 		public:
 			CommandPool(const LogicalDevice& logicalDevice, const PhysicalDevice& physicalDevice, const Surface& surface);
 			~CommandPool();
-
-			// Non-copyable and non-movable
-			CommandPool(const CommandPool&) = delete;
-			CommandPool(CommandPool&&) = delete;
-			CommandPool& operator=(const CommandPool&) = delete;
-			CommandPool& operator=(CommandPool&&) = delete;
 
 			const VkCommandPool& get_command_pool() const { return m_commandPool; }
 

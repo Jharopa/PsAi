@@ -1,6 +1,7 @@
 #pragma once
 
 // PsAi includes
+#include "../util/non_copy_non_move.h"
 #include "physical_device.h"
 #include "logical_device.h"
 #include "surface.h"
@@ -20,17 +21,11 @@ namespace PsAi::Renderer
 {
 	struct SwapchainSupportDetails;
 
-	class Swapchain
+	class Swapchain : public Util::NonCopyableNonMoveable
 	{
 		public:
 			Swapchain(PhysicalDevice& physicalDevice, LogicalDevice& logicalDevice, Surface& surface, GLFWwindow* window);
 			~Swapchain();
-
-			// Non-copyable and non-movable
-			Swapchain(const Swapchain&) = delete;
-			Swapchain(Swapchain&&) = delete;
-			Swapchain& operator=(const Swapchain&) = delete;
-			Swapchain& operator=(Swapchain&&) = delete;
 
 			const VkSwapchainKHR& get_swapchain() const { return m_swapchain; }
 			const std::vector<VkImageView> get_swapchain_image_views() const { return m_swapchainImageViews; }

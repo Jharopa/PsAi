@@ -1,5 +1,7 @@
 #pragma once
 
+// PsAi includes
+#include "../util/non_copy_non_move.h"
 #include "logical_device.h"
 
 // Vulkan includes
@@ -13,17 +15,11 @@
 namespace PsAi::Renderer
 {
 
-	class Shader
+	class Shader : public Util::NonCopyableNonMoveable
 	{
 		public:
 			Shader(const LogicalDevice& logicalDevice, const std::string& filePath);
 			~Shader();
-
-			// Non-movable and non-copyable
-			Shader(const Shader&) = delete;
-			Shader(Shader&&) = delete;
-			Shader& operator=(const Shader&) = delete;
-			Shader& operator=(Shader&&) = delete;
 
 			const VkShaderModule& get_shader_module() const { return m_shaderModule; }
 

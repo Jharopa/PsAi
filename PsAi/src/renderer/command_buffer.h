@@ -1,6 +1,7 @@
 #pragma once
 
 // PsAi includes
+#include "../util/non_copy_non_move.h"
 #include "vulkan_structures.h"
 #include "logical_device.h"
 #include "framebuffer.h"
@@ -17,17 +18,11 @@
 namespace PsAi::Renderer
 {
 
-	class CommandBuffer
+	class CommandBuffer : public Util::NonCopyableNonMoveable
 	{
 		public:
 			CommandBuffer(const LogicalDevice& logicalDevice, const Swapchain& swapchain, const Framebuffer& framebuffers, const CommandPool& commandPool, const RenderPass& renderPass, const Pipeline& graphicsPipeline);
 			~CommandBuffer();
-
-			// Non-copyable and non-movable
-			CommandBuffer(const CommandBuffer&) = delete;
-			CommandBuffer(CommandBuffer&&) = delete;
-			CommandBuffer& operator=(const CommandBuffer&) = delete;
-			CommandBuffer& operator=(CommandBuffer&&) = delete;
 
 			const std::vector<VkCommandBuffer>& get_command_buffer() const { return m_commandBuffers; }
 

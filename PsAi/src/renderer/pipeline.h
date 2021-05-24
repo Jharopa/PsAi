@@ -1,11 +1,12 @@
 #pragma once
 
 // PsAi includes
+#include "../util/non_copy_non_move.h"
+#include "../log.h"
 #include "vulkan_structures.h"
 #include "logical_device.h"
 #include "render_pass.h"
 #include "shader.h"
-#include "../log.h"
 
 // STD library includes
 #include <string>
@@ -13,21 +14,16 @@
 #include <fstream>
 #include <iostream>
 
-namespace PsAi::Renderer
+namespace PsAi::Renderer 
 {
 	
-	class Pipeline
+	class Pipeline : public Util::NonCopyableNonMoveable
 	{
 		public:
 			// Public member functions
 			Pipeline(const LogicalDevice& logicalDevice, const RenderPass& renderPass, const Shader& vertShader, const Shader& fragShader, int width, int height);
 			~Pipeline();
-
-			Pipeline(const Pipeline&) = delete;
-			Pipeline(Pipeline&&) = delete;
-			Pipeline& operator=(const Pipeline&) = delete;
-			Pipeline& operator=(Pipeline&&) = delete;
-
+			
 			const VkPipeline& get_graphics_pipeline() const { return m_graphicsPipeline; }
 
 		private:
