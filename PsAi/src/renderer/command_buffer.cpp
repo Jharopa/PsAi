@@ -30,7 +30,7 @@ namespace PsAi::Renderer
 			renderPassInfo.renderPass = renderPass;
 			renderPassInfo.framebuffer = framebuffers.get_swapchain_framebuffers()[i];
 			renderPassInfo.renderArea.offset = { 0, 0 };
-			renderPassInfo.renderArea.extent = swapchain.get_extent();
+			renderPassInfo.renderArea.extent = swapchain.get_image_extent();
 
 			VkClearValue clearColor = { 0.0f, 0.0f, 0.0f, 1.0f};
 			renderPassInfo.clearValueCount = 1;

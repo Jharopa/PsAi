@@ -28,16 +28,21 @@ namespace PsAi::Renderer
 			~Swapchain();
 
 			const VkSwapchainKHR& get_swapchain() const { return m_swapchain; }
-			const std::vector<VkImageView> get_swapchain_image_views() const { return m_swapchainImageViews; }
-			const VkFormat& get_image_format() const { return m_swapchainImageFormat; }
-			const VkExtent2D& get_extent() const { return m_swapchainExtent; }
+			std::vector<VkImageView> get_swapchain_image_views() const { return m_swapchainImageViews; }
+			VkFormat get_image_format() const { return m_swapchainSurfaceFormat.format; }
+			VkExtent2D get_image_extent() const { return m_swapchainImageExtent; }
+			uint32_t get_swapchain_image_count() const { return m_swapchainImageCount; }
 
 		private:
 			VkSwapchainKHR m_swapchain = VK_NULL_HANDLE;
+
 			std::vector<VkImage> m_swapchainImages;
 			std::vector<VkImageView> m_swapchainImageViews;
-			VkFormat m_swapchainImageFormat;
-			VkExtent2D m_swapchainExtent;
+			uint32_t m_swapchainImageCount = 0;
+
+			VkSurfaceFormatKHR m_swapchainSurfaceFormat;
+			VkPresentModeKHR m_presentMode;
+			VkExtent2D m_swapchainImageExtent;
 
 			VkPhysicalDevice m_physicalDevice;
 			VkDevice m_logicalDevice;
@@ -45,9 +50,9 @@ namespace PsAi::Renderer
 			GLFWwindow* m_window;
 
 			SwapchainSupportDetails query_swapchain_support();
-			VkSurfaceFormatKHR choose_swap_surface_format(const std::vector<VkSurfaceFormatKHR>& availableFormats);
-			VkPresentModeKHR choose_swap_present_mode(const std::vector<VkPresentModeKHR>& availablePresentModes);
-			VkExtent2D choose_swap_extent(const VkSurfaceCapabilitiesKHR& capabilities);
+			VkSurfaceFormatKHR choose_swapchain_surface_format(const std::vector<VkSurfaceFormatKHR>& availableFormats);
+			VkPresentModeKHR choose_swapchain_present_mode(const std::vector<VkPresentModeKHR>& availablePresentModes);
+			VkExtent2D choose_swapchain_image_extent(const VkSurfaceCapabilitiesKHR& capabilities);
 	};
 
 	struct SwapchainSupportDetails

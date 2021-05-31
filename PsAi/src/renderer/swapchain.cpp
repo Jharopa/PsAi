@@ -7,24 +7,24 @@ namespace PsAi::Renderer
 		: m_physicalDevice(physicalDevice), m_logicalDevice(logicalDevice), m_surface(surface), m_window(window)
 	{
 		SwapchainSupportDetails swapchainSupport = query_swapchain_support();
-		VkSurfaceFormatKHR surfaceFormat = choose_swap_surface_format(swapchainSupport.formats);
-		VkPresentModeKHR presentMode = choose_swap_present_mode(swapchainSupport.presentModes);
-		VkExtent2D extent = choose_swap_extent(swapchainSupport.capabilites);
+		m_swapchainSurfaceFormat = choose_swapchain_surface_format(swapchainSupport.formats);
+		m_presentMode = choose_swapchain_present_mode(swapchainSupport.presentModes);
+		m_swapchainImageExtent = choose_swapchain_image_extent(swapchainSupport.capabilites);
 
-		uint32_t imageCount = swapchainSupport.capabilites.minImageCount + 1;
+		m_swapchainImageCount = swapchainSupport.capabilites.minImageCount + 1;
 		
-		if (swapchainSupport.capabilites.maxImageCount > 0 && imageCount > swapchainSupport.capabilites.maxImageCount)
+		if (swapchainSupport.capabilites.maxImageCount > 0 && m_swapchainImageCount > swapchainSupport.capabilites.maxImageCount)
 		{
-			imageCount = swapchainSupport.capabilites.maxImageCount;
+			m_swapchainImageCount = swapchainSupport.capabilites.maxImageCount;
 		}
 
 		VkSwapchainCreateInfoKHR swapchainCreateInfo = swapchain_create_info_ext();
 		swapchainCreateInfo.surface = m_surface;
 
-		swapchainCreateInfo.minImageCount = imageCount;
-		swapchainCreateInfo.imageFormat = surfaceFormat.format;
-		swapchainCreateInfo.imageColorSpace = surfaceFormat.colorSpace;
-		swapchainCreateInfo.imageExtent = extent;
+		swapchainCreateInfo.minImageCount = m_swapchainImageCount;
+		swapchainCreateInfo.imageFormat = m_swapchainSurfaceFormat.format;
+		swapchainCreateInfo.imageColorSpace = m_swapchainSurfaceFormat.colorSpace;
+		swapchainCreateInfo.imageExtent = m_swapchainImageExtent;
 		swapchainCreateInfo.imageArrayLayers = 1;
 		swapchainCreateInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
 
@@ -46,7 +46,7 @@ namespace PsAi::Renderer
 
 		swapchainCreateInfo.preTransform = swapchainSupport.capabilites.currentTransform;
 		swapchainCreateInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
-		swapchainCreateInfo.presentMode = presentMode;
+		swapchainCreateInfo.presentMode = m_presentMode;
 		swapchainCreateInfo.clipped = VK_TRUE;
 
 		swapchainCreateInfo.oldSwapchain = VK_NULL_HANDLE;
@@ -56,12 +56,9 @@ namespace PsAi::Renderer
 			throw std::runtime_error("Failed to create swap chain!");
 		}
 
-		vkGetSwapchainImagesKHR(m_logicalDevice, m_swapchain, &imageCount, nullptr);
-		m_swapchainImages.resize(imageCount);
-		vkGetSwapchainImagesKHR(m_logicalDevice, m_swapchain, &imageCount, m_swapchainImages.data());
-		
-		m_swapchainImageFormat = surfaceFormat.format;
-		m_swapchainExtent = extent;
+		vkGetSwapchainImagesKHR(m_logicalDevice, m_swapchain, &m_swapchainImageCount, nullptr);
+		m_swapchainImages.resize(m_swapchainImageCount);
+		vkGetSwapchainImagesKHR(m_logicalDevice, m_swapchain, &m_swapchainImageCount, m_swapchainImages.data());
 
 		m_swapchainImageViews.resize(m_swapchainImages.size());
 
@@ -70,7 +67,7 @@ namespace PsAi::Renderer
 			VkImageViewCreateInfo imageViewCreateInfo = image_view_create_info();
 			imageViewCreateInfo.image = m_swapchainImages[i];
 			imageViewCreateInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
-			imageViewCreateInfo.format = m_swapchainImageFormat;
+			imageViewCreateInfo.format = m_swapchainSurfaceFormat.format;
 			imageViewCreateInfo.components.r = VK_COMPONENT_SWIZZLE_IDENTITY;
 			imageViewCreateInfo.components.g = VK_COMPONENT_SWIZZLE_IDENTITY;
 			imageViewCreateInfo.components.b = VK_COMPONENT_SWIZZLE_IDENTITY;
@@ -125,7 +122,7 @@ namespace PsAi::Renderer
 		return details;
 	}
 
-	VkSurfaceFormatKHR Swapchain::choose_swap_surface_format(const std::vector<VkSurfaceFormatKHR>& availableFormats)
+	VkSurfaceFormatKHR Swapchain::choose_swapchain_surface_format(const std::vector<VkSurfaceFormatKHR>& availableFormats)
 	{
 		for (const auto& availableFormat : availableFormats)
 		{
@@ -138,20 +135,30 @@ namespace PsAi::Renderer
 		return availableFormats[0];
 	}
 
-	VkPresentModeKHR Swapchain::choose_swap_present_mode(const std::vector<VkPresentModeKHR>& availablePresentModes)
+	VkPresentModeKHR Swapchain::choose_swapchain_present_mode(const std::vector<VkPresentModeKHR>& availablePresentModes)
 	{
-		for (const auto& availablePresentMode : availablePresentModes)
+		
+		if (std::find(availablePresentModes.begin(), availablePresentModes.end(), VK_PRESENT_MODE_MAILBOX_KHR) != availablePresentModes.end())
 		{
-			if (availablePresentMode == VK_PRESENT_MODE_MAILBOX_KHR)
-			{
-				return availablePresentMode;
-			}
+			return VK_PRESENT_MODE_MAILBOX_KHR;
+		}
+		else if (std::find(availablePresentModes.begin(), availablePresentModes.end(), VK_PRESENT_MODE_FIFO_KHR) != availablePresentModes.end())
+		{
+			return VK_PRESENT_MODE_FIFO_KHR;
+		}
+		else if (std::find(availablePresentModes.begin(), availablePresentModes.end(), VK_PRESENT_MODE_FIFO_RELAXED_KHR) != availablePresentModes.end())
+		{
+			return VK_PRESENT_MODE_FIFO_RELAXED_KHR;
+		}
+		else if (std::find(availablePresentModes.begin(), availablePresentModes.end(), VK_PRESENT_MODE_IMMEDIATE_KHR) != availablePresentModes.end())
+		{
+			return VK_PRESENT_MODE_IMMEDIATE_KHR;
 		}
 
-		return VK_PRESENT_MODE_FIFO_KHR;
+		throw std::runtime_error("There are no appropriate present modes available");
 	}
 
-	VkExtent2D Swapchain::choose_swap_extent(const VkSurfaceCapabilitiesKHR& capabilities)
+	VkExtent2D Swapchain::choose_swapchain_image_extent(const VkSurfaceCapabilitiesKHR& capabilities)
 	{
 		if (capabilities.currentExtent.width != UINT32_MAX)
 		{
@@ -162,15 +169,15 @@ namespace PsAi::Renderer
 			int width, height;
 			glfwGetFramebufferSize(m_window, &width, &height);
 
-			VkExtent2D actualExtent = {
+			VkExtent2D actualImageExtent = {
 				static_cast<uint32_t>(width),
 				static_cast<uint32_t>(height)
 			};
 
-			actualExtent.width = std::max(capabilities.minImageExtent.width, std::min(capabilities.maxImageExtent.width, actualExtent.width));
-			actualExtent.height = std::max(capabilities.minImageExtent.height, std::min(capabilities.maxImageExtent.height, actualExtent.height));
+			actualImageExtent.width = std::max(capabilities.minImageExtent.width, std::min(capabilities.maxImageExtent.width, actualImageExtent.width));
+			actualImageExtent.height = std::max(capabilities.minImageExtent.height, std::min(capabilities.maxImageExtent.height, actualImageExtent.height));
 
-			return actualExtent;
+			return actualImageExtent;
 		}
 	}
 

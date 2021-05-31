@@ -16,8 +16,8 @@ namespace PsAi::Renderer
 			framebufferCreateInfo.renderPass = renderPass;
 			framebufferCreateInfo.attachmentCount = 1;
 			framebufferCreateInfo.pAttachments = attachments;
-			framebufferCreateInfo.width = swapchain.get_extent().width;
-			framebufferCreateInfo.height = swapchain.get_extent().height;
+			framebufferCreateInfo.width = swapchain.get_image_extent().width;
+			framebufferCreateInfo.height = swapchain.get_image_extent().height;
 			framebufferCreateInfo.layers = 1;
 
 			if (vkCreateFramebuffer(m_logicalDevice, &framebufferCreateInfo, nullptr, &m_swapchaninFramebuffers[i]) != VK_SUCCESS)
