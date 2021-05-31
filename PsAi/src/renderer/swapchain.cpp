@@ -3,7 +3,7 @@
 namespace PsAi::Renderer
 {
 	
-	Swapchain::Swapchain(PhysicalDevice& physicalDevice, LogicalDevice& logicalDevice, Surface& surface, GLFWwindow* window)
+	Swapchain::Swapchain(VkPhysicalDevice physicalDevice, VkDevice logicalDevice, VkSurfaceKHR surface, GLFWwindow* window)
 		: m_physicalDevice(physicalDevice), m_logicalDevice(logicalDevice), m_surface(surface), m_window(window)
 	{
 		SwapchainSupportDetails swapchainSupport = query_swapchain_support();
@@ -19,7 +19,7 @@ namespace PsAi::Renderer
 		}
 
 		VkSwapchainCreateInfoKHR swapchainCreateInfo = swapchain_create_info_ext();
-		swapchainCreateInfo.surface = m_surface.get_surface();
+		swapchainCreateInfo.surface = m_surface;
 
 		swapchainCreateInfo.minImageCount = imageCount;
 		swapchainCreateInfo.imageFormat = surfaceFormat.format;
@@ -28,7 +28,7 @@ namespace PsAi::Renderer
 		swapchainCreateInfo.imageArrayLayers = 1;
 		swapchainCreateInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
 
-		QueueFamilyIndices indices = HelperFunctions::find_queue_families(m_physicalDevice.get_physical_device(), m_surface.get_surface());
+		QueueFamilyIndices indices = HelperFunctions::find_queue_families(m_physicalDevice, m_surface);
 		uint32_t queueFamiliesIndices[] = { indices.graphicsFamily.value(), indices.presentFamily.value() };
 
 		if (indices.graphicsFamily != indices.presentFamily)
@@ -51,14 +51,14 @@ namespace PsAi::Renderer
 
 		swapchainCreateInfo.oldSwapchain = VK_NULL_HANDLE;
 
-		if (vkCreateSwapchainKHR(m_logicalDevice.get_logical_device(), &swapchainCreateInfo, nullptr, &m_swapchain) != VK_SUCCESS)
+		if (vkCreateSwapchainKHR(m_logicalDevice, &swapchainCreateInfo, nullptr, &m_swapchain) != VK_SUCCESS)
 		{
 			throw std::runtime_error("Failed to create swap chain!");
 		}
 
-		vkGetSwapchainImagesKHR(m_logicalDevice.get_logical_device(), m_swapchain, &imageCount, nullptr);
+		vkGetSwapchainImagesKHR(m_logicalDevice, m_swapchain, &imageCount, nullptr);
 		m_swapchainImages.resize(imageCount);
-		vkGetSwapchainImagesKHR(m_logicalDevice.get_logical_device(), m_swapchain, &imageCount, m_swapchainImages.data());
+		vkGetSwapchainImagesKHR(m_logicalDevice, m_swapchain, &imageCount, m_swapchainImages.data());
 		
 		m_swapchainImageFormat = surfaceFormat.format;
 		m_swapchainExtent = extent;
@@ -81,7 +81,7 @@ namespace PsAi::Renderer
 			imageViewCreateInfo.subresourceRange.baseArrayLayer = 0;
 			imageViewCreateInfo.subresourceRange.layerCount = 1;
 
-			if (vkCreateImageView(m_logicalDevice.get_logical_device(), &imageViewCreateInfo, nullptr, &m_swapchainImageViews[i]) != VK_SUCCESS)
+			if (vkCreateImageView(m_logicalDevice, &imageViewCreateInfo, nullptr, &m_swapchainImageViews[i]) != VK_SUCCESS)
 			{
 				throw std::runtime_error("Failed to create Vulkan image views!");
 			}
@@ -92,34 +92,34 @@ namespace PsAi::Renderer
 	{
 		for (auto imageView : m_swapchainImageViews)
 		{
-			vkDestroyImageView(m_logicalDevice.get_logical_device(), imageView, nullptr);
+			vkDestroyImageView(m_logicalDevice, imageView, nullptr);
 		}
 
-		vkDestroySwapchainKHR(m_logicalDevice.get_logical_device(), m_swapchain, nullptr);
+		vkDestroySwapchainKHR(m_logicalDevice, m_swapchain, nullptr);
 	}
 
 	SwapchainSupportDetails Swapchain::query_swapchain_support()
 	{
 		SwapchainSupportDetails details;
 
-		vkGetPhysicalDeviceSurfaceCapabilitiesKHR(m_physicalDevice.get_physical_device(), m_surface.get_surface(), &details.capabilites);
+		vkGetPhysicalDeviceSurfaceCapabilitiesKHR(m_physicalDevice, m_surface, &details.capabilites);
 
 		uint32_t formatCount;
-		vkGetPhysicalDeviceSurfaceFormatsKHR(m_physicalDevice.get_physical_device(), m_surface.get_surface(), &formatCount, nullptr);
+		vkGetPhysicalDeviceSurfaceFormatsKHR(m_physicalDevice, m_surface, &formatCount, nullptr);
 
 		if (formatCount != 0)
 		{
 			details.formats.resize(formatCount);
-			vkGetPhysicalDeviceSurfaceFormatsKHR(m_physicalDevice.get_physical_device(), m_surface.get_surface(), &formatCount, details.formats.data());
+			vkGetPhysicalDeviceSurfaceFormatsKHR(m_physicalDevice, m_surface, &formatCount, details.formats.data());
 		}
 
 		uint32_t presentModeCount;
-		vkGetPhysicalDeviceSurfacePresentModesKHR(m_physicalDevice.get_physical_device(), m_surface.get_surface(), &presentModeCount, nullptr);
+		vkGetPhysicalDeviceSurfacePresentModesKHR(m_physicalDevice, m_surface, &presentModeCount, nullptr);
 
 		if (presentModeCount != 0)
 		{
 			details.presentModes.resize(presentModeCount);
-			vkGetPhysicalDeviceSurfacePresentModesKHR(m_physicalDevice.get_physical_device(), m_surface.get_surface(), &presentModeCount, details.presentModes.data());
+			vkGetPhysicalDeviceSurfacePresentModesKHR(m_physicalDevice, m_surface, &presentModeCount, details.presentModes.data());
 		}
 
 		return details;

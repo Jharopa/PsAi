@@ -3,7 +3,7 @@
 namespace PsAi::Renderer
 {
 
-	RenderPass::RenderPass(const LogicalDevice& logicalDevice, const Swapchain& swapchain)
+	RenderPass::RenderPass(VkDevice logicalDevice, const Swapchain& swapchain)
 		: m_logicalDevice(logicalDevice), m_swapchain(swapchain)
 	{
 		VkAttachmentDescription colorAttachment{};
@@ -41,7 +41,7 @@ namespace PsAi::Renderer
 		renderPassCreateInfo.dependencyCount = 1;
 		renderPassCreateInfo.pDependencies = &dependency;
 
-		if (vkCreateRenderPass(m_logicalDevice.get_logical_device(), &renderPassCreateInfo, nullptr, &m_renderPass) != VK_SUCCESS)
+		if (vkCreateRenderPass(m_logicalDevice, &renderPassCreateInfo, nullptr, &m_renderPass) != VK_SUCCESS)
 		{
 			throw std::runtime_error("Failed to create Vulkan render pass!");
 		}
@@ -49,7 +49,7 @@ namespace PsAi::Renderer
 
 	RenderPass::~RenderPass()
 	{
-		vkDestroyRenderPass(m_logicalDevice.get_logical_device(), m_renderPass, nullptr);
+		vkDestroyRenderPass(m_logicalDevice, m_renderPass, nullptr);
 	}
 
 } // PsAi::Renderer namespace

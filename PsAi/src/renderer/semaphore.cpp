@@ -3,12 +3,12 @@
 namespace PsAi::Renderer
 {
 	
-	Semaphore::Semaphore(const LogicalDevice& logicalDevice)
+	Semaphore::Semaphore(VkDevice logicalDevice)
 		: m_logicalDevice(logicalDevice)
 	{
 		VkSemaphoreCreateInfo semephoreCreateInfo = semaphore_create_info();
 
-		if (vkCreateSemaphore(m_logicalDevice.get_logical_device(), &semephoreCreateInfo, nullptr, &m_semaphore) != VK_SUCCESS)
+		if (vkCreateSemaphore(m_logicalDevice, &semephoreCreateInfo, nullptr, &m_semaphore) != VK_SUCCESS)
 		{
 			throw std::runtime_error("Failed to create Vulkan semaphore!");
 		}
@@ -16,7 +16,7 @@ namespace PsAi::Renderer
 
 	Semaphore::~Semaphore()
 	{
-		vkDestroySemaphore(m_logicalDevice.get_logical_device(), m_semaphore, nullptr);
+		vkDestroySemaphore(m_logicalDevice, m_semaphore, nullptr);
 	}
 
 } // PsAi::Renderer namespace

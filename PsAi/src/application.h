@@ -4,9 +4,8 @@
 #include "renderer/vulkan_structures.h"
 #include "renderer/window.h"
 #include "renderer/instance.h"
-#include "renderer/physical_device.h"
 #include "renderer/surface.h"
-#include "renderer/logical_device.h"
+#include "renderer/device.h"
 #include "renderer/swapchain.h"
 #include "renderer/render_pass.h"
 #include "renderer/shader.h"
@@ -41,18 +40,17 @@ namespace PsAi
 			VkApplicationInfo applicationInfo = Renderer::application_info("PsAi", VK_MAKE_VERSION(0, 0, 1), "No Engine", VK_MAKE_VERSION(0, 0, 1), VK_API_VERSION_1_2);
 			Renderer::Instance m_instance{ applicationInfo, m_instanceExtensions , 1 };
 			Renderer::Surface m_surface{ m_instance, m_window.get_window() };
-			Renderer::PhysicalDevice m_physicalDevice{ m_instance };
-			Renderer::LogicalDevice m_logicalDevice{ m_instance, m_physicalDevice, m_surface };
-			Renderer::Swapchain m_swapchain{ m_physicalDevice, m_logicalDevice, m_surface, m_window.get_window() };
-			Renderer::RenderPass m_renderPass{ m_logicalDevice, m_swapchain };
-			Renderer::Shader m_vertShader{ m_logicalDevice, "shaders/bytecode/simple.vert.spv" };
-			Renderer::Shader m_fragShader{ m_logicalDevice, "shaders/bytecode/simple.frag.spv" };
-			Renderer::Pipeline m_pipeline{ m_logicalDevice, m_renderPass, m_vertShader, m_fragShader, WIDTH, HEIGHT };
-			Renderer::Framebuffer m_framebuffers{ m_logicalDevice, m_swapchain, m_renderPass };
-			Renderer::CommandPool m_commandPool{ m_logicalDevice, m_physicalDevice, m_surface };
-			Renderer::CommandBuffer m_commandBuffer{ m_logicalDevice, m_swapchain, m_framebuffers, m_commandPool, m_renderPass, m_pipeline };
-			Renderer::Semaphore m_imageAvailableSemaphore{ m_logicalDevice };
-			Renderer::Semaphore m_renderFinishedSemaphore{ m_logicalDevice };
+			Renderer::Device m_device{ m_instance, m_surface.get_surface() }; 
+			Renderer::Swapchain m_swapchain{ m_device.get_physical_device(), m_device.get_logical_device(), m_surface.get_surface(), m_window.get_window() };
+			Renderer::RenderPass m_renderPass{ m_device.get_logical_device(), m_swapchain };
+			Renderer::Shader m_vertShader{ m_device.get_logical_device(), "shaders/bytecode/simple.vert.spv" };
+			Renderer::Shader m_fragShader{ m_device.get_logical_device(), "shaders/bytecode/simple.frag.spv" };
+			Renderer::Pipeline m_pipeline{ m_device.get_logical_device(), m_renderPass.get_render_pass(), m_vertShader.get_shader_module(), m_fragShader.get_shader_module(), WIDTH, HEIGHT };
+			Renderer::Framebuffer m_framebuffers{ m_device.get_logical_device(), m_swapchain, m_renderPass.get_render_pass() };
+			Renderer::CommandPool m_commandPool{ m_device.get_logical_device(), m_device.get_physical_device(), m_surface.get_surface() };
+			Renderer::CommandBuffer m_commandBuffer{ m_device.get_logical_device(), m_swapchain, m_framebuffers, m_commandPool.get_command_pool(), m_renderPass.get_render_pass(), m_pipeline.get_graphics_pipeline() };
+			Renderer::Semaphore m_imageAvailableSemaphore{ m_device.get_logical_device() };
+			Renderer::Semaphore m_renderFinishedSemaphore{ m_device.get_logical_device() };
 	};
 
 } // PsAi namespace

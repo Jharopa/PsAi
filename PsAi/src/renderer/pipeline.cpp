@@ -3,19 +3,19 @@
 namespace PsAi::Renderer
 {
 	
-	Pipeline::Pipeline(const LogicalDevice& logicalDevice, const RenderPass& renderPass, const Shader& vertShader, const Shader& fragShader, int width, int height)
+	Pipeline::Pipeline(VkDevice logicalDevice, VkRenderPass renderPass, VkShaderModule vertShader, VkShaderModule fragShader, int width, int height)
 		: m_logicalDevice(logicalDevice), m_renderPass(renderPass), m_vertShader(vertShader), m_fragShader(fragShader)
 	{
 		PSAI_LOG_DEBUG("Creating Vulkan pipline layout");
 
 		// Vertex shader stage create info 
 		VkPipelineShaderStageCreateInfo vertShaderCreateInfo = pipeline_vertex_shader_stage_create_info();
-		vertShaderCreateInfo.module = m_vertShader.get_shader_module();
+		vertShaderCreateInfo.module = m_vertShader;
 		vertShaderCreateInfo.pName = "main";
 
 		// Fragment shader stage create info 
 		VkPipelineShaderStageCreateInfo fragShaderCreateInfo = pipeline_fragment_shader_stage_create_info();
-		fragShaderCreateInfo.module = m_fragShader.get_shader_module();
+		fragShaderCreateInfo.module = m_fragShader;
 		fragShaderCreateInfo.pName = "main";
 
 		VkPipelineShaderStageCreateInfo shaderStages[] = { vertShaderCreateInfo, fragShaderCreateInfo };
@@ -104,7 +104,7 @@ namespace PsAi::Renderer
 		pipelineLayoutCreateInfo.pushConstantRangeCount = 0;
 		pipelineLayoutCreateInfo.pPushConstantRanges = nullptr;
 
-		if (vkCreatePipelineLayout(m_logicalDevice.get_logical_device(), &pipelineLayoutCreateInfo, nullptr, &m_pipelineLayout) != VK_SUCCESS)
+		if (vkCreatePipelineLayout(m_logicalDevice, &pipelineLayoutCreateInfo, nullptr, &m_pipelineLayout) != VK_SUCCESS)
 		{
 			throw std::runtime_error("Failed to create Vulkan pipeline layout!");
 		}
@@ -126,9 +126,9 @@ namespace PsAi::Renderer
 		pipelineCreateInfo.pColorBlendState = &colorBlending;
 		pipelineCreateInfo.pDynamicState = nullptr;
 		pipelineCreateInfo.layout = m_pipelineLayout;
-		pipelineCreateInfo.renderPass = m_renderPass.get_render_pass();
+		pipelineCreateInfo.renderPass = m_renderPass;
 
-		if (vkCreateGraphicsPipelines(m_logicalDevice.get_logical_device(), VK_NULL_HANDLE, 1, &pipelineCreateInfo, nullptr, &m_graphicsPipeline) != VK_SUCCESS)
+		if (vkCreateGraphicsPipelines(m_logicalDevice, VK_NULL_HANDLE, 1, &pipelineCreateInfo, nullptr, &m_graphicsPipeline) != VK_SUCCESS)
 		{
 			throw std::runtime_error("Failed to create Vulkan graphics pipeline");
 		}
@@ -138,8 +138,8 @@ namespace PsAi::Renderer
 
 	Pipeline::~Pipeline()
 	{
-		vkDestroyPipeline(m_logicalDevice.get_logical_device(), m_graphicsPipeline, nullptr);
-		vkDestroyPipelineLayout(m_logicalDevice.get_logical_device(), m_pipelineLayout, nullptr);
+		vkDestroyPipeline(m_logicalDevice, m_graphicsPipeline, nullptr);
+		vkDestroyPipelineLayout(m_logicalDevice, m_pipelineLayout, nullptr);
 	}
 
 } // PsAi::Renderer namespace

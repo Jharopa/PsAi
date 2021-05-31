@@ -14,14 +14,14 @@ namespace PsAi::Renderer
 	{
 		public:
 			// Public member functions
-			Semaphore(const LogicalDevice& logicalDevice);
+			Semaphore(VkDevice logicalDevice);
 			~Semaphore();
 
 			const VkSemaphore& get_semaphore() const { return m_semaphore; }
 
 		private:
 			VkSemaphore m_semaphore = VK_NULL_HANDLE;
-			const LogicalDevice& m_logicalDevice;
+			VkDevice m_logicalDevice;
 	};
 
 } // PsAi::Renderer namespace

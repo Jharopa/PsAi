@@ -3,7 +3,7 @@
 namespace PsAi::Renderer
 {
 
-	Framebuffer::Framebuffer(const LogicalDevice& logicalDevice, const Swapchain& swapchain, const RenderPass& renderPass)
+	Framebuffer::Framebuffer(VkDevice logicalDevice, const Swapchain& swapchain, VkRenderPass renderPass)
 		: m_logicalDevice(logicalDevice)
 	{
 		m_swapchaninFramebuffers.resize(swapchain.get_swapchain_image_views().size());
@@ -13,14 +13,14 @@ namespace PsAi::Renderer
 			VkImageView attachments[] = { swapchain.get_swapchain_image_views()[i] };
 
 			VkFramebufferCreateInfo framebufferCreateInfo = frame_buffer_create_info();
-			framebufferCreateInfo.renderPass = renderPass.get_render_pass();
+			framebufferCreateInfo.renderPass = renderPass;
 			framebufferCreateInfo.attachmentCount = 1;
 			framebufferCreateInfo.pAttachments = attachments;
 			framebufferCreateInfo.width = swapchain.get_extent().width;
 			framebufferCreateInfo.height = swapchain.get_extent().height;
 			framebufferCreateInfo.layers = 1;
 
-			if (vkCreateFramebuffer(m_logicalDevice.get_logical_device(), &framebufferCreateInfo, nullptr, &m_swapchaninFramebuffers[i]) != VK_SUCCESS)
+			if (vkCreateFramebuffer(m_logicalDevice, &framebufferCreateInfo, nullptr, &m_swapchaninFramebuffers[i]) != VK_SUCCESS)
 			{
 				throw std::runtime_error("Failed to create Vulkan framebuffer!");
 			}
@@ -31,7 +31,7 @@ namespace PsAi::Renderer
 	{
 		for (auto framebuffer : m_swapchaninFramebuffers)
 		{
-			vkDestroyFramebuffer(m_logicalDevice.get_logical_device(), framebuffer, nullptr);
+			vkDestroyFramebuffer(m_logicalDevice, framebuffer, nullptr);
 		}
 	}
 

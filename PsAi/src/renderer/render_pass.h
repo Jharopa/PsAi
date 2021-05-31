@@ -14,7 +14,7 @@ namespace PsAi::Renderer
 	class RenderPass : public Util::NonCopyableNonMoveable
 	{
 		public:
-			RenderPass(const LogicalDevice& logicalDevice, const Swapchain& swapchain);
+			RenderPass(VkDevice logicalDevice, const Swapchain& swapchain);
 			~RenderPass();
 
 			const VkRenderPass& get_render_pass() const { return m_renderPass; }
@@ -22,7 +22,7 @@ namespace PsAi::Renderer
 		private:
 			VkRenderPass m_renderPass;
 
-			const LogicalDevice& m_logicalDevice;
+			VkDevice m_logicalDevice;
 			const Swapchain& m_swapchain;
 	};
 

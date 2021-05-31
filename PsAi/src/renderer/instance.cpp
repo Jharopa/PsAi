@@ -68,7 +68,7 @@ namespace PsAi::Renderer
 			if (is_extension_supported(requestedExtension.c_str()))
 			{
 				PSAI_LOG_DEBUG("Instance extension '{}' is available on this system, adding to enabled extensions list", requestedExtension);
-				m_enabledExtensions.push_back(requestedExtension.c_str());
+				m_enabledInstanceExtensions.push_back(requestedExtension.c_str());
 			}
 			else
 			{
@@ -76,13 +76,12 @@ namespace PsAi::Renderer
 			}
 		}
 			
-		instanceCreateInfo.enabledExtensionCount = static_cast<uint32_t>(m_enabledExtensions.size());
-		instanceCreateInfo.ppEnabledExtensionNames = m_enabledExtensions.data();
+		instanceCreateInfo.enabledExtensionCount = static_cast<uint32_t>(m_enabledInstanceExtensions.size());
+		instanceCreateInfo.ppEnabledExtensionNames = m_enabledInstanceExtensions.data();
 
 		// Setting up VKInstance's validation layers
 		#ifndef NDEBUG
 
-			std::vector<const char*> m_enabledLayers = {};
 			std::string VK_LAYER_KHRONOS_validation = "VK_LAYER_KHRONOS_validation";
 				
 			if(m_validationEnabled)
@@ -92,15 +91,15 @@ namespace PsAi::Renderer
 				if (is_layer_supported(VK_LAYER_KHRONOS_validation.c_str()))
 				{
 					PSAI_LOG_DEBUG("Instance validation layer '{}' is available on this system, adding to enabled validation layers list", VK_LAYER_KHRONOS_validation);
-					m_enabledLayers.push_back(VK_LAYER_KHRONOS_validation.c_str());
+					m_enabledInstanceLayers.push_back(VK_LAYER_KHRONOS_validation.c_str());
 				}
 				else
 				{
 					PSAI_LOG_DEBUG("Instance validation layer '{}' is not available on this system", VK_LAYER_KHRONOS_validation);
 				}
 
-				instanceCreateInfo.enabledLayerCount = static_cast<uint32_t>(m_enabledLayers.size());
-				instanceCreateInfo.ppEnabledLayerNames = m_enabledLayers.data();
+				instanceCreateInfo.enabledLayerCount = static_cast<uint32_t>(m_enabledInstanceLayers.size());
+				instanceCreateInfo.ppEnabledLayerNames = m_enabledInstanceLayers.data();
 
 				VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo;
 

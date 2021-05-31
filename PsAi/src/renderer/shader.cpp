@@ -2,7 +2,7 @@
 
 namespace PsAi::Renderer
 {
-	Shader::Shader(const LogicalDevice& logicalDevice, const std::string& filePath)
+	Shader::Shader(VkDevice logicalDevice, const std::string& filePath)
 		: m_logicalDevice(logicalDevice)
 	{
 		std::vector<char> code = read_binary(filePath);
@@ -11,7 +11,7 @@ namespace PsAi::Renderer
 		shaderModuleCreateInfo.codeSize = code.size();
 		shaderModuleCreateInfo.pCode = reinterpret_cast<const uint32_t*>(code.data());
 
-		if (vkCreateShaderModule(m_logicalDevice.get_logical_device(), &shaderModuleCreateInfo, nullptr, &m_shaderModule) != VK_SUCCESS)
+		if (vkCreateShaderModule(m_logicalDevice, &shaderModuleCreateInfo, nullptr, &m_shaderModule) != VK_SUCCESS)
 		{
 			throw std::runtime_error("Failed to create Vulkan shader module!");
 		}
@@ -19,7 +19,7 @@ namespace PsAi::Renderer
 
 	Shader::~Shader()
 	{
-		vkDestroyShaderModule(m_logicalDevice.get_logical_device(), m_shaderModule, nullptr);
+		vkDestroyShaderModule(m_logicalDevice, m_shaderModule, nullptr);
 	}
 
 	std::vector<char> Shader::read_binary(const std::string& filePath)

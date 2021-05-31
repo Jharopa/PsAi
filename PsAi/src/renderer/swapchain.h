@@ -24,7 +24,7 @@ namespace PsAi::Renderer
 	class Swapchain : public Util::NonCopyableNonMoveable
 	{
 		public:
-			Swapchain(PhysicalDevice& physicalDevice, LogicalDevice& logicalDevice, Surface& surface, GLFWwindow* window);
+			Swapchain(VkPhysicalDevice physicalDevice, VkDevice logicalDevice, VkSurfaceKHR surface, GLFWwindow* window);
 			~Swapchain();
 
 			const VkSwapchainKHR& get_swapchain() const { return m_swapchain; }
@@ -39,9 +39,9 @@ namespace PsAi::Renderer
 			VkFormat m_swapchainImageFormat;
 			VkExtent2D m_swapchainExtent;
 
-			PhysicalDevice& m_physicalDevice;
-			LogicalDevice& m_logicalDevice;
-			Surface& m_surface;
+			VkPhysicalDevice m_physicalDevice;
+			VkDevice m_logicalDevice;
+			VkSurfaceKHR m_surface;
 			GLFWwindow* m_window;
 
 			SwapchainSupportDetails query_swapchain_support();

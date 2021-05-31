@@ -18,14 +18,14 @@ namespace PsAi::Renderer
 	class Shader : public Util::NonCopyableNonMoveable
 	{
 		public:
-			Shader(const LogicalDevice& logicalDevice, const std::string& filePath);
+			Shader(VkDevice logicalDevice, const std::string& filePath);
 			~Shader();
 
 			const VkShaderModule& get_shader_module() const { return m_shaderModule; }
 
 		private:
 			VkShaderModule m_shaderModule = VK_NULL_HANDLE;
-			const LogicalDevice& m_logicalDevice;
+			VkDevice m_logicalDevice;
 
 			std::vector<char> read_binary(const std::string& filePath);
 	};

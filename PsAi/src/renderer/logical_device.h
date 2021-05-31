@@ -19,22 +19,18 @@ namespace PsAi::Renderer
 	class LogicalDevice : public Util::NonCopyableNonMoveable
 	{
 		public:
-			LogicalDevice(const Instance& instance, const PhysicalDevice& physicalDevice, const Surface& surface);
+			LogicalDevice(const Instance& instance, VkPhysicalDevice physicalDevice, VkSurfaceKHR surface);
 			~LogicalDevice();
 
-			const VkDevice& get_logical_device() const { return m_logicalDevice; }
-			const VkQueue get_graphics_queue() const { return m_graphicsQueue; }
-			const VkQueue get_present_queue() const { return m_presentationQueue; }
+			VkDevice get_logical_device() const { return m_logicalDevice; }
+			VkQueue get_graphics_queue() const { return m_graphicsQueue; }
+			VkQueue get_present_queue() const { return m_presentationQueue; }
 
 		private:
 			VkDevice m_logicalDevice = VK_NULL_HANDLE;
 
-			VkQueue m_graphicsQueue;
-			VkQueue m_presentationQueue;
-
-			const Instance& m_instance;
-			const PhysicalDevice& m_physicalDevice;
-			const Surface& m_surface;
+			VkQueue m_graphicsQueue = VK_NULL_HANDLE;
+			VkQueue m_presentationQueue = VK_NULL_HANDLE;
 	};
 
 } // PsAi::Renderer namespace

@@ -26,7 +26,7 @@ namespace PsAi::Renderer
 
 			const VkPhysicalDevice& get_physical_device() const { return m_physicalDevice; }
 
-			const std::vector<const char*> get_device_extensions() const { return m_deviceExtensions; }
+			const std::vector<const char*> get_device_extensions() const { return m_enabledDeviceExtensions; }
 
 			const VkPhysicalDeviceProperties& get_physical_device_properties() const { return m_physicalDeviceProperties; }
 			const VkPhysicalDeviceFeatures& get_physical_device_features() const { return m_physicalDeviceFeatures; }
@@ -36,8 +36,8 @@ namespace PsAi::Renderer
 			VkPhysicalDevice m_physicalDevice = VK_NULL_HANDLE;
 			const Instance& m_instance;
 
-			const std::vector<const char*> m_deviceExtensions = { VK_KHR_SWAPCHAIN_EXTENSION_NAME };
-			
+			const std::vector<const char*> m_enabledDeviceExtensions = {};
+
 			VkPhysicalDeviceProperties m_physicalDeviceProperties;
 			VkPhysicalDeviceFeatures m_physicalDeviceFeatures;
 

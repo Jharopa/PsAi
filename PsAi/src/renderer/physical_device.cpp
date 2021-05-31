@@ -65,7 +65,7 @@ namespace PsAi::Renderer
 		std::vector<VkExtensionProperties> availableExtensions(extensionCount);
 		vkEnumerateDeviceExtensionProperties(physicalDevice, nullptr, &extensionCount, availableExtensions.data());
 	
-		std::set<std::string> requiredExtensions(m_deviceExtensions.begin(), m_deviceExtensions.end());
+		std::set<std::string> requiredExtensions(m_enabledDeviceExtensions.begin(), m_enabledDeviceExtensions.end());
 
 		for (const auto& extension : availableExtensions)
 		{
@@ -88,7 +88,7 @@ namespace PsAi::Renderer
 
 		if (queueFamilyCount == 0)
 		{
-			throw std::runtime_error("Physical device doesn't support any Vulkan Queues");
+			throw std::runtime_error("Physical device doesn't support any Vulkan queues");
 		}
 
 		m_queueFamilyProperties.resize(queueFamilyCount);

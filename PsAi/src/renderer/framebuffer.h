@@ -23,7 +23,7 @@ namespace PsAi::Renderer
 	class Framebuffer : public Util::NonCopyableNonMoveable
 	{
 		public:
-			Framebuffer(const LogicalDevice& logicalDevice, const Swapchain& swapchain, const RenderPass& renderPass);
+			Framebuffer(VkDevice logicalDevice, const Swapchain& swapchain, VkRenderPass renderPass);
 			~Framebuffer();
 
 			std::vector<VkFramebuffer> get_swapchain_framebuffers() const { return m_swapchaninFramebuffers; }
@@ -31,7 +31,7 @@ namespace PsAi::Renderer
 		private:
 			std::vector<VkFramebuffer> m_swapchaninFramebuffers;
 
-			const LogicalDevice& m_logicalDevice;
+			VkDevice m_logicalDevice;
 	};
 
 } // PsAi::Renderer namespace

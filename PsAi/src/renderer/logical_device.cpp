@@ -2,12 +2,11 @@
 
 namespace PsAi::Renderer
 {
-	LogicalDevice::LogicalDevice(const Instance& instance, const PhysicalDevice& physicalDevice, const Surface& surface)
-		: m_instance(instance), m_physicalDevice(physicalDevice), m_surface(surface)
+	LogicalDevice::LogicalDevice(const Instance& instance, VkPhysicalDevice physicalDevice, VkSurfaceKHR surface)
 	{
 		PSAI_LOG_DEBUG("Creating logical device");
 
-		QueueFamilyIndices indices = HelperFunctions::find_queue_families(m_physicalDevice.get_physical_device(), m_surface.get_surface());
+		QueueFamilyIndices indices = HelperFunctions::find_queue_families(physicalDevice, surface);
 
 		std::vector<VkDeviceQueueCreateInfo> deviceQueueCreateInfos;
 		std::set<uint32_t> uniqueQueueFamilies = { indices.graphicsFamily.value(), indices.presentFamily.value() };
@@ -38,17 +37,25 @@ namespace PsAi::Renderer
 
 		const std::vector<const char*> enabledValidationLayers = { "VK_LAYER_KHRONOS_validation" };
 
-		if (m_instance.is_validation_enabled() == true)
-		{
-			createInfo.enabledLayerCount = static_cast<uint32_t>(enabledValidationLayers.size());
-			createInfo.ppEnabledLayerNames = enabledValidationLayers.data();
-		}
-		else
-		{
-			createInfo.enabledLayerCount = 0;
-		}
+		#ifndef NDEBUG
 
-		if (vkCreateDevice(m_physicalDevice.get_physical_device(), &createInfo, nullptr, &m_logicalDevice) != VK_SUCCESS)
+			if (instance.is_validation_enabled() == true)
+			{
+				createInfo.enabledLayerCount = static_cast<uint32_t>(enabledValidationLayers.size());
+				createInfo.ppEnabledLayerNames = enabledValidationLayers.data();
+			}
+			else
+			{
+				createInfo.enabledLayerCount = 0;
+			}
+
+		#else
+			
+			createInfo.enabledLayerCount = 0;
+
+		#endif
+
+		if (vkCreateDevice(physicalDevice, &createInfo, nullptr, &m_logicalDevice) != VK_SUCCESS)
 		{
 			throw std::runtime_error("Failed to create logical device");
 		}

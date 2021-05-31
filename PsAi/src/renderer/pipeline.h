@@ -21,7 +21,7 @@ namespace PsAi::Renderer
 	{
 		public:
 			// Public member functions
-			Pipeline(const LogicalDevice& logicalDevice, const RenderPass& renderPass, const Shader& vertShader, const Shader& fragShader, int width, int height);
+			Pipeline(VkDevice logicalDevice, VkRenderPass renderPass, VkShaderModule vertShader, VkShaderModule fragShader, int width, int height);
 			~Pipeline();
 			
 			const VkPipeline& get_graphics_pipeline() const { return m_graphicsPipeline; }
@@ -31,10 +31,10 @@ namespace PsAi::Renderer
 			VkPipeline m_graphicsPipeline;
 			VkPipelineLayout m_pipelineLayout;
 
-			const LogicalDevice& m_logicalDevice;
-			const RenderPass& m_renderPass;
-			const Shader& m_vertShader;
-			const Shader& m_fragShader;
+			VkDevice m_logicalDevice;
+			VkRenderPass m_renderPass;
+			VkShaderModule m_vertShader;
+			VkShaderModule m_fragShader;
 	};
 
 } // PsAi::Renderer namespace

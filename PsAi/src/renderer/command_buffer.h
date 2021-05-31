@@ -21,7 +21,7 @@ namespace PsAi::Renderer
 	class CommandBuffer : public Util::NonCopyableNonMoveable
 	{
 		public:
-			CommandBuffer(const LogicalDevice& logicalDevice, const Swapchain& swapchain, const Framebuffer& framebuffers, const CommandPool& commandPool, const RenderPass& renderPass, const Pipeline& graphicsPipeline);
+			CommandBuffer(VkDevice logicalDevice, const Swapchain& swapchain, const Framebuffer& framebuffers, VkCommandPool commandPool, VkRenderPass renderPass, VkPipeline graphicsPipeline);
 			~CommandBuffer();
 
 			const std::vector<VkCommandBuffer>& get_command_buffer() const { return m_commandBuffers; }
@@ -29,7 +29,7 @@ namespace PsAi::Renderer
 		private:
 			std::vector<VkCommandBuffer> m_commandBuffers;
 
-			const LogicalDevice& m_logicalDevice;
+			VkDevice m_logicalDevice;
 	};
 
 } // PsAi::Renderer namespace

@@ -27,17 +27,21 @@ namespace PsAi::Renderer
 			Instance(VkApplicationInfo applicationInfo, std::vector<std::string> requestedExtensions, bool validationEnabled);
 			~Instance();
 
-			const VkInstance& get_instance() const { return m_instance; }
+			VkInstance get_instance() const { return m_instance; }
+
 			bool is_validation_enabled() const { return m_validationEnabled; }
-			const std::vector<const char*> get_enabled_extensions() const { return m_enabledExtensions; }
-			const std::vector<const char*> get_enabled_layers() const { return m_enabledLayers; }
+
+			const std::vector<const char*> get_enabled_extensions() const { return m_enabledInstanceExtensions; }
+			const std::vector<const char*> get_enabled_layers() const { return m_enabledInstanceLayers; }
 
 		private:
 			VkInstance m_instance = VK_NULL_HANDLE;
+
 			VkDebugUtilsMessengerEXT m_debugMessenger = VK_NULL_HANDLE;
 			bool m_validationEnabled;
-			std::vector<const char*> m_enabledExtensions = {};
-			std::vector<const char*> m_enabledLayers = {};
+			
+			std::vector<const char*> m_enabledInstanceExtensions = {};
+			std::vector<const char*> m_enabledInstanceLayers = {};
 
 			bool is_extension_supported(std::string extensionName);
 			bool is_layer_supported(std::string layerName);

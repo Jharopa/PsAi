@@ -16,7 +16,7 @@ namespace PsAi::Renderer
 	class CommandPool : public Util::NonCopyableNonMoveable
 	{
 		public:
-			CommandPool(const LogicalDevice& logicalDevice, const PhysicalDevice& physicalDevice, const Surface& surface);
+			CommandPool(VkDevice logicalDevice, VkPhysicalDevice physicalDevice, VkSurfaceKHR surface);
 			~CommandPool();
 
 			const VkCommandPool& get_command_pool() const { return m_commandPool; }
@@ -24,7 +24,7 @@ namespace PsAi::Renderer
 		private:
 			VkCommandPool m_commandPool = VK_NULL_HANDLE;
 
-			const LogicalDevice& m_logicalDevice;
+			VkDevice m_logicalDevice;
 	};
 
 } // PsAi::Renderer namespace

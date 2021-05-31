@@ -11,13 +11,13 @@ namespace PsAi
 			draw_frame();
 		}
 
-		vkDeviceWaitIdle(m_logicalDevice.get_logical_device());
+		vkDeviceWaitIdle(m_device.get_logical_device());
 	}
 
 	void Application::draw_frame()
 	{
 		uint32_t imageIndex;
-		vkAcquireNextImageKHR(m_logicalDevice.get_logical_device(), m_swapchain.get_swapchain(), UINT64_MAX, m_imageAvailableSemaphore.get_semaphore(), VK_NULL_HANDLE, &imageIndex);
+		vkAcquireNextImageKHR(m_device.get_logical_device(), m_swapchain.get_swapchain(), UINT64_MAX, m_imageAvailableSemaphore.get_semaphore(), VK_NULL_HANDLE, &imageIndex);
 	
 		VkSubmitInfo submitInfo = Renderer::submit_info();
 
@@ -34,7 +34,7 @@ namespace PsAi
 		submitInfo.signalSemaphoreCount = 1;
 		submitInfo.pSignalSemaphores = signalSemaphores;
 
-		if (vkQueueSubmit(m_logicalDevice.get_graphics_queue(), 1, &submitInfo, VK_NULL_HANDLE) != VK_SUCCESS)
+		if (vkQueueSubmit(m_device.get_graphics_queue(), 1, &submitInfo, VK_NULL_HANDLE) != VK_SUCCESS)
 		{
 			throw std::runtime_error("Failed to submit Vulkan draw command buffer");
 		}
@@ -51,9 +51,9 @@ namespace PsAi
 
 		presentInfo.pResults = nullptr;
 
-		vkQueuePresentKHR(m_logicalDevice.get_present_queue(), &presentInfo);
+		vkQueuePresentKHR(m_device.get_present_queue(), &presentInfo);
 
-		vkQueueWaitIdle(m_logicalDevice.get_present_queue());
+		vkQueueWaitIdle(m_device.get_present_queue());
 	}
 
 } // PsAi namespace
