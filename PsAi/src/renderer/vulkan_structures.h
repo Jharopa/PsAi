@@ -222,6 +222,15 @@ namespace PsAi::Renderer
 		return ret;
 	}
 
+	inline VkFenceCreateInfo fence_create_info()
+	{
+		VkFenceCreateInfo ret {};
+		ret.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
+		ret.flags = VK_FENCE_CREATE_SIGNALED_BIT;
+
+		return ret;
+	}
+
 	inline VkSubmitInfo submit_info()
 	{
 		VkSubmitInfo ret {};

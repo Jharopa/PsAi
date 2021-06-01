@@ -14,10 +14,14 @@
 #include "renderer/command_pool.h"
 #include "renderer/command_buffer.h"
 #include "renderer/semaphore.h"
+#include "renderer/fence.h"
 #include "renderer/vulkan_structures.h"
 
 // Vulkan includes
 #include <vulkan/vulkan.h>
+
+// STD library includes
+#include <vector>
 
 namespace PsAi 
 {
@@ -28,6 +32,7 @@ namespace PsAi
 			// Public member variables
 			static constexpr int WIDTH = 800;
 			static constexpr int HEIGHT = 600;
+			static constexpr int MAX_FRAMES_IN_FLIGHT = 2;
 
 			// Public member functions
 			void run();
@@ -49,8 +54,11 @@ namespace PsAi
 			Renderer::Framebuffer m_framebuffers{ m_device.get_logical_device(), m_swapchain, m_renderPass.get_render_pass() };
 			Renderer::CommandPool m_commandPool{ m_device.get_logical_device(), m_device.get_physical_device(), m_surface.get_surface() };
 			Renderer::CommandBuffer m_commandBuffer{ m_device.get_logical_device(), m_swapchain, m_framebuffers, m_commandPool.get_command_pool(), m_renderPass.get_render_pass(), m_pipeline.get_graphics_pipeline() };
-			Renderer::Semaphore m_imageAvailableSemaphore{ m_device.get_logical_device() };
-			Renderer::Semaphore m_renderFinishedSemaphore{ m_device.get_logical_device() };
+			Renderer::Semaphore m_imageAvailableSemaphores = { m_device.get_logical_device(), MAX_FRAMES_IN_FLIGHT };
+			Renderer::Semaphore m_renderFinishedSemaphores = { m_device.get_logical_device(), MAX_FRAMES_IN_FLIGHT };
+			Renderer::Fence m_inFlightFences = { m_device.get_logical_device(), MAX_FRAMES_IN_FLIGHT };
+			Renderer::Fence m_imagesInFlight = { m_device.get_logical_device(), m_swapchain.get_swapchain_image_count() };
+			size_t currentFrame = 0;
 	};
 
 } // PsAi namespace

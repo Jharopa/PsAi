@@ -2,10 +2,14 @@
 
 // PsAi includes
 #include "../util/non_copy_non_move.h"
-#include "logical_device.h"
+#include "vulkan_structures.h"
 
 // Vulkan includes
 #include <vulkan/vulkan.h>
+
+// STD library includes
+#include <stdexcept>
+#include <vector>
 
 namespace PsAi::Renderer
 {
@@ -14,14 +18,14 @@ namespace PsAi::Renderer
 	{
 		public:
 			// Public member functions
-			Semaphore(VkDevice logicalDevice);
+			Semaphore(VkDevice logicalDevice, int numSemaphores);
 			~Semaphore();
 
-			const VkSemaphore& get_semaphore() const { return m_semaphore; }
+			std::vector<VkSemaphore> get_semaphores() const { return m_semaphores; }
 
 		private:
-			VkSemaphore m_semaphore = VK_NULL_HANDLE;
-			VkDevice m_logicalDevice;
+			std::vector<VkSemaphore> m_semaphores = {};
+			VkDevice m_logicalDevice = VK_NULL_HANDLE;
 	};
 
 } // PsAi::Renderer namespace

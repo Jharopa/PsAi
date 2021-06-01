@@ -5,6 +5,8 @@ namespace PsAi
 
 	void Application::run()
 	{
+		PSAI_LOG_DEBUG("Running application");
+
 		while (!m_window.should_close())
 		{
 			glfwPollEvents();
@@ -16,12 +18,21 @@ namespace PsAi
 
 	void Application::draw_frame()
 	{
+		vkWaitForFences(m_device.get_logical_device(), 1, &m_inFlightFences.get_fences()[currentFrame], VK_TRUE, UINT64_MAX);
+
 		uint32_t imageIndex;
-		vkAcquireNextImageKHR(m_device.get_logical_device(), m_swapchain.get_swapchain(), UINT64_MAX, m_imageAvailableSemaphore.get_semaphore(), VK_NULL_HANDLE, &imageIndex);
-	
+		vkAcquireNextImageKHR(m_device.get_logical_device(), m_swapchain.get_swapchain(), UINT64_MAX, m_imageAvailableSemaphores.get_semaphores()[currentFrame], VK_NULL_HANDLE, &imageIndex);
+		
+		if (m_imagesInFlight.get_fences()[imageIndex] != VK_NULL_HANDLE)
+		{
+			vkWaitForFences(m_device.get_logical_device(), 1, &m_imagesInFlight.get_fences()[imageIndex], VK_TRUE, UINT64_MAX);
+		}
+
+		m_imagesInFlight.get_fences()[imageIndex] = m_inFlightFences.get_fences()[currentFrame];
+
 		VkSubmitInfo submitInfo = Renderer::submit_info();
 
-		VkSemaphore waitSemaphores[] = { m_imageAvailableSemaphore.get_semaphore() };
+		VkSemaphore waitSemaphores[] = { m_imageAvailableSemaphores.get_semaphores()[currentFrame] };
 		VkPipelineStageFlags waitStages[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
 
 		submitInfo.waitSemaphoreCount = 1;
@@ -30,11 +41,13 @@ namespace PsAi
 		submitInfo.commandBufferCount = 1;
 		submitInfo.pCommandBuffers = &m_commandBuffer.get_command_buffer()[imageIndex];
 
-		VkSemaphore signalSemaphores[] = { m_renderFinishedSemaphore.get_semaphore() };
+		VkSemaphore signalSemaphores[] = { m_renderFinishedSemaphores.get_semaphores()[currentFrame] };
 		submitInfo.signalSemaphoreCount = 1;
 		submitInfo.pSignalSemaphores = signalSemaphores;
 
-		if (vkQueueSubmit(m_device.get_graphics_queue(), 1, &submitInfo, VK_NULL_HANDLE) != VK_SUCCESS)
+		vkResetFences(m_device.get_logical_device(), 1, &m_inFlightFences.get_fences()[currentFrame]);
+
+		if (vkQueueSubmit(m_device.get_graphics_queue(), 1, &submitInfo, m_inFlightFences.get_fences()[currentFrame]) != VK_SUCCESS)
 		{
 			throw std::runtime_error("Failed to submit Vulkan draw command buffer");
 		}
@@ -53,7 +66,7 @@ namespace PsAi
 
 		vkQueuePresentKHR(m_device.get_present_queue(), &presentInfo);
 
-		vkQueueWaitIdle(m_device.get_present_queue());
+		currentFrame = (currentFrame + 1) % MAX_FRAMES_IN_FLIGHT;
 	}
 
 } // PsAi namespace
