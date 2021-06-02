@@ -20,7 +20,7 @@ namespace PsAi::Renderer
 	class Device : public Util::NonCopyableNonMoveable
 	{
 		public:
-			Device(const Instance& instance, VkSurfaceKHR surface);
+			Device(VkInstance instance, VkSurfaceKHR surface, bool validationEnabled);
 			~Device();
 
 			VkPhysicalDevice get_physical_device() const { return m_physicalDevice; }
@@ -33,13 +33,15 @@ namespace PsAi::Renderer
 			VkPhysicalDevice m_physicalDevice = VK_NULL_HANDLE;
 			VkDevice m_logicalDevice = VK_NULL_HANDLE;
 
-			const Instance& m_instance;
-			const VkSurfaceKHR m_surface;
+			VkInstance m_instance = VK_NULL_HANDLE;
+			VkSurfaceKHR m_surface = VK_NULL_HANDLE;
 
 			VkPhysicalDeviceProperties m_physicalDeviceProperties;
 			VkPhysicalDeviceFeatures m_physicalDeviceFeatures;
 
 			std::vector<const char*> m_enabledDeviceExtensions = {};
+
+			bool m_validationEnabled = false;
 
 			std::vector<VkQueueFamilyProperties> m_queueFamilyProperties = {};
 			VkQueue m_graphicsQueue = VK_NULL_HANDLE;

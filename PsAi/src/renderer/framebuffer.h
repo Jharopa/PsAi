@@ -2,7 +2,7 @@
 
 // PsAi includes
 #include "../util/non_copy_non_move.h"
-#include "logical_device.h"
+#include "device.h"
 #include "swapchain.h"
 #include "render_pass.h"
 
@@ -23,7 +23,7 @@ namespace PsAi::Renderer
 	class Framebuffer : public Util::NonCopyableNonMoveable
 	{
 		public:
-			Framebuffer(VkDevice logicalDevice, const Swapchain& swapchain, VkRenderPass renderPass);
+			Framebuffer(VkDevice logicalDevice, std::vector<VkImageView> swapchainImageViews, VkExtent2D swapchainImageExtent, VkRenderPass renderPass);
 			~Framebuffer();
 
 			std::vector<VkFramebuffer> get_swapchain_framebuffers() const { return m_swapchaninFramebuffers; }

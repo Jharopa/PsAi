@@ -2,7 +2,7 @@
 
 // PsAi includes
 #include "../util/non_copy_non_move.h"
-#include "logical_device.h"
+#include "device.h"
 #include "swapchain.h"
 
 // Vulkan includes
@@ -14,7 +14,7 @@ namespace PsAi::Renderer
 	class RenderPass : public Util::NonCopyableNonMoveable
 	{
 		public:
-			RenderPass(VkDevice logicalDevice, const Swapchain& swapchain);
+			RenderPass(VkDevice logicalDevice, VkFormat swapchainImageFormat);
 			~RenderPass();
 
 			const VkRenderPass& get_render_pass() const { return m_renderPass; }
@@ -23,7 +23,6 @@ namespace PsAi::Renderer
 			VkRenderPass m_renderPass;
 
 			VkDevice m_logicalDevice;
-			const Swapchain& m_swapchain;
 	};
 
 } // PsAi::Renderer namespace

@@ -2,8 +2,8 @@
 
 namespace PsAi::Renderer
 {
-	Device::Device(const Instance& instance, VkSurfaceKHR surface)
-		: m_instance(instance), m_surface(surface)
+	Device::Device(VkInstance instance, VkSurfaceKHR surface, bool validationEnabled)
+		: m_instance(instance), m_surface(surface), m_validationEnabled(validationEnabled)
 	{
 		PSAI_LOG_DEBUG("Selecting suitable physical device");
 		select_physical_device();
@@ -22,7 +22,7 @@ namespace PsAi::Renderer
 	void Device::select_physical_device()
 	{
 		uint32_t deviceCount;
-		vkEnumeratePhysicalDevices(m_instance.get_instance(), &deviceCount, nullptr);
+		vkEnumeratePhysicalDevices(m_instance, &deviceCount, nullptr);
 
 		if (deviceCount == 0)
 		{
@@ -30,7 +30,7 @@ namespace PsAi::Renderer
 		}
 
 		std::vector<VkPhysicalDevice> devices(deviceCount);
-		vkEnumeratePhysicalDevices(m_instance.get_instance(), &deviceCount, devices.data());
+		vkEnumeratePhysicalDevices(m_instance, &deviceCount, devices.data());
 
 		for (const auto& device : devices)
 		{
@@ -155,7 +155,7 @@ namespace PsAi::Renderer
 
 		#ifndef NDEBUG
 
-			if (m_instance.is_validation_enabled() == true)
+			if (m_validationEnabled == true)
 			{
 				createInfo.enabledLayerCount = static_cast<uint32_t>(enabledValidationLayers.size());
 				createInfo.ppEnabledLayerNames = enabledValidationLayers.data();

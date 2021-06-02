@@ -2,7 +2,7 @@
 
 // PsAi includes
 #include "../util/non_copy_non_move.h"
-#include "logical_device.h"
+#include "device.h"
 
 // Vulkan includes
 #include <vulkan/vulkan.h>

@@ -4,7 +4,7 @@
 #include "../util/non_copy_non_move.h"
 #include "../log.h"
 #include "vulkan_structures.h"
-#include "logical_device.h"
+#include "device.h"
 #include "render_pass.h"
 #include "shader.h"
 

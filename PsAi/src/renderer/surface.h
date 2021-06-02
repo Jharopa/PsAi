@@ -18,14 +18,14 @@ namespace PsAi::Renderer
 	class Surface : public Util::NonCopyableNonMoveable
 	{
 		public:
-			Surface(const Instance& instance, GLFWwindow* window);
+			Surface(VkInstance instance, GLFWwindow* window);
 			~Surface();
 
-			const VkSurfaceKHR& get_surface() const { return m_surface; }
+			VkSurfaceKHR get_surface() const { return m_surface; }
 
 		private:
 			VkSurfaceKHR m_surface = VK_NULL_HANDLE;
-			const Instance& m_instance;
+			VkInstance m_instance = VK_NULL_HANDLE;
 			GLFWwindow* m_window = nullptr;
 
 			void create_surface();

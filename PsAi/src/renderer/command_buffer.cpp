@@ -2,10 +2,10 @@
 namespace PsAi::Renderer
 {
 
-	CommandBuffer::CommandBuffer(VkDevice logicalDevice, const Swapchain& swapchain, const Framebuffer& framebuffers, VkCommandPool commandPool, VkRenderPass renderPass, VkPipeline graphicsPipeline)
+	CommandBuffer::CommandBuffer(VkDevice logicalDevice, VkExtent2D swapchainImageExtent, std::vector<VkFramebuffer> swapchainFramebuffers, VkCommandPool commandPool, VkRenderPass renderPass, VkPipeline graphicsPipeline)
 		: m_logicalDevice(logicalDevice)
 	{
-		m_commandBuffers.resize(framebuffers.get_swapchain_framebuffers().size());
+		m_commandBuffers.resize(swapchainFramebuffers.size());
 
 		VkCommandBufferAllocateInfo allocateInfo = command_buffer_allocate_info();
 		allocateInfo.commandBufferCount = (uint32_t)m_commandBuffers.size();
@@ -28,9 +28,9 @@ namespace PsAi::Renderer
 
 			VkRenderPassBeginInfo renderPassInfo = render_pass_begin_info();
 			renderPassInfo.renderPass = renderPass;
-			renderPassInfo.framebuffer = framebuffers.get_swapchain_framebuffers()[i];
+			renderPassInfo.framebuffer = swapchainFramebuffers[i];
 			renderPassInfo.renderArea.offset = { 0, 0 };
-			renderPassInfo.renderArea.extent = swapchain.get_image_extent();
+			renderPassInfo.renderArea.extent = swapchainImageExtent;
 
 			VkClearValue clearColor = { 0.0f, 0.0f, 0.0f, 1.0f};
 			renderPassInfo.clearValueCount = 1;

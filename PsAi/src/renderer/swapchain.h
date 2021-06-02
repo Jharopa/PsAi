@@ -2,8 +2,6 @@
 
 // PsAi includes
 #include "../util/non_copy_non_move.h"
-#include "physical_device.h"
-#include "logical_device.h"
 #include "surface.h"
 #include "helper_functions.h"
 #include "vulkan_structures.h"

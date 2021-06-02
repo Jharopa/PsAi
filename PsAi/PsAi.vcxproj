@@ -45,9 +45,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -104,8 +106,6 @@
     <ClCompile Include="src\renderer\framebuffer.cpp" />
     <ClCompile Include="src\renderer\helper_functions.cpp" />
     <ClCompile Include="src\renderer\instance.cpp" />
-    <ClCompile Include="src\renderer\logical_device.cpp" />
-    <ClCompile Include="src\renderer\physical_device.cpp" />
     <ClCompile Include="src\renderer\pipeline.cpp" />
     <ClCompile Include="src\renderer\render_pass.cpp" />
     <ClCompile Include="src\renderer\semaphore.cpp" />
@@ -126,8 +126,6 @@
     <ClInclude Include="src\renderer\framebuffer.h" />
     <ClInclude Include="src\renderer\helper_functions.h" />
     <ClInclude Include="src\renderer\instance.h" />
-    <ClInclude Include="src\renderer\logical_device.h" />
-    <ClInclude Include="src\renderer\physical_device.h" />
     <ClInclude Include="src\renderer\pipeline.h" />
     <ClInclude Include="src\renderer\render_pass.h" />
     <ClInclude Include="src\renderer\semaphore.h" />
