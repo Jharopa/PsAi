@@ -8,7 +8,7 @@ namespace PsAi
 		m_instance = std::make_unique<Renderer::Instance>(m_applicationInfo, m_instanceExtensions, true);
 		m_surface = std::make_unique<Renderer::Surface>(m_instance->get_instance(), m_window->get_window());
 		m_device = std::make_unique<Renderer::Device>(m_instance->get_instance(), m_surface->get_surface(), m_instance->is_validation_enabled());
-		m_swapchain = std::make_unique<Renderer::Swapchain>(m_device->get_physical_device(), m_device->get_logical_device(), m_surface->get_surface(), m_window->get_window());
+		m_swapchain = std::make_unique<Renderer::Swapchain>(VK_NULL_HANDLE, m_device->get_physical_device(), m_device->get_logical_device(), m_surface->get_surface(), m_window->get_window());
 		m_renderPass = std::make_unique<Renderer::RenderPass>(m_device->get_logical_device(), m_swapchain->get_image_format());
 		m_vertShader = std::make_unique<Renderer::Shader>(m_device->get_logical_device(), "shaders/bytecode/simple.vert.spv");
 		m_fragShader = std::make_unique<Renderer::Shader>(m_device->get_logical_device(), "shaders/bytecode/simple.frag.spv");
@@ -128,8 +128,10 @@ namespace PsAi
 
 		vkDeviceWaitIdle(m_device->get_logical_device());
 
+		VkSwapchainKHR oldSwapchain = m_swapchain->get_swapchain();
+
 		m_swapchain.reset();
-		m_swapchain = std::make_unique<Renderer::Swapchain>(m_device->get_physical_device(), m_device->get_logical_device(), m_surface->get_surface(), m_window->get_window());
+		m_swapchain = std::make_unique<Renderer::Swapchain>(oldSwapchain, m_device->get_physical_device(), m_device->get_logical_device(), m_surface->get_surface(), m_window->get_window());
 		m_renderPass.reset();
 		m_renderPass = std::make_unique<Renderer::RenderPass>(m_device->get_logical_device(), m_swapchain->get_image_format());
 		m_pipeline.reset();

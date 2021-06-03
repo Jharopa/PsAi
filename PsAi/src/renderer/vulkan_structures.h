@@ -46,6 +46,7 @@ namespace PsAi::Renderer
 	{
 		VkSwapchainCreateInfoKHR ret {};
 		ret.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
+		ret.oldSwapchain = VK_NULL_HANDLE;
 
 		return ret;
 	}

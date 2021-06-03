@@ -22,7 +22,7 @@ namespace PsAi::Renderer
 	class Swapchain : public Util::NonCopyableNonMoveable
 	{
 		public:
-			Swapchain(VkPhysicalDevice physicalDevice, VkDevice logicalDevice, VkSurfaceKHR surface, GLFWwindow* window);
+			Swapchain(VkSwapchainKHR oldSwapchain, VkPhysicalDevice physicalDevice, VkDevice logicalDevice, VkSurfaceKHR surface, GLFWwindow* window);
 			~Swapchain();
 
 			const VkSwapchainKHR& get_swapchain() const { return m_swapchain; }

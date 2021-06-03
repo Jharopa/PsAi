@@ -3,7 +3,7 @@
 namespace PsAi::Renderer
 {
 	
-	Swapchain::Swapchain(VkPhysicalDevice physicalDevice, VkDevice logicalDevice, VkSurfaceKHR surface, GLFWwindow* window)
+	Swapchain::Swapchain(VkSwapchainKHR oldSwapchain, VkPhysicalDevice physicalDevice, VkDevice logicalDevice, VkSurfaceKHR surface, GLFWwindow* window)
 		: m_physicalDevice(physicalDevice), m_logicalDevice(logicalDevice), m_surface(surface), m_window(window)
 	{
 		SwapchainSupportDetails swapchainSupport = query_swapchain_support();
@@ -49,7 +49,10 @@ namespace PsAi::Renderer
 		swapchainCreateInfo.presentMode = m_presentMode;
 		swapchainCreateInfo.clipped = VK_TRUE;
 
-		swapchainCreateInfo.oldSwapchain = VK_NULL_HANDLE;
+		if (oldSwapchain != VK_NULL_HANDLE)
+		{
+			swapchainCreateInfo.oldSwapchain = oldSwapchain;
+		}
 
 		if (vkCreateSwapchainKHR(m_logicalDevice, &swapchainCreateInfo, nullptr, &m_swapchain) != VK_SUCCESS)
 		{
