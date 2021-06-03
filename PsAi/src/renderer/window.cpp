@@ -22,6 +22,33 @@ namespace PsAi::Renderer
 		}
 	}
 
+	void Window::resize_window_dimensions()
+	{
+		int new_width = 0;
+		int new_height = 0;
+
+		glfwGetFramebufferSize(m_window, &new_width, &new_height);
+
+		while (new_width == 0 || new_width == 0) 
+		{
+			glfwGetFramebufferSize(m_window, &new_width, &new_width);
+			glfwWaitEvents();
+		}
+
+		m_width = new_width;
+		m_height = new_height;
+	}
+
+	void Window::set_user_ptr(void* userPtr)
+	{
+		glfwSetWindowUserPointer(m_window, userPtr);
+	}
+
+	void Window::set_resize_callback(GLFWframebuffersizefun frameBufferResizeCallback)
+	{
+		glfwSetFramebufferSizeCallback(m_window, frameBufferResizeCallback);
+	}
+
 	void Window::init_window()
 	{
 		glfwInit();

@@ -31,8 +31,6 @@ namespace PsAi
 	{
 		public:
 			// Public member variables
-			static constexpr int WIDTH = 800;
-			static constexpr int HEIGHT = 600;
 			static constexpr int MAX_FRAMES_IN_FLIGHT = 2;
 
 			// Public member functions
@@ -41,6 +39,9 @@ namespace PsAi
 
 			void run();
 			void draw_frame();
+			void recreate_swapchain();
+
+			void windowResized() { m_windowResized = true; }
 
 		private:
 			// Private member variables
@@ -63,7 +64,9 @@ namespace PsAi
 			std::unique_ptr<Renderer::Semaphore> m_renderFinishedSemaphores;
 			std::unique_ptr<Renderer::Fence> m_inFlightFences;
 			std::unique_ptr<Renderer::Fence> m_imagesInFlight;
+
 			size_t m_currentFrame = 0;
+			bool m_windowResized = false;
 	};
 
 } // PsAi namespace

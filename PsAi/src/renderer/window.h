@@ -8,6 +8,9 @@
 #define VK_USE_PLATFORM_WIN32_KHR
 #include <GLFW/glfw3.h>
 
+#define GLFW_EXPOSE_NATIVE_WIN32
+#include <GLFW/glfw3native.h>
+
 // STD includes
 #include <string>
 #include <stdexcept>
@@ -26,6 +29,9 @@ namespace PsAi::Renderer
 
 			bool should_close() { return glfwWindowShouldClose(m_window); }
 			void create_window_surface(VkInstance instance, VkSurfaceKHR* surface);
+			void resize_window_dimensions();
+			void set_user_ptr(void *userPtr);
+			void set_resize_callback(GLFWframebuffersizefun frameBufferResizeCallback);
 
 			const uint32_t get_width() const { return m_width; }
 			const uint32_t get_height() const { return m_height; }
