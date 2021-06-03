@@ -3,7 +3,7 @@ namespace PsAi::Renderer
 {
 
 	CommandBuffer::CommandBuffer(VkDevice logicalDevice, VkExtent2D swapchainImageExtent, std::vector<VkFramebuffer> swapchainFramebuffers, VkCommandPool commandPool, VkRenderPass renderPass, VkPipeline graphicsPipeline)
-		: m_logicalDevice(logicalDevice)
+		: m_logicalDevice(logicalDevice), m_commandPool(commandPool)
 	{
 		m_commandBuffers.resize(swapchainFramebuffers.size());
 
@@ -52,6 +52,7 @@ namespace PsAi::Renderer
 
 	CommandBuffer::~CommandBuffer()
 	{
+		vkFreeCommandBuffers(m_logicalDevice, m_commandPool, static_cast<uint32_t>(m_commandBuffers.size()), m_commandBuffers.data());
 	}
 
 } // PsAi::Renderer namespace

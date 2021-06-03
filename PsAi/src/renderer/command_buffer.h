@@ -28,6 +28,7 @@ namespace PsAi::Renderer
 		private:
 			std::vector<VkCommandBuffer> m_commandBuffers;
 			VkDevice m_logicalDevice;
+			VkCommandPool m_commandPool;
 	};
 
 } // PsAi::Renderer namespace
