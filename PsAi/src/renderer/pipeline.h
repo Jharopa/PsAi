@@ -24,7 +24,7 @@ namespace PsAi::Renderer
 			Pipeline(VkDevice logicalDevice, VkRenderPass renderPass, VkShaderModule vertShader, VkShaderModule fragShader, int width, int height);
 			~Pipeline();
 			
-			const VkPipeline& get_graphics_pipeline() const { return m_graphicsPipeline; }
+			VkPipeline get_graphics_pipeline() const { return m_graphicsPipeline; }
 
 		private:
 			// Private member variables

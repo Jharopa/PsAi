@@ -24,6 +24,7 @@ namespace PsAi::Renderer
 
 		private:
 			std::vector<VkFence> m_fences = {};
+
 			VkDevice m_logicalDevice;
 	};
 

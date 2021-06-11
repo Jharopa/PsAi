@@ -33,8 +33,8 @@ namespace PsAi::Renderer
 			void set_user_ptr(void *userPtr);
 			void set_resize_callback(GLFWframebuffersizefun frameBufferResizeCallback);
 
-			const uint32_t get_width() const { return m_width; }
-			const uint32_t get_height() const { return m_height; }
+			uint32_t get_width() const { return m_width; }
+			uint32_t get_height() const { return m_height; }
 
 		private:
 			// Private member variables

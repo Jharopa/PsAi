@@ -25,7 +25,7 @@ namespace PsAi::Renderer
 			Swapchain(VkSwapchainKHR oldSwapchain, VkPhysicalDevice physicalDevice, VkDevice logicalDevice, VkSurfaceKHR surface, GLFWwindow* window);
 			~Swapchain();
 
-			const VkSwapchainKHR& get_swapchain() const { return m_swapchain; }
+			VkSwapchainKHR get_swapchain() const { return m_swapchain; }
 			std::vector<VkImageView> get_swapchain_image_views() const { return m_swapchainImageViews; }
 			VkFormat get_image_format() const { return m_swapchainSurfaceFormat.format; }
 			VkExtent2D get_image_extent() const { return m_swapchainImageExtent; }

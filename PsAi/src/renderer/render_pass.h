@@ -17,7 +17,7 @@ namespace PsAi::Renderer
 			RenderPass(VkDevice logicalDevice, VkFormat swapchainImageFormat);
 			~RenderPass();
 
-			const VkRenderPass& get_render_pass() const { return m_renderPass; }
+			VkRenderPass get_render_pass() const { return m_renderPass; }
 
 		private:
 			VkRenderPass m_renderPass;

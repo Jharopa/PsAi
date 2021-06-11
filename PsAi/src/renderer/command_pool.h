@@ -19,7 +19,7 @@ namespace PsAi::Renderer
 			CommandPool(VkDevice logicalDevice, VkPhysicalDevice physicalDevice, VkSurfaceKHR surface);
 			~CommandPool();
 
-			const VkCommandPool& get_command_pool() const { return m_commandPool; }
+			VkCommandPool get_command_pool() const { return m_commandPool; }
 
 		private:
 			VkCommandPool m_commandPool = VK_NULL_HANDLE;

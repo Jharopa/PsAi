@@ -21,7 +21,7 @@ namespace PsAi::Renderer
 			Shader(VkDevice logicalDevice, const std::string& filePath);
 			~Shader();
 
-			const VkShaderModule& get_shader_module() const { return m_shaderModule; }
+			VkShaderModule get_shader_module() const { return m_shaderModule; }
 
 		private:
 			VkShaderModule m_shaderModule = VK_NULL_HANDLE;
