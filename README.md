@@ -1,3 +1,3 @@
 # PsAi
 
-Personal graphics renderer.
+Wrapper classes for Vulkan API objects
